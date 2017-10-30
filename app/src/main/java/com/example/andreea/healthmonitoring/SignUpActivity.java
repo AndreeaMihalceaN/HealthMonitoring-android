@@ -2,6 +2,7 @@ package com.example.andreea.healthmonitoring;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -30,6 +31,8 @@ public class SignUpActivity extends AppCompatActivity {
         m_editTextHeight = (EditText) findViewById(R.id.editTextHeight);
         m_editTextWeight = (EditText) findViewById(R.id.editTextWeight);
         m_buttonSubmit = (Button) findViewById(R.id.buttonSignIn);
+
+        Log.i("tag","Helllllllo!");
         
     }
 }
