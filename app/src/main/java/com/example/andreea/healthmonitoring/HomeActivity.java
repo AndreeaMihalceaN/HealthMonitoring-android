@@ -16,15 +16,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        textEdit=(TextView)findViewById(R.id.textViewH);
+        textEdit = (TextView) findViewById(R.id.textViewH);
 
-        Intent intent= getIntent();
+        Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        if(bundle!=null)
-        {
-            String username =(String) bundle.get("Username");
-            textEdit.setText("Hello "+username+"!");
+        if (bundle != null) {
+            String username = (String) bundle.get("Username");
+            textEdit.setText("Hello " + username + "!");
         }
     }
 }

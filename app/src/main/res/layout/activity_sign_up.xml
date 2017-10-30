@@ -91,31 +91,31 @@
         android:layout_alignLeft="@+id/editTextRetypePassword"
         android:layout_alignStart="@+id/editTextRetypePassword" />
 
-    <RadioButton
-        android:id="@+id/radioButtonF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textViewGendle"
-        android:layout_alignTop="@+id/textViewGendle"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/textViewGendle"
-        android:layout_toRightOf="@+id/textViewGendle"
-        android:fontFamily="monospace"
-        android:text="F" />
+    <!--<RadioButton-->
+        <!--android:id="@+id/radioButtonF"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@+id/textViewGendle"-->
+        <!--android:layout_alignTop="@+id/textViewGendle"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_toEndOf="@+id/textViewGendle"-->
+        <!--android:layout_toRightOf="@+id/textViewGendle"-->
+        <!--android:fontFamily="monospace"-->
+        <!--android:text="F" />-->
 
-    <RadioButton
-        android:id="@+id/radioButtonM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radioButtonF"
-        android:layout_alignTop="@+id/radioButtonF"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"
-        android:layout_toEndOf="@+id/radioButtonF"
-        android:layout_toRightOf="@+id/radioButtonF"
-        android:fontFamily="monospace"
-        android:text="M" />
+    <!--<RadioButton-->
+        <!--android:id="@+id/radioButtonM"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@+id/radioButtonF"-->
+        <!--android:layout_alignTop="@+id/radioButtonF"-->
+        <!--android:layout_marginLeft="19dp"-->
+        <!--android:layout_marginStart="19dp"-->
+        <!--android:layout_toEndOf="@+id/radioButtonF"-->
+        <!--android:layout_toRightOf="@+id/radioButtonF"-->
+        <!--android:fontFamily="monospace"-->
+        <!--android:text="M" />-->
 
     <EditText
         android:id="@+id/editTextHeight"
@@ -153,4 +153,45 @@
         android:layout_below="@+id/editTextWeight"
         android:layout_marginTop="15dp"
         android:text="Submit" />
+
+    <RadioGroup
+        android:id="@+id/rgroup"
+        android:layout_width="@android:dimen/notification_large_icon_width"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignBottom="@+id/textViewGendle"
+        android:layout_alignEnd="@+id/editTextRetypePassword"
+        android:layout_alignRight="@+id/editTextRetypePassword"
+        android:layout_alignTop="@+id/textViewGendle"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/textViewGendle"
+        android:layout_toRightOf="@+id/textViewGendle">
+
+        <RadioButton
+            android:id="@+id/radioButtonF"
+            android:onClick="rbClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/radioButtonM"
+            android:layout_alignStart="@+id/radioButtonM"
+            android:layout_below="@+id/editTextFirstName"
+            android:layout_weight="1"
+            android:fontFamily="monospace"
+            android:text="F" />
+
+        <RadioButton
+            android:id="@+id/radioButtonM"
+            android:onClick="rbClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editTextPassword"
+            android:layout_alignBottom="@+id/editTextPassword"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/editTextPassword"
+            android:layout_toStartOf="@+id/editTextPassword"
+            android:layout_weight="1"
+            android:fontFamily="monospace"
+            android:text="M" />
+    </RadioGroup>
 </RelativeLayout>

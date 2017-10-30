@@ -28,8 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBarSpinner;
     private CheckBox checkBox_RememberMe;
     private Button btnSignIn;
-    private String username;
-    private String password;
     private EditText editTextUsername;
     private EditText editTextPassword;
     private SharedPreferences loginPreferences;
@@ -37,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private Boolean saveLogin;
     private LoginActivity loginActivity;
     private TextView m_textViewSignUp;
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
