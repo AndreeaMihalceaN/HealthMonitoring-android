@@ -31,7 +31,5 @@ public class SignUpActivity extends AppCompatActivity {
         m_editTextWeight = (EditText) findViewById(R.id.editTextWeight);
         m_buttonSubmit = (Button) findViewById(R.id.buttonSignIn);
         
-
-
     }
 }
