@@ -23,7 +23,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+import java.io.UnsupportedEncodingException;
+
+import webservice.LoginDelegate;
+import webservice.LoginTask;
+
+public class LoginActivity extends AppCompatActivity implements LoginDelegate{
 
     private ProgressBar progressBarSpinner;
     private CheckBox checkBox_RememberMe;
@@ -76,6 +81,9 @@ public class LoginActivity extends AppCompatActivity {
                         loginPrefsEditor.commit();
                     }
 
+                    LoginTask loginTask = new LoginTask(username, password);
+                    loginTask.setLoginDelegate(loginActivity);
+
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra("Username", username);
                     startActivity(intent);
@@ -125,5 +133,10 @@ public class LoginActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    @Override
+    public void onLoginDone(String result) throws UnsupportedEncodingException {
+
     }
 }
