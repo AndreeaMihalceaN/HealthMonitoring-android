@@ -19,7 +19,15 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+
+
 dependencies {
+    //am adaugat linia
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

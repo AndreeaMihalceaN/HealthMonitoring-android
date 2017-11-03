@@ -18,7 +18,7 @@ import java.net.URL;
  * Created by Andreea on 31.10.2017.
  */
 
-public class LoginTask extends AsyncTask<String, String, String> implements CredentialInterface{
+public class LoginTask extends AsyncTask<String, String, String> implements CredentialInterface {
 
     private LoginDelegate loginDelegate;
     private String username;
@@ -35,7 +35,7 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
     }
 
     private String callLoginService() throws IOException, JSONException {
-        String modelString = BASE_URL + "/login";
+        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
@@ -76,7 +76,7 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         this.username = username;
         this.password = password;
 
-        String modelString = BASE_URL + "/login";
+        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
         this.execute(uri.toString());
@@ -87,7 +87,7 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (loginDelegate != null){
+        if (loginDelegate != null) {
             try {
                 loginDelegate.onLoginDone(response);
             } catch (UnsupportedEncodingException e) {

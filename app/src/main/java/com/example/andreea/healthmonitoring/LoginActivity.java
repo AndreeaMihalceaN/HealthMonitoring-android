@@ -3,6 +3,8 @@ package com.example.andreea.healthmonitoring;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,10 +27,12 @@ import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 
+import manager.DataManager;
+import model.User;
 import webservice.LoginDelegate;
 import webservice.LoginTask;
 
-public class LoginActivity extends AppCompatActivity implements LoginDelegate{
+public class LoginActivity extends AppCompatActivity implements LoginDelegate {
 
     private ProgressBar progressBarSpinner;
     private CheckBox checkBox_RememberMe;
@@ -69,24 +73,24 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate{
 
                     progressBarSpinner.setVisibility(View.VISIBLE);
 
-                    if (checkBox_RememberMe.isChecked()) {
-                        // remember username and password
-                        loginPrefsEditor.putBoolean("saveLogin", true);
-                        loginPrefsEditor.putString("username", username);
-                        loginPrefsEditor.putString("password", password);
-                        loginPrefsEditor.commit();
-
-                    } else {
-                        loginPrefsEditor.clear();
-                        loginPrefsEditor.commit();
-                    }
+//                    if (checkBox_RememberMe.isChecked()) {
+//                        // remember username and password
+//                        loginPrefsEditor.putBoolean("saveLogin", true);
+//                        loginPrefsEditor.putString("username", username);
+//                        loginPrefsEditor.putString("password", password);
+//                        loginPrefsEditor.commit();
+//
+//                    } else {
+//                        loginPrefsEditor.clear();
+//                        loginPrefsEditor.commit();
+//                    }
 
                     LoginTask loginTask = new LoginTask(username, password);
                     loginTask.setLoginDelegate(loginActivity);
-
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    intent.putExtra("Username", username);
-                    startActivity(intent);
+//
+//                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                    intent.putExtra("Username", username);
+//                    startActivity(intent);
 
                 }
             }
@@ -103,6 +107,18 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate{
             }
         });
 
+    }
+
+    private void startNewActivity(User user) {
+        Intent myIntent;
+
+        if (!user.getUsername().isEmpty() && !user.getFirstName().isEmpty()) {
+            myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+            myIntent.putExtra("username", user.getUsername());
+            myIntent.putExtra("password", user.getPassword());
+
+            startActivity(myIntent);
+        }
     }
 //
 //    public void serve(View v)
@@ -138,5 +154,32 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate{
     @Override
     public void onLoginDone(String result) throws UnsupportedEncodingException {
 
+        progressBarSpinner.setVisibility(View.INVISIBLE);
+        Log.d("TAG", "LOGIN DONE DELEGATE " + result);
+
+        if (!result.isEmpty()) {
+            User user = DataManager.getInstance().parseUser(result);
+
+            String baseAuthStr = username + ":" + password;
+            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
+            DataManager.getInstance().setBaseAuthStr(str);
+
+            if (checkBox_RememberMe.isChecked()) {
+                // remember username and password
+                loginPrefsEditor.putBoolean("saveLogin", true);
+                loginPrefsEditor.putString("username", username);
+                loginPrefsEditor.putString("password", password);
+                loginPrefsEditor.commit();
+
+            } else {
+                loginPrefsEditor.clear();
+                loginPrefsEditor.commit();
+            }
+            startNewActivity(user);
+            Toast.makeText(getApplicationContext(), "Success login", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Fail login", Toast.LENGTH_SHORT).show();
+        }
     }
+
 }

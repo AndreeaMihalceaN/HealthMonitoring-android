@@ -14,4 +14,9 @@
         tools:layout_editor_absoluteX="42dp"
         tools:layout_editor_absoluteY="65dp" />
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </android.support.constraint.ConstraintLayout>
