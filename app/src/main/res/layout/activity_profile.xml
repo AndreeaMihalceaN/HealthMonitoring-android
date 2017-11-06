@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.andreea.healthmonitoring.ProfileActivity">
+
+    <TextView
+        android:id="@+id/textViewFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="82dp"
+        android:layout_marginStart="82dp"
+        android:text="First Name"
+        android:textSize="14sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/editTextFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewFirstName"
+        android:layout_alignStart="@+id/textViewFirstName"
+        android:layout_below="@+id/textViewFirstName"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="First Name"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextFirstName"
+        android:layout_alignStart="@+id/editTextFirstName"
+        android:layout_below="@+id/editTextFirstName"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="13dp"
+        android:text="Last Name"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewLastName"
+        android:layout_alignStart="@+id/textViewLastName"
+        android:layout_below="@+id/textViewLastName"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Last Name"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextEmail"
+        android:layout_alignStart="@+id/editTextEmail"
+        android:layout_below="@+id/editTextLastName"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="17dp"
+        android:text="Email"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editTextLastName"
+        android:layout_alignRight="@+id/editTextLastName"
+        android:layout_below="@+id/textViewEmail"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Email"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewContactNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextEmail"
+        android:layout_alignStart="@+id/editTextEmail"
+        android:layout_below="@+id/editTextEmail"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="14dp"
+        android:text="Contact No"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextContactNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewContactNo"
+        android:layout_alignStart="@+id/textViewContactNo"
+        android:layout_below="@+id/textViewContactNo"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Contact No"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextContactNo"
+        android:layout_alignStart="@+id/editTextContactNo"
+        android:layout_below="@+id/editTextContactNo"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="12dp"
+        android:text="Age"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewAge"
+        android:layout_alignStart="@+id/textViewAge"
+        android:layout_below="@+id/textViewAge"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Age"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextAge"
+        android:layout_alignStart="@+id/editTextAge"
+        android:layout_below="@+id/editTextAge"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="16dp"
+        android:text="Height(cms)"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textViewContactNo"
+        android:layout_alignLeft="@+id/textViewHeight"
+        android:layout_alignRight="@+id/textViewContactNo"
+        android:layout_alignStart="@+id/textViewHeight"
+        android:layout_below="@+id/textViewHeight"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Height"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewHeight"
+        android:layout_alignEnd="@+id/editTextAge"
+        android:layout_alignRight="@+id/editTextAge"
+        android:layout_centerHorizontal="false"
+        android:text="Weight(kgs)"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textViewWeight"
+        android:layout_alignLeft="@+id/textViewWeight"
+        android:layout_alignRight="@+id/textViewWeight"
+        android:layout_alignStart="@+id/textViewWeight"
+        android:layout_below="@+id/textViewWeight"
+        android:layout_centerHorizontal="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Weight"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editTextWeight"
+        android:layout_alignLeft="@+id/editTextHeight"
+        android:layout_alignRight="@+id/editTextWeight"
+        android:layout_alignStart="@+id/editTextHeight"
+        android:layout_below="@+id/editTextHeight"
+        android:layout_marginTop="24dp"
+        android:text="Update" />
+
+</RelativeLayout>

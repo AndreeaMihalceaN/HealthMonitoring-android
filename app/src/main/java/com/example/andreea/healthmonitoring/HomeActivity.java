@@ -1,12 +1,20 @@
 package com.example.andreea.healthmonitoring;
 
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -19,6 +27,12 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView textEdit;
+    private Button m_buttonFoodDiary;
+    private Button m_buttonFoodSuggestion;
+    private Button m_buttonConsulting;
+    private Button m_buttonStartWalking;
+    private Button m_buttonNeareastHospital;
+    private Button m_buttonML;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +41,13 @@ public class HomeActivity extends AppCompatActivity {
 
         textEdit = (TextView) findViewById(R.id.textViewH);
         PieChart pieChart = (PieChart) findViewById(R.id.piechart);
+        m_buttonFoodDiary = (Button) findViewById(R.id.buttonFoodDiary);
+        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
+        m_buttonConsulting = (Button) findViewById(R.id.buttonConsulting);
+        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
+        m_buttonNeareastHospital = (Button) findViewById(R.id.buttonNeareastHospital);
+        m_buttonML = (Button) findViewById(R.id.buttonML);
+
 
         pieChart.setUsePercentValues(true);
         Intent intent = getIntent();
@@ -65,5 +86,45 @@ public class HomeActivity extends AppCompatActivity {
 
         pieChart.setData(data);
         dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+
+        m_buttonFoodDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, FoodDiaryActivity.class);
+                startActivity(intent);
+
+                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.profile_id:
+                //Toast.makeText(getApplicationContext(), "Profile icon is selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                //break;
+                return true;
+            case R.id.LogOut_id:
+                //Toast.makeText(getApplicationContext(), "Log Out icon is selected", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent2);
+                //break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
     }
 }

@@ -19,9 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="Home" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
+        <activity
+            android:name=".FoodDiaryActivity"
+            android:label="Food Diary" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Profile"></activity>
     </application>
 
 </manifest>

@@ -35,9 +35,9 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
     }
 
     private String callLoginService() throws IOException, JSONException {
-        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
-        Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
+        //String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
+        //Uri uri = Uri.parse(modelString).buildUpon().build();
+        Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -76,9 +76,9 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         this.username = username;
         this.password = password;
 
-        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
-        Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
+        //String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
+        //Uri uri = Uri.parse(modelString).buildUpon().build();
+        Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
         this.execute(uri.toString());
     }
 

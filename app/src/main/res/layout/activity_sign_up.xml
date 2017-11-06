@@ -76,7 +76,7 @@
         android:layout_below="@+id/editTextPassword"
         android:ems="10"
         android:fontFamily="monospace"
-        android:hint="Retype Password"
+        android:hint="Password"
         android:inputType="textPersonName" />
 
     <TextView
