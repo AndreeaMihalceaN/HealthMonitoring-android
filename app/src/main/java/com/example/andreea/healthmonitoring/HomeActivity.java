@@ -25,6 +25,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
+import model.User;
+
 public class HomeActivity extends AppCompatActivity {
     private TextView textEdit;
     private Button m_buttonFoodDiary;
@@ -33,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button m_buttonStartWalking;
     private Button m_buttonNeareastHospital;
     private Button m_buttonML;
+    private User userAfterLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +54,15 @@ public class HomeActivity extends AppCompatActivity {
 
         pieChart.setUsePercentValues(true);
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        //Bundle bundle = intent.getExtras();
 
-        if (bundle != null) {
-            String username = (String) bundle.get("username");
-            textEdit.setText("Hello " + username + "!");
-        }
+        //if (bundle != null) {
+        //String username = (String) bundle.get("username");
+        //User userAfterLogin= (User) bundle.get("userAfterLogin");
+
+        userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+        textEdit.setText("Hello " + userAfterLogin.getUsername() + "!");
+        //}
 
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
         yvalues.add(new Entry(8f, 0));
@@ -112,6 +118,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.profile_id:
                 //Toast.makeText(getApplicationContext(), "Profile icon is selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                intent.putExtra("userAfterLogin", userAfterLogin);
+                startActivity(intent);
                 startActivity(intent);
                 //break;
                 return true;

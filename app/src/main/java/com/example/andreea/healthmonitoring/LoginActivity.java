@@ -1,6 +1,7 @@
 package com.example.andreea.healthmonitoring;
 
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
     private TextView m_textViewSignUp;
     private String username;
     private String password;
+    private User userAfterLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +115,14 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
         Intent myIntent;
 
         if (!user.getUsername().isEmpty() && !user.getFirstName().isEmpty()) {
+//            myIntent = new Intent(LoginActivity.this, HomeActivity.class);
+//            myIntent.putExtra("username", user.getUsername());
+//            myIntent.putExtra("password", user.getPassword());
+//
+//            startActivity(myIntent);
+            userAfterLogin = user;
             myIntent = new Intent(LoginActivity.this, HomeActivity.class);
-            myIntent.putExtra("username", user.getUsername());
-            myIntent.putExtra("password", user.getPassword());
-
+            myIntent.putExtra("userAfterLogin", userAfterLogin);
             startActivity(myIntent);
         }
     }

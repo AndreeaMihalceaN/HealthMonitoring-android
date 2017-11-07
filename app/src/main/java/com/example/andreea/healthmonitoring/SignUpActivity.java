@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
                 //gender="F";
 
 
-                RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight);
+                RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight, 0, " ", " ");
                 loginTask.setRegisterDelegate(signUpActivity);
                 Toast.makeText(SignUpActivity.this, "Your have registered! ", Toast.LENGTH_SHORT).show();
 

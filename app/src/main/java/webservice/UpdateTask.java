@@ -16,12 +16,11 @@ import java.net.URL;
 import manager.DataManager;
 
 /**
- * Created by Andreea on 30.10.2017.
+ * Created by Andreea on 07.11.2017.
  */
 
-public class RegisterTask extends AsyncTask<String, String, String> implements CredentialInterface {
-
-    private RegisterDelegate registerDelegate;
+public class UpdateTask extends AsyncTask<String, String, String> implements CredentialInterface  {
+    private UpdateDelegate updateDelegate;
     private String username;
     private String password;
     private String firstName;
@@ -32,7 +31,6 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
     private int age;
     private String email;
     private String contactNo;
-
 
     @Override
     protected String doInBackground(String... params) {
@@ -45,8 +43,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
     }
 
     private String callRegisterService() throws IOException, JSONException {
-
-        String modelString = BASE_URL + "register/add?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + 0 + "&email=" + "" + "&contactNo=" + "";
+        String modelString = BASE_URL + "update/update?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + age + "&email=" + email + "&contactNo=" + contactNo;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
 
@@ -93,7 +90,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
         return sb.toString();
     }
 
-    public RegisterTask(String username, String password, String firstName, String lastName, String gender, int height, int weight, int age, String email, String contactNo) {
+    public UpdateTask(String username, String password, String firstName, String lastName, String gender, int height, int weight, int age, String email, String contactNo) {
 
         this.username = username;
         this.password = password;
@@ -107,7 +104,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
         this.contactNo = contactNo;
 
 
-        String modelString = BASE_URL + "register/add?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + 0 + "&email=" + "" + "&contactNo=" + "";
+        String modelString = BASE_URL + "update/update?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + age + "&email=" + email + "&contactNo=" + contactNo;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
         this.execute(uri.toString());
@@ -118,20 +115,20 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (registerDelegate != null) {
-            registerDelegate.onRegisterDone(response);
+        if (updateDelegate != null) {
+            updateDelegate.onUpdateDone(response);
         }
         if (response == null) {
-            registerDelegate.onRegisterError(response);
+            updateDelegate.onUpdateError(response);
         }
     }
 
-    public RegisterDelegate getDelegate() {
-        return registerDelegate;
+    public UpdateDelegate getDelegate() {
+        return updateDelegate;
     }
 
 
-    public void setRegisterDelegate(RegisterDelegate registerDelegate) {
-        this.registerDelegate = registerDelegate;
+    public void setUpdateDelegate(UpdateDelegate updateDelegate) {
+        this.updateDelegate = updateDelegate;
     }
 }

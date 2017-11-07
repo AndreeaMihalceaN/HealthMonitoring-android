@@ -1,6 +1,8 @@
 package model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 
     private String username;
     private String password;
@@ -9,6 +11,9 @@ public class User {
     private String gender;
     private int height;
     private int weight;
+    private String email;
+    private String contactNo;
+    private int age;
 
     public User(String username, String password, String firstName, String lastName, String gender, int height, int weight) {
         this.username = username;
@@ -18,6 +23,19 @@ public class User {
         this.gender = gender;
         this.height = height;
         this.weight = weight;
+    }
+
+    public User(String username, String password, String firstName, String lastName, String gender, int height, int weight, String email, String contactNo, int age) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.height = height;
+        this.weight = weight;
+        this.email = email;
+        this.contactNo = contactNo;
+        this.age = age;
     }
 
     public User() {
@@ -79,6 +97,30 @@ public class User {
         this.weight = weight;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -89,6 +131,9 @@ public class User {
                 ", gender='" + gender + '\'' +
                 ", height=" + height +
                 ", weight=" + weight +
+                ", email='" + email + '\'' +
+                ", contactNo='" + contactNo + '\'' +
+                ", age=" + age +
                 '}';
     }
 }
