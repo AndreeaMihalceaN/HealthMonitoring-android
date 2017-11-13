@@ -2,6 +2,7 @@ package com.example.andreea.healthmonitoring;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
     private EditText m_editTextRetypePassword;
     private EditText m_editTextHeight;
     private EditText m_editTextWeight;
-    private Button m_buttonSubmit;
+    private CardView m_cardViewSubmit;
     private String username;
     private String password;
     private String firstName;
@@ -47,10 +48,10 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
         m_editTextRetypePassword = (EditText) findViewById(R.id.editTextRetypePassword);
         m_editTextHeight = (EditText) findViewById(R.id.editTextHeight);
         m_editTextWeight = (EditText) findViewById(R.id.editTextWeight);
-        m_buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
+        m_cardViewSubmit = (CardView) findViewById(R.id.cardViewSubmit);
         radioGroup = (RadioGroup) findViewById(R.id.rgroup);
 
-        m_buttonSubmit.setOnClickListener(new View.OnClickListener() {
+        m_cardViewSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username = m_editTextUsername.getText().toString();

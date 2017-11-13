@@ -5,14 +5,14 @@ package model;
  */
 
 public class Food {
-    private String name;
+    private String food_name;
     private double carbohydrates;
     private double proteins;
     private double fats;
     private String category;
 
-    public Food(String name, double carbohydrates, double proteins, double fats, String category) {
-        this.name = name;
+    public Food(String food_name, double carbohydrates, double proteins, double fats, String category) {
+        this.food_name = food_name;
         this.carbohydrates = carbohydrates;
         this.proteins = proteins;
         this.fats = fats;
@@ -20,11 +20,11 @@ public class Food {
     }
 
     public String getName() {
-        return name;
+        return food_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String food_name) {
+        this.food_name = food_name;
     }
 
     public double getCarbohydrates() {

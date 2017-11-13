@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -37,14 +38,14 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
 
     private ProgressBar progressBarSpinner;
     private CheckBox checkBox_RememberMe;
-    private Button btnSignIn;
+    private CardView btnSignIn;
     private EditText editTextUsername;
     private EditText editTextPassword;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
     private LoginActivity loginActivity;
-    private TextView m_textViewSignUp;
+    private CardView m_cardSignUp;
     private String username;
     private String password;
     private User userAfterLogin;
@@ -58,9 +59,9 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
 
         getLoginPreferences();
         progressBarSpinner = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignIn = (Button) findViewById(R.id.buttonSignIn);
+        btnSignIn = (CardView) findViewById(R.id.buttonSignIn);
         progressBarSpinner.setVisibility(View.GONE);
-        m_textViewSignUp = (TextView) findViewById(R.id.textViewSignUp);
+        m_cardSignUp = (CardView) findViewById(R.id.cardSignUp);
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
         });
 
 
-        m_textViewSignUp.setOnClickListener(new View.OnClickListener() {
+        m_cardSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);

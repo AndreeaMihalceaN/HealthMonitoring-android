@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.andreea.healthmonitoring.SignUpActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="cursive"
-        android:text="Register"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
-
     <EditText
         android:id="@+id/editTextUsername"
         android:layout_width="wrap_content"
@@ -77,7 +64,7 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:hint="Password"
-        android:inputType="textPersonName" />
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/textViewGendle"
@@ -142,18 +129,6 @@
         android:layout_alignLeft="@+id/editTextHeight"
         android:layout_alignStart="@+id/editTextHeight" />
 
-    <Button
-        android:id="@+id/buttonSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editTextWeight"
-        android:layout_alignLeft="@+id/editTextWeight"
-        android:layout_alignRight="@+id/editTextWeight"
-        android:layout_alignStart="@+id/editTextWeight"
-        android:layout_below="@+id/editTextWeight"
-        android:layout_marginTop="15dp"
-        android:text="Submit" />
-
     <RadioGroup
         android:id="@+id/rgroup"
         android:layout_width="@android:dimen/notification_large_icon_width"
@@ -194,4 +169,46 @@
             android:fontFamily="monospace"
             android:text="M" />
     </RadioGroup>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewSubmit"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="19dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        android:layout_below="@+id/editTextWeight"
+        android:layout_centerHorizontal="true">
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="SUBMIT"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:fontFamily="cursive"
+        android:text="Register"
+        android:textAlignment="center"
+        android:textSize="30sp" />
+
+
 </RelativeLayout>

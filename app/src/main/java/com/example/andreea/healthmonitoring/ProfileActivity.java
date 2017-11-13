@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
     private EditText m_editTextAge;
     private EditText m_editTextHeight;
     private EditText m_editTextWeight;
-    private Button m_buttonUpdate;
+    private CardView m_cardViewUpdate;
     private User userAfterLogin;
     private ProfileActivity profileActivity;
 
@@ -36,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        m_buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
+        m_cardViewUpdate = (CardView) findViewById(R.id.cardViewUpdate);
         m_editTextFirstName =(EditText) findViewById(R.id.editTextFirstName);
         m_editTextLastName =(EditText) findViewById(R.id.editTextLastName);
         m_editTextEmail =(EditText) findViewById(R.id.editTextEmail);
@@ -56,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         m_editTextWeight.setText(userAfterLogin.getWeight()+"");
 
 
-        m_buttonUpdate.setOnClickListener(new View.OnClickListener() {
+        m_cardViewUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                username = m_editTextUsername.getText().toString();

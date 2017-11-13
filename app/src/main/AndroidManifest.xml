@@ -29,7 +29,11 @@
             android:label="Food Diary" />
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile"></activity>
+            android:label="Profile" />
+        <activity
+            android:name=".AddFoodActivity"
+            android:label="Add Food" />
+        <activity android:name=".MonitoringWaterActivity"></activity>
     </application>
 
 </manifest>

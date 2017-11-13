@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,30 +30,33 @@ import model.User;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView textEdit;
-    private Button m_buttonFoodDiary;
-    private Button m_buttonFoodSuggestion;
-    private Button m_buttonConsulting;
-    private Button m_buttonStartWalking;
-    private Button m_buttonNeareastHospital;
-    private Button m_buttonML;
+//    private Button m_buttonFoodDiary;
+//    private Button m_buttonFoodSuggestion;
+//    private Button m_buttonConsulting;
+//    private Button m_buttonStartWalking;
+//    private Button m_buttonNeareastHospital;
+//    private Button m_buttonML;
     private User userAfterLogin;
+    private CardView m_cardViewFoodDiary;
+    private CardView m_cardViewStartWalking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        textEdit = (TextView) findViewById(R.id.textViewH);
-        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
-        m_buttonFoodDiary = (Button) findViewById(R.id.buttonFoodDiary);
-        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
-        m_buttonConsulting = (Button) findViewById(R.id.buttonConsulting);
-        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
-        m_buttonNeareastHospital = (Button) findViewById(R.id.buttonNeareastHospital);
-        m_buttonML = (Button) findViewById(R.id.buttonML);
+        //textEdit = (TextView) findViewById(R.id.textViewH);
+//        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
+        m_cardViewFoodDiary = (CardView) findViewById(R.id.cardViewFoodDiary);
+        m_cardViewStartWalking = (CardView) findViewById(R.id.cardViewStartWalking);
+//        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
+//        m_buttonConsulting = (Button) findViewById(R.id.buttonConsulting);
+//        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
+//        m_buttonNeareastHospital = (Button) findViewById(R.id.buttonNeareastHospital);
+//        m_buttonML = (Button) findViewById(R.id.buttonML);
 
 
-        pieChart.setUsePercentValues(true);
+//        pieChart.setUsePercentValues(true);
         Intent intent = getIntent();
         //Bundle bundle = intent.getExtras();
 
@@ -61,43 +65,53 @@ public class HomeActivity extends AppCompatActivity {
         //User userAfterLogin= (User) bundle.get("userAfterLogin");
 
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
-        textEdit.setText("Hello " + userAfterLogin.getUsername() + "!");
+        //textEdit.setText("Hello " + userAfterLogin.getUsername() + "!");
         //}
 
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        yvalues.add(new Entry(8f, 0));
-        yvalues.add(new Entry(15f, 1));
-        yvalues.add(new Entry(12f, 2));
-//        yvalues.add(new Entry(25f, 3));
-//        yvalues.add(new Entry(23f, 4));
-//        yvalues.add(new Entry(17f, 5));
+//        ArrayList<Entry> yvalues = new ArrayList<Entry>();
+//        yvalues.add(new Entry(8f, 0));
+//        yvalues.add(new Entry(15f, 1));
+//        yvalues.add(new Entry(12f, 2));
+////        yvalues.add(new Entry(25f, 3));
+////        yvalues.add(new Entry(23f, 4));
+////        yvalues.add(new Entry(17f, 5));
+//
+//        PieDataSet dataSet = new PieDataSet(yvalues, "Election Results");
+//
+//        ArrayList<String> xVals = new ArrayList<String>();
+//
+//        xVals.add("January");
+//        xVals.add("February");
+//        xVals.add("March");
+////        xVals.add("April");
+////        xVals.add("May");
+////        xVals.add("June");
+//
+//        PieData data = new PieData(xVals, dataSet);
+//
+//        // In percentage Term
+//        data.setValueFormatter(new PercentFormatter());
+//// Default value
+////data.setValueFormatter(new DefaultValueFormatter(0));
+//
+//        pieChart.setData(data);
+//        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "Election Results");
 
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        xVals.add("January");
-        xVals.add("February");
-        xVals.add("March");
-//        xVals.add("April");
-//        xVals.add("May");
-//        xVals.add("June");
-
-        PieData data = new PieData(xVals, dataSet);
-
-        // In percentage Term
-        data.setValueFormatter(new PercentFormatter());
-// Default value
-//data.setValueFormatter(new DefaultValueFormatter(0));
-
-        pieChart.setData(data);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-
-        m_buttonFoodDiary.setOnClickListener(new View.OnClickListener() {
+        m_cardViewFoodDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, FoodDiaryActivity.class);
+                startActivity(intent);
+
+                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        m_cardViewStartWalking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, MonitoringWaterActivity.class);
                 startActivity(intent);
 
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
@@ -117,18 +131,16 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.profile_id:
                 //Toast.makeText(getApplicationContext(), "Profile icon is selected", Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 startActivity(intent);
-                startActivity(intent);
-                //break;
+                //startActivity(intent);
                 return true;
             case R.id.LogOut_id:
                 //Toast.makeText(getApplicationContext(), "Log Out icon is selected", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(intent2);
-                //break;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
