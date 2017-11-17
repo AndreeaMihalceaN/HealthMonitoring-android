@@ -19,6 +19,11 @@ public class Food {
         this.category = category;
     }
 
+    public Food()
+    {
+
+    }
+
     public String getName() {
         return food_name;
     }

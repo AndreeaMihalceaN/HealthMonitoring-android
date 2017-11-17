@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 //    private Button m_buttonFoodSuggestion;
 //    private Button m_buttonConsulting;
 //    private Button m_buttonStartWalking;
-//    private Button m_buttonNeareastHospital;
+    private CardView m_cardViewHospital;
 //    private Button m_buttonML;
     private User userAfterLogin;
     private CardView m_cardViewFoodDiary;
@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
 //        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
         m_cardViewFoodDiary = (CardView) findViewById(R.id.cardViewFoodDiary);
         m_cardViewStartWalking = (CardView) findViewById(R.id.cardViewStartWalking);
+        m_cardViewHospital = (CardView) findViewById(R.id.cardViewHospital);
 //        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
 //        m_buttonConsulting = (Button) findViewById(R.id.buttonConsulting);
 //        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
@@ -104,6 +105,9 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(HomeActivity.this, FoodDiaryActivity.class);
                 startActivity(intent);
 
+                intent.putExtra("userAfterLogin", userAfterLogin);
+                startActivity(intent);
+
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
             }
         });
@@ -112,6 +116,16 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, MonitoringWaterActivity.class);
+                startActivity(intent);
+
+                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        m_cardViewHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, WalkingActivity.class);
                 startActivity(intent);
 
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();

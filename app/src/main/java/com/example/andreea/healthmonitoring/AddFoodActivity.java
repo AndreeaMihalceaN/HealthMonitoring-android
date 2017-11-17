@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,11 +15,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import manager.DataManager;
+import model.Food;
 import model.User;
+import webservice.LoginDelegate;
+import webservice.LoginTask;
+import webservice.SelectFoodDelegate;
+import webservice.SelectFoodTask;
 
-public class AddFoodActivity extends AppCompatActivity {
+public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate {
 
-    private User userAfterLogin;
     private AutoCompleteTextView m_autoCompleteTextView;
     private TextView m_textViewCarbohydratesQuantity;
     private EditText m_editTextCarbohydratesQuantity;
@@ -29,12 +39,19 @@ public class AddFoodActivity extends AppCompatActivity {
     private TextView m_textViewCategory;
     private EditText m_editTextCategory;
     private CardView m_cardSubmit;
-    private static String[] Foods = new String[]{"Yoghurt", "Cheese", "Milk", "Spaghetti", "Steak", "Soup", "Asparagus", "Chicken", "Fish", "Baked fish with vegetables"};
+    private List<Food> foods;
+    private User userAfterLogin;
+
+    private AddFoodActivity addFoodActivity;
+    //private static String[] Foods = new String[]{"Yoghurt", "Cheese", "Milk", "Spaghetti", "Steak", "Soup", "Asparagus", "Chicken", "Fish", "Baked fish with vegetables"};
+    private static ArrayList<String> Foods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
+
+        addFoodActivity=this;
 
         m_textViewCarbohydratesQuantity = (TextView) findViewById(R.id.textViewCarbohydratesQuantity);
         m_textViewCarbohydratesQuantity.setVisibility(View.INVISIBLE);
@@ -63,11 +80,17 @@ public class AddFoodActivity extends AppCompatActivity {
         m_cardSubmit = (CardView) findViewById(R.id.cardSubmit);
 
         m_autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Foods);
-        m_autoCompleteTextView.setAdapter(adapter);
 
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+
+        SelectFoodTask selectFoodTask = new SelectFoodTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
+        selectFoodTask.setSelectFoodDelegate(addFoodActivity);
+
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Foods);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Foods);
+//        m_autoCompleteTextView.setAdapter(adapter);
+
 
         m_autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -101,5 +124,30 @@ public class AddFoodActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    void putNameFoodInVector() {
+        Foods = new ArrayList<>();
+        for (Food food : foods) {
+            Foods.add(food.getName());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Foods);
+        m_autoCompleteTextView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
+
+        if (!result.isEmpty()) {
+            foods = DataManager.getInstance().parseFoods(result);
+            DataManager.getInstance().setFoodsList(foods);
+
+//            String baseAuthStr = username + ":" + password;
+//            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
+//            DataManager.getInstance().setBaseAuthStr(str);
+
+            putNameFoodInVector();
+            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+        }
     }
 }

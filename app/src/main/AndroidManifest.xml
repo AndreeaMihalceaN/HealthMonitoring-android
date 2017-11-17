@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-feature android:name="android.hardware.sensor.stepcounter" />
+    <uses-feature android:name="android.hardware.sensor.stepdetector" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,7 +36,8 @@
         <activity
             android:name=".AddFoodActivity"
             android:label="Add Food" />
-        <activity android:name=".MonitoringWaterActivity"></activity>
+        <activity android:name=".MonitoringWaterActivity" />
+        <activity android:name=".WalkingActivity"></activity>
     </application>
 
 </manifest>
