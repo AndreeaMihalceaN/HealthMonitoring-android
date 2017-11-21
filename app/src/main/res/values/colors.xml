@@ -3,7 +3,7 @@
     <color name="colorPrimary">#8c264a</color>
     <color name="colorPrimaryDark">#721d32</color>
     <color name="colorAccent">#dd3870</color>
-    <color name="colorLila">#E8B2D1</color>
+    <color name="colorLila">#e8b2d1</color>
     <color name="colorForButton">#F48FB1</color>
     <color name="lightgray">#ededed</color>
     <color name="deeppurple">#7c4dff</color>
@@ -12,6 +12,9 @@
     <color name="dark_light">#808B96</color>
     <color name="blue">#90CAF9</color>
     <color name="waterForWave">#39B7CD</color>
+    <color name="colorViolet">#800040</color>
+    <color name="colorPink1">#cd0066</color>
+    <color name="colorPink2">#fe6e78</color>
 
 
 

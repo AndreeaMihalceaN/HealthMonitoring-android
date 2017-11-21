@@ -23,12 +23,14 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
     private EditText m_editTextRetypePassword;
     private EditText m_editTextHeight;
     private EditText m_editTextWeight;
+    private EditText m_editTextEmail;
     private CardView m_cardViewSubmit;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String gender;
+    private String email;
     private int height;
     private int weight;
     private RadioGroup radioGroup;
@@ -48,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
         m_editTextRetypePassword = (EditText) findViewById(R.id.editTextRetypePassword);
         m_editTextHeight = (EditText) findViewById(R.id.editTextHeight);
         m_editTextWeight = (EditText) findViewById(R.id.editTextWeight);
+        m_editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         m_cardViewSubmit = (CardView) findViewById(R.id.cardViewSubmit);
         radioGroup = (RadioGroup) findViewById(R.id.rgroup);
 
@@ -61,10 +64,11 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
                 height = Integer.parseInt(m_editTextHeight.getText().toString());
                 weight = Integer.parseInt(m_editTextWeight.getText().toString());
                 gender = radioButton.getText().toString();
+                email= m_editTextEmail.getText().toString();
                 //gender="F";
 
 
-                RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight, 0, " ", " ");
+                RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight, 0, email, " ");
                 loginTask.setRegisterDelegate(signUpActivity);
                 Toast.makeText(SignUpActivity.this, "Your have registered! ", Toast.LENGTH_SHORT).show();
 

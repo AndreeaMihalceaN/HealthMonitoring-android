@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:text="Name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewCarbohydrates"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Carbohydrates:"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textViewCarbohydratesResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewCarbohydrates"
+        android:layout_marginLeft="34dp"
+        android:layout_marginStart="34dp"
+        android:layout_toEndOf="@+id/textViewCarbohydrates"
+        android:layout_toRightOf="@+id/textViewCarbohydrates"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textViewFats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewCarbohydrates"
+        android:layout_alignStart="@+id/textViewCarbohydrates"
+        android:layout_below="@+id/textViewCarbohydrates"
+        android:text="Fats:" />
+
+    <TextView
+        android:id="@+id/textViewFatsResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewCarbohydratesResult"
+        android:layout_alignStart="@+id/textViewCarbohydratesResult"
+        android:text="TextView"
+        android:layout_below="@+id/textViewCarbohydratesResult" />
+
+    <TextView
+        android:id="@+id/textViewProteins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewFats"
+        android:layout_alignStart="@+id/textViewFats"
+        android:layout_below="@+id/textViewFats"
+        android:text="Proteins:" />
+
+    <TextView
+        android:id="@+id/textViewProteinsResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewFatsResult"
+        android:layout_alignStart="@+id/textViewFatsResult"
+        android:layout_below="@+id/textViewFatsResult"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewProteins"
+        android:layout_alignStart="@+id/textViewProteins"
+        android:layout_below="@+id/textViewProteins"
+        android:text="Category:" />
+
+    <TextView
+        android:id="@+id/textViewCategoryResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewCategory"
+        android:layout_alignEnd="@+id/textViewProteinsResult"
+        android:layout_alignRight="@+id/textViewProteinsResult"
+        android:text="TextView" />"
+        android:layout_marginTop="13dp"
+        android:text="TextView" />
+
+</RelativeLayout>

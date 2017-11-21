@@ -174,41 +174,40 @@
         android:id="@+id/cardViewSubmit"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="19dp"
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
-        android:layout_below="@+id/editTextWeight"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@+id/editTextEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp">
 
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/textViewSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="REGISTER"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="14sp" />
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="SUBMIT"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp"
-        android:fontFamily="cursive"
-        android:text="Register"
-        android:textAlignment="center"
-        android:textSize="30sp" />
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/editTextWeight"
+        android:layout_alignLeft="@+id/editTextWeight"
+        android:layout_alignStart="@+id/editTextWeight" />
 
 
 </RelativeLayout>

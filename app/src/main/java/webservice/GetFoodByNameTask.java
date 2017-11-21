@@ -17,38 +17,43 @@ import java.net.URL;
 import manager.DataManager;
 
 /**
- * Created by Andreea on 14.11.2017.
+ * Created by Andreea on 18.11.2017.
  */
 
-public class SelectFoodTask extends AsyncTask<String, String, String> implements CredentialInterface {
+public class GetFoodByNameTask extends AsyncTask<String, String, String> implements CredentialInterface {
 
-    private SelectFoodDelegate selectFoodDelegate;
-    private String username;
-    private String password;
+    private GetFoodByNameDelegate getFoodByNameDelegate;
+    private String foodname;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectFoodService();
+            return callGetFoodByNameService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectFoodService() throws IOException, JSONException {
-        String modelString = BASE_URL + "food/all";
+    private String callGetFoodByNameService() throws IOException, JSONException {
+        String modelString = BASE_URL + "food/searchfood";
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestMethod("GET");
+        connection.setRequestMethod("POST");
         connection.setConnectTimeout(1000000);
         connection.setReadTimeout(1000000);
 
-        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
+        JSONObject object = new JSONObject();
+        object.put("foodname", foodname);
+
+
+        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+        out.write(object.toString());
+        out.close();
 
 
         StringBuilder sb = new StringBuilder();
@@ -68,12 +73,11 @@ public class SelectFoodTask extends AsyncTask<String, String, String> implements
 
     }
 
-    public SelectFoodTask(String username, String password) {
+    public GetFoodByNameTask(String foodname) {
 
-        this.username = username;
-        this.password = password;
+        this.foodname=foodname;
 
-        String modelString = BASE_URL + "food/all";
+        String modelString = BASE_URL + "food/searchfood";
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
@@ -84,20 +88,20 @@ public class SelectFoodTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectFoodDelegate != null) {
+        if (getFoodByNameDelegate != null) {
             try {
-                selectFoodDelegate.onSelectFoodDone(response);
+                getFoodByNameDelegate.onGetFoodByNameDone(response);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public SelectFoodDelegate getDelegate() {
-        return selectFoodDelegate;
+    public GetFoodByNameDelegate getDelegate() {
+        return getFoodByNameDelegate;
     }
 
-    public void setSelectFoodDelegate(SelectFoodDelegate selectFoodDelegate) {
-        this.selectFoodDelegate = selectFoodDelegate;
+    public void setGetFoodByNameDelegate(GetFoodByNameDelegate getFoodByNameDelegate) {
+        this.getFoodByNameDelegate = getFoodByNameDelegate;
     }
 }

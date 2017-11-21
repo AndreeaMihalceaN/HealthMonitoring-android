@@ -30,7 +30,7 @@ public class DataManager {
 
     private String baseAuthStr;
 
-    public List<Food>foodsList;
+    public List<Food> foodsList;
 
     private DataManager() {
         Log.d("TAG", "DataManager()");
@@ -76,6 +76,7 @@ public class DataManager {
             user.setGender(jsonObject.getString("gender"));
             user.setHeight(jsonObject.getInt("height"));
             user.setWeight(jsonObject.getInt("weight"));
+            user.setEmail(jsonObject.getString("email"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -107,5 +108,22 @@ public class DataManager {
             e.printStackTrace();
         }
         return foodsList;
+    }
+
+    public Food parseFood(String inputJSON) {
+
+
+        Food food= new Food();
+        try {
+            JSONObject jsonObject = new JSONObject(inputJSON);
+            Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
+
+            food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return food;
     }
 }

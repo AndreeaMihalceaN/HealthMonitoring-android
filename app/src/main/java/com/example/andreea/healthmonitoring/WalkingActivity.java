@@ -12,47 +12,57 @@ import android.widget.Toast;
 
 public class WalkingActivity extends AppCompatActivity implements SensorEventListener {
 
-    private SensorManager sensorManager;
-    private TextView count;
-    boolean activityRunning;
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    private boolean isSensorPresent = false;
+    private TextView mStepsSinceReboot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walking);
 
-        count=(TextView)findViewById(R.id.count);
-        sensorManager=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        mStepsSinceReboot =
+                (TextView)findViewById(R.id.count);
 
+        mSensorManager = (SensorManager)
+                this.getSystemService(Context.SENSOR_SERVICE);
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+                != null)
+        {
+            mSensor =
+                    mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            isSensorPresent = true;
+        }
+        else
+        {
+            isSensorPresent = false;
+        }
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        activityRunning=true;
-        Sensor countSensor=sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if(countSensor!=null)
+        if(isSensorPresent)
         {
-            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        }
-        else{
-            Toast.makeText(this, "Count sensor not available!", Toast.LENGTH_LONG).show();
+            mSensorManager.registerListener(this, mSensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        activityRunning=false;
+        if(isSensorPresent)
+        {
+            mSensorManager.unregisterListener(this);
+        }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(activityRunning)
-        {
-            count.setText(String.valueOf(event.values[0]));
-        }
+        mStepsSinceReboot.setText(String.valueOf(event.values[0]));
 
     }
 
@@ -60,4 +70,5 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
 }

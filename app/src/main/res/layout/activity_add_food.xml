@@ -10,26 +10,25 @@
         android:id="@+id/autoCompleteTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="27dp"
         android:ems="10"
         android:hint="Enter Food Name"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="22dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/textViewCarbohydratesQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:text="Carbohydrates Quntity (in cal)"
-        android:textSize="16sp"
-        android:layout_below="@+id/autoCompleteTextView"
         android:layout_alignLeft="@+id/autoCompleteTextView"
-        android:layout_alignStart="@+id/autoCompleteTextView" />
+        android:layout_alignStart="@+id/autoCompleteTextView"
+        android:layout_below="@+id/autoCompleteTextView"
+        android:layout_marginTop="21dp"
+        android:text="Carbohydrates Quantity (in cal)"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/editTextCarbohydratesQuantity"
@@ -110,7 +109,8 @@
         android:textSize="16sp"
         android:layout_alignBaseline="@+id/textViewCategory"
         android:layout_alignBottom="@+id/textViewCategory"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/buttonMinus"
+        android:layout_toEndOf="@+id/buttonMinus" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardSubmit"
@@ -119,10 +119,10 @@
         app:cardBackgroundColor="@color/colorForButton"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/editTextCategory"
-        android:layout_alignLeft="@+id/textViewCategory"
-        android:layout_alignStart="@+id/textViewCategory">
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/buttonMinus"
+        android:layout_alignRight="@+id/buttonPlus"
+        android:layout_alignEnd="@+id/buttonPlus">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -137,4 +137,53 @@
                 android:textColor="@color/cardview_light_background" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/buttonMinus"
+        style="@style/Base.TextAppearance.AppCompat.Widget.PopupMenu.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/cerclebuttonplusandminus"
+        android:stateListAnimator="@drawable/cerclebackgroudpurple"
+        android:text=" - "
+        android:layout_below="@+id/editTextCategory"
+        android:layout_alignLeft="@+id/textViewCategory"
+        android:layout_alignStart="@+id/textViewCategory" />
+
+    <Button
+        android:id="@+id/buttonQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editTextFatsQuantity"
+        android:layout_alignRight="@+id/editTextFatsQuantity"
+        android:layout_alignTop="@+id/buttonMinus"
+        android:background="@drawable/cerclequatitybutton"
+        android:text="1" />
+
+    <Button
+        android:id="@+id/buttonPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonMinus"
+        android:layout_alignBottom="@+id/buttonMinus"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/buttonQuantity"
+        android:layout_toRightOf="@+id/buttonQuantity"
+        android:background="@drawable/cerclebuttonplusandminus"
+        android:text=" + " />
+
+    <Button
+        android:id="@+id/buttonRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/autoCompleteTextView"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_toRightOf="@+id/autoCompleteTextView"
+        android:background="@drawable/ic_refresh_black_24dp"
+        android:layout_above="@+id/textViewCarbohydratesQuantity"
+        android:layout_alignRight="@+id/editTextCategory"
+        android:layout_alignEnd="@+id/editTextCategory" />
 </RelativeLayout>
