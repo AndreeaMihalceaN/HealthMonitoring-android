@@ -10,49 +10,57 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import manager.DataManager;
 
 /**
- * Created by Andreea on 14.11.2017.
+ * Created by Andreea on 27.11.2017.
  */
 
-public class SelectFoodTask extends AsyncTask<String, String, String> implements CredentialInterface {
-
-    private SelectFoodDelegate selectFoodDelegate;
-
+public class RegisterDayFoodTask extends AsyncTask<String, String, String> implements CredentialInterface {
+    private RegisterDayFoodDelegate registerDayFoodDelegate;
+    private String dateString;
+    private String nameFood;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectFoodService();
+            return callRegisterDayFoodService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectFoodService() throws IOException, JSONException {
-        String modelString = BASE_URL + "food/all";
+    private String callRegisterDayFoodService() throws IOException, JSONException {
+
+        String modelString = BASE_URL + "day_food/addByDateStringAndFoodName?"+"dateString="+dateString+"&nameFood="+nameFood;
+
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestMethod("GET");
+        connection.setRequestMethod("POST");
         connection.setConnectTimeout(1000000);
         connection.setReadTimeout(1000000);
 
+        JSONObject object = new JSONObject();
+        object.put("dateString", dateString);
+        object.put("nameFood", nameFood);
+
         connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
+        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+        out.write(object.toString());
+        out.close();
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK) {
+        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -61,17 +69,19 @@ public class SelectFoodTask extends AsyncTask<String, String, String> implements
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            return "";
+            System.out.println(connection.getResponseMessage());
         }
         return sb.toString();
-
     }
 
-    public SelectFoodTask() {
+    public RegisterDayFoodTask(String dateString, String nameFood) {
 
-        String modelString = BASE_URL + "food/all";
+        this.dateString=dateString;
+        this.nameFood=nameFood;
+
+        String modelString = BASE_URL + "day_food/addByDateStringAndFoodName?"+"dateString="+dateString+"&nameFood="+nameFood;
+
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
     }
 
@@ -80,20 +90,20 @@ public class SelectFoodTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectFoodDelegate != null) {
-            try {
-                selectFoodDelegate.onSelectFoodDone(response);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if (registerDayFoodDelegate != null) {
+            registerDayFoodDelegate.onRegisterDayFoodDone(response);
+        }
+        if (response == null) {
+            registerDayFoodDelegate.onRegisterDayFoodError(response);
         }
     }
 
-    public SelectFoodDelegate getDelegate() {
-        return selectFoodDelegate;
+    public RegisterDayFoodDelegate getDelegate() {
+        return registerDayFoodDelegate;
     }
 
-    public void setSelectFoodDelegate(SelectFoodDelegate selectFoodDelegate) {
-        this.selectFoodDelegate = selectFoodDelegate;
+
+    public void setRegisterDayFoodDelegate(RegisterDayFoodDelegate registerDayFoodDelegate) {
+        this.registerDayFoodDelegate = registerDayFoodDelegate;
     }
 }

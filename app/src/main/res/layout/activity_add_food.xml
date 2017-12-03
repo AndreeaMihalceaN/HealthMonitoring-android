@@ -112,32 +112,6 @@
         android:layout_toRightOf="@+id/buttonMinus"
         android:layout_toEndOf="@+id/buttonMinus" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardSubmit"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        app:cardBackgroundColor="@color/colorForButton"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="10dp"
-        android:layout_marginTop="13dp"
-        android:layout_below="@+id/buttonMinus"
-        android:layout_alignRight="@+id/buttonPlus"
-        android:layout_alignEnd="@+id/buttonPlus">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="SUBMIT"
-                android:textColor="@color/cardview_light_background" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
     <Button
         android:id="@+id/buttonMinus"
         style="@style/Base.TextAppearance.AppCompat.Widget.PopupMenu.Small"
@@ -159,7 +133,7 @@
         android:layout_alignRight="@+id/editTextFatsQuantity"
         android:layout_alignTop="@+id/buttonMinus"
         android:background="@drawable/cerclequatitybutton"
-        android:text="1" />
+        android:text="100" />
 
     <Button
         android:id="@+id/buttonPlus"
@@ -186,4 +160,14 @@
         android:layout_above="@+id/textViewCarbohydratesQuantity"
         android:layout_alignRight="@+id/editTextCategory"
         android:layout_alignEnd="@+id/editTextCategory" />
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:text="Submit" />
+
 </RelativeLayout>

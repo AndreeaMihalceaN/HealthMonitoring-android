@@ -124,6 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
             userAfterLogin = user;
             myIntent = new Intent(LoginActivity.this, HomeActivity.class);
             myIntent.putExtra("userAfterLogin", userAfterLogin);
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myIntent);
         }
     }

@@ -29,31 +29,42 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import manager.DataManager;
 import model.Food;
 import model.User;
 import webservice.RegisterDelegate;
 import webservice.RegisterFoodDelegate;
 import webservice.RegisterFoodTask;
 import webservice.RegisterTask;
+import webservice.SearchDayTask;
+import webservice.SelectFoodDelegate;
+import webservice.SelectFoodFromCurrentDayDelegate;
+import webservice.SelectFoodFromCurrentDayTask;
+import webservice.SelectFoodTask;
 
-public class FoodDiaryActivity extends AppCompatActivity implements RegisterFoodDelegate {
+public class FoodDiaryActivity extends AppCompatActivity implements RegisterFoodDelegate, SelectFoodDelegate, SelectFoodFromCurrentDayDelegate {
 
     private User userAfterLogin;
     private TextView m_textView;
     private Calendar m_currentDate;
     private int day, month, year;
     private ListView m_listView;
-    private int[] images = {R.drawable.melon, R.drawable.cheese, R.drawable.milkshake, R.drawable.chocolate, R.drawable.vegetablesoup};
+    private List<Food> foods;
+    private CustomAdaptor customAdaptor;
+    private boolean chooseAnotherDate;
+    //private int[] images = {R.drawable.melon, R.drawable.cheese, R.drawable.milkshake, R.drawable.chocolate, R.drawable.vegetablesoup};
     //private String[] names = {"Melon", "Cheese", "Milkshake", "Chocolate", "Vegetable soup"};
 
-    private ArrayList<Double>carbohydrates=new ArrayList<>();
-    private ArrayList<Double>fats=new ArrayList<>();
-    private ArrayList<Double>proteins=new ArrayList<>();
-    private ArrayList<String>categories=new ArrayList<>();
-    private ArrayList<String>names=new ArrayList<>();
+    private ArrayList<Double> carbohydrates = new ArrayList<>();
+    private ArrayList<Double> fats = new ArrayList<>();
+    private ArrayList<Double> proteins = new ArrayList<>();
+    private ArrayList<String> categories = new ArrayList<>();
+    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<Integer> idImages = new ArrayList<>();
 
     private ImageView mImageView;
     private TextView mTextView;
@@ -61,9 +72,10 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     private TextView m_textViewFatsResult;
     private TextView m_textViewProteinsResult;
     private TextView m_textViewCategoryResult;
-    private ArrayList<Food> foodList= new ArrayList<Food>();
+    private ArrayList<Food> foodList = new ArrayList<Food>();
 
     private FoodDiaryActivity foodDiaryActivity;
+    private Resources resources;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -71,19 +83,41 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_diary);
 
-        Food food1=new Food("Melon", 200, 150, 50, "Fruits");
-        Food food2=new Food("Cheese", 200, 150, 50, "Dairy products");
-        Food food3=new Food("Milkshake", 200, 150, 50, "Drink");
-        Food food4=new Food("Chocolate", 200, 150, 50, "Sweets");
-        Food food5=new Food("Vegetable soup", 200, 150, 50, "Soups");
+        foodDiaryActivity = this;
+        chooseAnotherDate = false;
+        resources = this.getResources();
 
-        foodList.add(food1);
-        foodList.add(food2);
-        foodList.add(food3);
-        foodList.add(food4);
-        foodList.add(food5);
+//        SelectFoodTask selectFoodTask = new SelectFoodTask();
+//        selectFoodTask.setSelectFoodDelegate(foodDiaryActivity);
 
-        putInArrayLists();
+        //{R.drawable.melon, R.drawable.cheese, R.drawable.milkshake, R.drawable.chocolate, R.drawable.vegetablesoup};
+//        int id1=R.drawable.melon;
+//        int id2=R.drawable.cheese;
+//        int id3=R.drawable.milkshake;
+//        int id4=R.drawable.chocolate;
+//        int id5=R.drawable.vegetablesoup;
+//        int id6=R.drawable.oranges;
+//        int id7=R.drawable.banana;
+//        int id8=R.drawable.strawberries;
+//        int id9=R.drawable.carrotjuice;
+
+
+        //final int resourceId = resources.getIdentifier("melon", "drawable", this.getPackageName());
+
+
+//        Food food1=new Food("Melon", 200, 150, 50, "Fruits");
+//        Food food2=new Food("Cheese", 200, 150, 50, "Dairy products");
+//        Food food3=new Food("Milkshake", 200, 150, 50, "Drink");
+//        Food food4=new Food("Chocolate", 200, 150, 50, "Sweets");
+//        Food food5=new Food("Vegetable soup", 200, 150, 50, "Soups");
+
+//        foodList.add(food1);
+//        foodList.add(food2);
+//        foodList.add(food3);
+//        foodList.add(food4);
+//        foodList.add(food5);
+
+        //putInArrayLists();
 
         m_listView = (ListView) findViewById(R.id.listView);
         m_textView = (TextView) findViewById(R.id.textView);
@@ -95,10 +129,10 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
 
         month = month + 1;
 
-        m_textView.setText(day + "/" + month + "/" + year);
+        m_textView.setText(day + "-" + month + "-" + year);
+        //m_textView.setText(year + "-" + month + "-" + day);
 
-        CustomAdaptor customAdaptor= new CustomAdaptor();
-        m_listView.setAdapter(customAdaptor);
+
 
         m_textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,28 +141,55 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-                        m_textView.setText(dayOfMonth + "/" + month + "/" + year);
+                        //m_textView.setText(dayOfMonth + "/" + month + "/" + year);
+                        m_textView.setText(dayOfMonth + "-" + month + "-" + year);
+                        chooseAnotherDate = true;
+                        customAdaptor = new CustomAdaptor();
+                        foods.clear();
+                        carbohydrates.clear();
+                        fats.clear();
+                        proteins.clear();
+                        categories.clear();
+                        names.clear();
+                        idImages.clear();
+                        SelectFoodFromCurrentDayTask selectFoodFromCurrentDayTask = new SelectFoodFromCurrentDayTask(m_textView.getText().toString());
+                        selectFoodFromCurrentDayTask.setSelectFoodFromCurrentDayDelegate(foodDiaryActivity);
+
+
+                        //customAdaptor.refresAdapter();
+                        //m_listView.setAdapter(customAdaptor);
 
                     }
                 }, year, month, day);
                 datePickerDialog.show();
             }
 
+
         });
+
+        if (!chooseAnotherDate) {
+            customAdaptor = new CustomAdaptor();
+
+            SelectFoodFromCurrentDayTask selectFoodFromCurrentDayTask = new SelectFoodFromCurrentDayTask(m_textView.getText().toString());
+            selectFoodFromCurrentDayTask.setSelectFoodFromCurrentDayDelegate(foodDiaryActivity);
+
+            //m_listView.setAdapter(customAdaptor);
+        }
 
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
     }
 
-    public void putInArrayLists()
-    {
-        for(Food food: foodList)
-        {
+    public void putInArrayLists() {
+        int resourceId;
+        for (Food food : foods) {
             carbohydrates.add(food.getCarbohydrates());
             fats.add(food.getFats());
             proteins.add(food.getProteins());
             categories.add(food.getCategory());
-            names.add(food.getName());
+            names.add(food.getFoodname());
+            resourceId = resources.getIdentifier(food.getPictureString().toString(), "drawable", this.getPackageName());
+            idImages.add((int) resourceId);
         }
     }
 
@@ -150,15 +211,19 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 //Intent intent = new Intent(FoodDiaryActivity.this, ProfileActivity.class);
                 Intent intent = new Intent(FoodDiaryActivity.this, AddFoodActivity.class);
                 intent.putExtra("userAfterLogin", userAfterLogin);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+                Intent intentDataString = new Intent(FoodDiaryActivity.this, AddFoodActivity.class);
+                intent.putExtra("calendarString", m_textView.getText());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
                 //startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-
     }
 
     @Override
@@ -172,11 +237,50 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
 
     }
 
+    //in metoda aceasta nu va intra deoarece eu nu m nevoie sa aflu toata lista de food din bd, de aeea nu apelez SelectFoodTask
+    @Override
+    public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
+
+        if (!result.isEmpty()) {
+            foods = DataManager.getInstance().parseFoods(result);
+            DataManager.getInstance().setFoodsList(foods);
+
+//            String baseAuthStr = username + ":" + password;
+//            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
+//            DataManager.getInstance().setBaseAuthStr(str);
+
+            //putNameFoodInVector();
+            putInArrayLists();
+            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSelectFoodFromCurrentDayDone(String result) throws UnsupportedEncodingException {
+
+        if (!result.isEmpty()) {
+            foods = DataManager.getInstance().parseFoods(result);
+            DataManager.getInstance().setFoodsList(foods);
+
+//            String baseAuthStr = username + ":" + password;
+//            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
+//            DataManager.getInstance().setBaseAuthStr(str);
+
+            //putNameFoodInVector();
+            putInArrayLists();
+            m_listView.setAdapter(customAdaptor);
+            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     class CustomAdaptor extends BaseAdapter {
 
         @Override
+        //public int getCount() {
+//            return images.length;
+//        }
         public int getCount() {
-            return images.length;
+            return idImages.size();
         }
 
         @Override
@@ -195,19 +299,34 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
 
             mImageView = (ImageView) view.findViewById(R.id.imageView);
             mTextView = (TextView) view.findViewById(R.id.textView);
-            m_textViewCarbohydratesResult=(TextView)view.findViewById(R.id.textViewCarbohydratesResult);
-            m_textViewFatsResult=(TextView)view.findViewById(R.id.textViewFatsResult);
-            m_textViewProteinsResult=(TextView)view.findViewById(R.id.textViewProteinsResult);
-            m_textViewCategoryResult=(TextView)view.findViewById(R.id.textViewCategoryResult);
-            mImageView.setImageResource(images[position]);
+            m_textViewCarbohydratesResult = (TextView) view.findViewById(R.id.textViewCarbohydratesResult);
+            m_textViewFatsResult = (TextView) view.findViewById(R.id.textViewFatsResult);
+            m_textViewProteinsResult = (TextView) view.findViewById(R.id.textViewProteinsResult);
+            m_textViewCategoryResult = (TextView) view.findViewById(R.id.textViewCategoryResult);
+            //mImageView.setImageResource(images[position]);
+            mImageView.setImageResource(idImages.get(position));
             mTextView.setText(names.get(position));
-            m_textViewCarbohydratesResult.setText(carbohydrates.get(position)+"");
-            m_textViewFatsResult.setText(fats.get(position)+"");
-            m_textViewProteinsResult.setText(proteins.get(position)+"");
+            m_textViewCarbohydratesResult.setText(carbohydrates.get(position) + "");
+            m_textViewFatsResult.setText(fats.get(position) + "");
+            m_textViewProteinsResult.setText(proteins.get(position) + "");
             m_textViewCategoryResult.setText(categories.get(position));
 
 
             return view;
+        }
+
+        public synchronized void refresAdapter() {
+            foods.clear();
+            carbohydrates.clear();
+            fats.clear();
+            proteins.clear();
+            categories.clear();
+            names.clear();
+            idImages.clear();
+            //dataitem.addAll(dataitems);
+            SelectFoodFromCurrentDayTask selectFoodFromCurrentDayTask = new SelectFoodFromCurrentDayTask(m_textView.getText().toString());
+            selectFoodFromCurrentDayTask.setSelectFoodFromCurrentDayDelegate(foodDiaryActivity);
+            notifyDataSetChanged();
         }
     }
 

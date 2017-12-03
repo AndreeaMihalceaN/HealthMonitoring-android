@@ -15,29 +15,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Andreea on 31.10.2017.
+ * Created by Andreea on 29.11.2017.
  */
 
-public class LoginTask extends AsyncTask<String, String, String> implements CredentialInterface {
+public class SelectFoodFromCurrentDayTask extends AsyncTask<String, String, String> implements CredentialInterface  {
 
-    private LoginDelegate loginDelegate;
-    private String username;
-    private String password;
+    private SelectFoodFromCurrentDayDelegate selectFoodFromCurrentDayDelegate;
+    private String dateString;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callLoginService();
+            return callSelectFoodFromCurrentDayService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callLoginService() throws IOException, JSONException {
-//        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
-//        Uri uri = Uri.parse(modelString).buildUpon().build();
-        Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
+    private String callSelectFoodFromCurrentDayService() throws IOException, JSONException {
+        String modelString = BASE_URL + "day_food/allFoodFromThisDay?dateString="+dateString;
+        Uri uri = Uri.parse(modelString).buildUpon().build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -47,12 +46,13 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("username", username);
-        object.put("password", password);
+        object.put("dateString", dateString);
+
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
         out.close();
+
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
@@ -71,14 +71,13 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
 
     }
 
-    public LoginTask(String username, String password) {
+    public SelectFoodFromCurrentDayTask(String dateString) {
 
-        this.username = username;
-        this.password = password;
+        this.dateString=dateString;
 
-//        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
-//        Uri uri = Uri.parse(modelString).buildUpon().build();
-        Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
+        String modelString = BASE_URL + "day_food/allFoodFromThisDay?dateString="+dateString;
+        Uri uri = Uri.parse(modelString).buildUpon().build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
     }
 
@@ -87,20 +86,20 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (loginDelegate != null) {
+        if (selectFoodFromCurrentDayDelegate != null) {
             try {
-                loginDelegate.onLoginDone(response);
+                selectFoodFromCurrentDayDelegate.onSelectFoodFromCurrentDayDone(response);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public LoginDelegate getDelegate() {
-        return loginDelegate;
+    public SelectFoodFromCurrentDayDelegate getDelegate() {
+        return selectFoodFromCurrentDayDelegate;
     }
 
-    public void setLoginDelegate(LoginDelegate loginDelegate) {
-        this.loginDelegate = loginDelegate;
+    public void setSelectFoodFromCurrentDayDelegate(SelectFoodFromCurrentDayDelegate selectFoodFromCurrentDayDelegate) {
+        this.selectFoodFromCurrentDayDelegate = selectFoodFromCurrentDayDelegate;
     }
 }

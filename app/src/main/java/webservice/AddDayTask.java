@@ -10,34 +10,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import manager.DataManager;
+
 /**
- * Created by Andreea on 31.10.2017.
+ * Created by Andreea on 29.11.2017.
  */
 
-public class LoginTask extends AsyncTask<String, String, String> implements CredentialInterface {
+public class AddDayTask extends AsyncTask<String, String, String> implements CredentialInterface  {
 
-    private LoginDelegate loginDelegate;
-    private String username;
-    private String password;
+    private AddDayDelegate addDayDelegate;
+    private String dateString;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callLoginService();
+            return callAddDayService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callLoginService() throws IOException, JSONException {
-//        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
-//        Uri uri = Uri.parse(modelString).buildUpon().build();
-        Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
+    private String callAddDayService()  throws IOException, JSONException {
+
+        String modelString = BASE_URL + "day/addDateString?"+"dateString="+dateString;
+
+        Uri uri = Uri.parse(modelString).buildUpon().build();
+
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -47,8 +49,9 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("username", username);
-        object.put("password", password);
+        object.put("dateString", dateString);
+
+        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
@@ -56,7 +59,7 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK) {
+        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -65,20 +68,17 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            return "";
+            System.out.println(connection.getResponseMessage());
         }
         return sb.toString();
-
     }
 
-    public LoginTask(String username, String password) {
+    public AddDayTask(String dateString) {
 
-        this.username = username;
-        this.password = password;
+        this.dateString=dateString;
+        String modelString = BASE_URL + "day/addDateString?"+"dateString="+dateString;
 
-//        String modelString = BASE_URL + "login?user_name=" + username + "&password=" + password;
-//        Uri uri = Uri.parse(modelString).buildUpon().build();
-        Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("login").build();
+        Uri uri = Uri.parse(modelString).buildUpon().build();
         this.execute(uri.toString());
     }
 
@@ -87,20 +87,21 @@ public class LoginTask extends AsyncTask<String, String, String> implements Cred
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (loginDelegate != null) {
-            try {
-                loginDelegate.onLoginDone(response);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if (addDayDelegate != null) {
+            addDayDelegate.onAddDayDone(response);
+        }
+        if (response == null) {
+            addDayDelegate.onAddDayError(response);
         }
     }
 
-    public LoginDelegate getDelegate() {
-        return loginDelegate;
+    public AddDayDelegate getDelegate() {
+        return addDayDelegate;
     }
 
-    public void setLoginDelegate(LoginDelegate loginDelegate) {
-        this.loginDelegate = loginDelegate;
+
+    public void setAddDayDelegate(RegisterDayFoodDelegate registerDayFoodDelegate) {
+        this.addDayDelegate = addDayDelegate;
     }
+
 }

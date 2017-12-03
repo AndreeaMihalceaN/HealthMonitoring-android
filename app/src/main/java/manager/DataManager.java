@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import model.Day;
 import model.Food;
 import model.User;
 
@@ -30,7 +31,9 @@ public class DataManager {
 
     private String baseAuthStr;
 
+    public List<Day> daysList;
     public List<Food> foodsList;
+    public List<Food> foodsListFromDay;
 
     private DataManager() {
         Log.d("TAG", "DataManager()");
@@ -58,6 +61,14 @@ public class DataManager {
 
     public void setFoodsList(List<Food> foodsList) {
         this.foodsList = foodsList;
+    }
+
+    public List<Food> getFoodsListFromDay() {
+        return foodsListFromDay;
+    }
+
+    public void setFoodsListFromDay(List<Food> foodsListFromDay) {
+        this.foodsListFromDay = foodsListFromDay;
     }
 
     public User parseUser(String inputJSON) {
@@ -88,6 +99,7 @@ public class DataManager {
     public List<Food> parseFoods(String inputJSON) {
 
         foodsList = new ArrayList<Food>();
+        Day day;
 
         try {
             JSONArray jsonArray = new JSONArray(inputJSON);
@@ -99,7 +111,16 @@ public class DataManager {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
                 //(String food_name, double carbohydrates, double proteins, double fats, String category)
-                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"));
+//                JSONArray jsonArrayDays = jsonObject.getJSONArray("days");
+//                for (int j = 0; j < jsonArrayDays.length(); j++) {
+//                    JSONObject jsonObject2 = jsonArray.getJSONObject(j);
+//                    ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
+//                    //(String food_name, double carbohydrates, double proteins, double fats, String category)
+//                    day = new Day(jsonObject2.getString("date"));
+//
+//                    daysList.add(day);
+//                }
+                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"));
 
                 foodsList.add(food);
 
@@ -113,17 +134,58 @@ public class DataManager {
     public Food parseFood(String inputJSON) {
 
 
-        Food food= new Food();
+        Food food = new Food();
+        Day day;
         try {
             JSONObject jsonObject = new JSONObject(inputJSON);
             Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
 
-            food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"));
+
+//            JSONArray jsonArray = jsonObject.getJSONArray("days");
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+//                ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
+//                //(String food_name, double carbohydrates, double proteins, double fats, String category)
+//                day = new Day(jsonObject2.getString("date"));
+//
+//                daysList.add(day);
+//            }
+
+            food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return food;
+    }
+
+    public Day parseDay(String inputJSON) {
+
+
+        foodsListFromDay = new ArrayList<Food>();
+        Day day = new Day();
+        try {
+            JSONObject jsonObject = new JSONObject(inputJSON);
+            Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
+
+
+//            JSONArray jsonArray = jsonObject.getJSONArray("foods");
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                jsonObject = jsonArray.getJSONObject(i);
+//                ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
+//                //(String food_name, double carbohydrates, double proteins, double fats, String category)
+//                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"));
+//
+//                foodsListFromDay.add(food);
+//            }
+            day = new Day(jsonObject.getString("date"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return day;
     }
 }
