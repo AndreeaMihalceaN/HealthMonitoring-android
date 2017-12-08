@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.andreea.healthmonitoring.BmiActivity">
+
+    <SeekBar
+        android:id="@+id/seekBarWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/buttonWeight"
+        android:layout_alignLeft="@+id/buttonWeight"
+        android:layout_alignStart="@+id/buttonWeight"
+        android:layout_alignRight="@+id/buttonWeight"
+        android:layout_alignEnd="@+id/buttonWeight" />
+
+    <ImageSwitcher
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/personorange"
+        android:id="@+id/imageSwitcher"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/buttonWeight"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="?android:attr/colorPrimary"
+        android:contextClickable="false"
+        android:elegantTextHeight="false"
+        android:freezesText="true"
+        android:text="Weight: x kg"
+        android:textEditNoPasteWindowLayout="@drawable/cerclequatitybutton"
+        tools:style="@style/Widget.AppCompat.Button.Small"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/buttonHeight"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorPrimary"
+        android:contextClickable="false"
+        android:elegantTextHeight="false"
+        android:freezesText="true"
+        android:text="Height: x cm"
+        android:textEditNoPasteWindowLayout="@drawable/cerclequatitybutton"
+        tools:style="@style/Widget.AppCompat.Button.Small"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/seekBarWeight"
+        android:layout_alignLeft="@+id/seekBarWeight"
+        android:layout_alignStart="@+id/seekBarWeight" />
+
+    <SeekBar
+        android:id="@+id/seekBarHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_below="@+id/buttonHeight"
+        android:layout_alignLeft="@+id/buttonHeight"
+        android:layout_alignStart="@+id/buttonHeight"
+        android:layout_alignRight="@+id/buttonHeight"
+        android:layout_alignEnd="@+id/buttonHeight" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/imageSwitcher"
+        android:layout_alignLeft="@+id/imageSwitcher"
+        android:layout_alignRight="@+id/imageSwitcher"
+        android:layout_alignStart="@+id/imageSwitcher"
+        android:layout_below="@+id/imageSwitcher"
+        android:layout_marginTop="15dp"
+        android:text="BMI"
+        android:textAlignment="center" />
+
+
+    <Button
+        android:id="@+id/buttonUpdateWH"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/seekBarHeight"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@color/yellow"
+        android:text="Update in my profile" />
+</RelativeLayout>

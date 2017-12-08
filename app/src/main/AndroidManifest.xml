@@ -37,7 +37,10 @@
             android:name=".AddFoodActivity"
             android:label="Add Food" />
         <activity android:name=".MonitoringWaterActivity" />
-        <activity android:name=".WalkingActivity"></activity>
+        <activity android:name=".WalkingActivity" />
+        <activity android:name=".InitialProfileActivity" />
+        <activity android:name=".Walking2Activity" />
+        <activity android:name=".BmiActivity"></activity>
     </application>
 
 </manifest>

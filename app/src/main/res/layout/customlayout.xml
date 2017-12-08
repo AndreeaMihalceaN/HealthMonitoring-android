@@ -83,7 +83,9 @@
         android:layout_alignLeft="@+id/textViewFatsResult"
         android:layout_alignStart="@+id/textViewFatsResult"
         android:layout_below="@+id/textViewFatsResult"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_alignRight="@+id/textViewFatsResult"
+        android:layout_alignEnd="@+id/textViewFatsResult" />
 
     <TextView
         android:id="@+id/textViewCategory"
@@ -98,11 +100,9 @@
         android:id="@+id/textViewCategoryResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textViewCategory"
-        android:layout_alignEnd="@+id/textViewProteinsResult"
-        android:layout_alignRight="@+id/textViewProteinsResult"
-        android:text="TextView" />"
-        android:layout_marginTop="13dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_below="@+id/textViewProteinsResult"
+        android:layout_alignLeft="@+id/textViewProteinsResult"
+        android:layout_alignStart="@+id/textViewProteinsResult" />"
 
 </RelativeLayout>

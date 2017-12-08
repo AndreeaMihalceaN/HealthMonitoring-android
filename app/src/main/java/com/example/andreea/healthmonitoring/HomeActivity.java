@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, FoodDiaryActivity.class);
-                startActivity(intent);
+                //startActivity(intent);
 
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -116,7 +116,9 @@ public class HomeActivity extends AppCompatActivity {
         m_cardViewStartWalking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, MonitoringWaterActivity.class);
+                Intent intent = new Intent(HomeActivity.this, Walking2Activity.class);
+
+                intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
@@ -126,7 +128,8 @@ public class HomeActivity extends AppCompatActivity {
         m_cardViewHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, WalkingActivity.class);
+                Intent intent = new Intent(HomeActivity.this, BmiActivity.class);
+                intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();

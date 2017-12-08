@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ import model.Food;
 import model.User;
 import webservice.AddDayDelegate;
 import webservice.AddDayTask;
+import webservice.AddUserDiaryDelegate;
+import webservice.AddUserDiaryTask;
 import webservice.GetFoodByNameDelegate;
 import webservice.GetFoodByNameTask;
 import webservice.LoginDelegate;
@@ -43,7 +46,7 @@ import webservice.UpdateDayTask;
 import webservice.UpdateDelegate;
 import webservice.UpdateTask;
 
-public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate, GetFoodByNameDelegate, SearchDayDelegate, UpdateDayDelegate, RegisterDayFoodDelegate, AddDayDelegate {
+public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate, GetFoodByNameDelegate, SearchDayDelegate, UpdateDayDelegate, RegisterDayFoodDelegate, AddDayDelegate, AddUserDiaryDelegate {
 
     private AutoCompleteTextView m_autoCompleteTextView;
     private TextView m_textViewCarbohydratesQuantity;
@@ -67,6 +70,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     private Day currentDay;
     private Button m_buttonSubmit;
     private String dateToday;
+    private ImageView m_imageViewChooseHealth;
 //    private TextView m_textViewForData;
 
     private AddFoodActivity addFoodActivity;
@@ -83,6 +87,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
 
+        m_imageViewChooseHealth=(ImageView)findViewById(R.id.imageViewChooseHealth);
         m_buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
 //        m_textViewForData=(TextView) findViewById(R.id.textViewForData);
         m_buttonMinus = (Button) findViewById(R.id.buttonMinus);
@@ -131,6 +136,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                         Toast.LENGTH_LONG).show();
 
 
+                m_imageViewChooseHealth.setVisibility(View.INVISIBLE);
                 GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
                 getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 
@@ -150,6 +156,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                 m_buttonMinus.setVisibility(View.VISIBLE);
                 m_buttonPlus.setVisibility(View.VISIBLE);
                 m_buttonQuantity.setVisibility(View.VISIBLE);
+                m_buttonSubmit.setVisibility(View.VISIBLE);
 
 //                m_cardSubmit.setEnabled(false);
 //                m_cardSubmit.setVisibility(View.VISIBLE);
@@ -229,6 +236,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                 counter = 100;
                 m_autoCompleteTextView.setText("");
                 doInvisibleAndEnable();
+                m_imageViewChooseHealth.setVisibility(View.VISIBLE);
 
             }
         });
@@ -264,6 +272,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_textViewCategory.setVisibility(View.INVISIBLE);
         m_editTextCategory.setVisibility(View.INVISIBLE);
         m_editTextCategory.setEnabled(false);
+
+        m_buttonSubmit.setVisibility(View.INVISIBLE);
 
 //        m_cardSubmit.setEnabled(false);
 //        m_cardSubmit.setVisibility(View.INVISIBLE);
@@ -341,6 +351,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(calendarString, receivedFood.getFoodname());
             registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
         }
+        AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
+        addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
 
     }
 
@@ -420,6 +432,16 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onAddDayError(String response) {
         Toast.makeText(AddFoodActivity.this, response, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onAddUserDiaryDone(String result) {
+
+    }
+
+    @Override
+    public void onAddUserDiaryError(String response) {
 
     }
 }

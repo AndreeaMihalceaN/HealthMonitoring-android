@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context="com.example.andreea.healthmonitoring.AddFoodActivity">
 
     <AutoCompleteTextView
@@ -163,11 +164,22 @@
 
     <Button
         android:id="@+id/buttonSubmit"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Submit"
+        android:layout_below="@+id/buttonPlus"
+        android:layout_alignLeft="@+id/buttonMinus"
+        android:layout_alignStart="@+id/buttonMinus"
+        android:layout_marginTop="16dp" />
+
+    <ImageView
+        android:id="@+id/imageViewChooseHealth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
-        android:text="Submit" />
+        app:srcCompat="@drawable/choosehealth"
+        android:layout_alignTop="@+id/autoCompleteTextView"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
