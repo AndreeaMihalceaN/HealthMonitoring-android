@@ -14,6 +14,7 @@ public class Food {
     private double fats;
     private String category;
     private String pictureString;
+    private int stars;
     //private List<Day> days;
 
     public Food(String foodname, double carbohydrates, double proteins, double fats, String category) {
@@ -32,6 +33,16 @@ public class Food {
         this.fats = fats;
         this.category = category;
         this.pictureString = pictureString;
+    }
+
+    public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars) {
+        this.foodname = foodname;
+        this.carbohydrates = carbohydrates;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.category = category;
+        this.pictureString = pictureString;
+        this.stars = stars;
     }
 
     public Food()
@@ -97,6 +108,14 @@ public class Food {
 
     public void setPictureString(String pictureString) {
         this.pictureString = pictureString;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
     }
 
     //    public List<Day> getDays() {

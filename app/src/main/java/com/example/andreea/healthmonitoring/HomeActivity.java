@@ -39,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     private User userAfterLogin;
     private CardView m_cardViewFoodDiary;
     private CardView m_cardViewStartWalking;
+    private CardView m_cardViewFoodSugestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         m_cardViewFoodDiary = (CardView) findViewById(R.id.cardViewFoodDiary);
         m_cardViewStartWalking = (CardView) findViewById(R.id.cardViewStartWalking);
         m_cardViewHospital = (CardView) findViewById(R.id.cardViewHospital);
+        m_cardViewFoodSugestion = (CardView) findViewById(R.id.cardViewFoodSugestion);
 //        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
 //        m_buttonConsulting = (Button) findViewById(R.id.buttonConsulting);
 //        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
@@ -129,6 +131,17 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, BmiActivity.class);
+                intent.putExtra("userAfterLogin", userAfterLogin);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        m_cardViewFoodSugestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, FoodSugestionActivity.class);
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

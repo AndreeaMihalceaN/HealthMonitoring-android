@@ -132,7 +132,7 @@ public class DataManager {
 //
 //                    daysList.add(day);
 //                }
-                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"));
+                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"));
 
                 foodsList.add(food);
 
@@ -173,7 +173,7 @@ public class DataManager {
                 JSONObject foodJSON = foodDayJSON.getJSONObject("food");
                 String dateString = dayJSON.getString("date");
                 Day dayAfterJson = new Day(dateString);
-                Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"));
+                Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"));
                 DayFood dayFood = new DayFood(dayAfterJson, foodAfterJson);
 
                 User user = new User();
@@ -220,7 +220,7 @@ public class DataManager {
 //                daysList.add(day);
 //            }
 
-            food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"));
+            food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"));
 
         } catch (JSONException e) {
             e.printStackTrace();
