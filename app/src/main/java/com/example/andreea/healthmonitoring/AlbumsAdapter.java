@@ -32,15 +32,20 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     private List<Integer> covers;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, stars;
-        public ImageView thumbnail, overflow;
+        public TextView title;
+        public ImageView thumbnail, overflow, star1, star2, star3, star4, star5;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            stars = (TextView) view.findViewById(R.id.stars);
+            //stars = (TextView) view.findViewById(R.id.stars);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
+            star1 = (ImageView) view.findViewById(R.id.star1);
+            star2 = (ImageView) view.findViewById(R.id.star2);
+            star3 = (ImageView) view.findViewById(R.id.star3);
+            star4 = (ImageView) view.findViewById(R.id.star4);
+            star5 = (ImageView) view.findViewById(R.id.star5);
         }
     }
 
@@ -64,18 +69,104 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Food food = foodsList.get(position);
         holder.title.setText(food.getFoodname()+"");
-        holder.stars.setText(food.getStars() + " stars");
+        //holder.stars.setText(food.getStars() + " stars");
+        int numberOfStars= food.getStars();
+        switch(numberOfStars)
+        {
+            case 1:
+                holder.star1.setImageResource(R.drawable.iconstar);
+                // loading album cover using Glide library
+                Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+
+                holder.overflow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupMenu(holder.overflow);
+                    }
+                });
+                return;
+            case 2:
+                holder.star1.setImageResource(R.drawable.iconstar);
+                holder.star2.setImageResource(R.drawable.iconstar);
+                // loading album cover using Glide library
+                Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+
+                holder.overflow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupMenu(holder.overflow);
+                    }
+                });
+                return;
+            case 3:
+                holder.star1.setImageResource(R.drawable.iconstar);
+                holder.star2.setImageResource(R.drawable.iconstar);
+                holder.star3.setImageResource(R.drawable.iconstar);
+                // loading album cover using Glide library
+                Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+
+                holder.overflow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupMenu(holder.overflow);
+                    }
+                });
+                return;
+            case 4:
+                holder.star1.setImageResource(R.drawable.iconstar);
+                holder.star2.setImageResource(R.drawable.iconstar);
+                holder.star3.setImageResource(R.drawable.iconstar);
+                holder.star4.setImageResource(R.drawable.iconstar);
+                // loading album cover using Glide library
+                Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+
+                holder.overflow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupMenu(holder.overflow);
+                    }
+                });
+                return;
+            case 5:
+                holder.star1.setImageResource(R.drawable.iconstar);
+                holder.star2.setImageResource(R.drawable.iconstar);
+                holder.star3.setImageResource(R.drawable.iconstar);
+                holder.star4.setImageResource(R.drawable.iconstar);
+                holder.star5.setImageResource(R.drawable.iconstar);
+                // loading album cover using Glide library
+                Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+
+                holder.overflow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupMenu(holder.overflow);
+                    }
+                });
+                return;
+            default:
+                // loading album cover using Glide library
+                Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+
+                holder.overflow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupMenu(holder.overflow);
+                    }
+                });
+                return;
+
+        }
 
 
-        // loading album cover using Glide library
-        Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
-
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.overflow);
-            }
-        });
+//        // loading album cover using Glide library
+//        Glide.with(mContext).load(covers.get(position)).into(holder.thumbnail);
+//
+//        holder.overflow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showPopupMenu(holder.overflow);
+//            }
+//        });
     }
 
     /**

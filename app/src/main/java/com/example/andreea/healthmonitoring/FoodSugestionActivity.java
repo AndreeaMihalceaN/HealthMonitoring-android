@@ -95,7 +95,7 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     /**
      * Adding few albums for testing
      */
-    private void preparePresentationBooks() {
+    private void preparePresentationFoods() {
         int idCover;
         for (Food food : foods) {
             // idCovers.add(R.drawable.(i.getN));
@@ -166,7 +166,8 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(adapter);
 
-            preparePresentationBooks();
+            preparePresentationFoods();
+
 
             try {
                 Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
