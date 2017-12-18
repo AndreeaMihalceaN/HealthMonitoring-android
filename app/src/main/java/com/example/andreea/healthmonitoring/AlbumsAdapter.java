@@ -1,6 +1,7 @@
 package com.example.andreea.healthmonitoring;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public ImageView thumbnail, overflow, star1, star2, star3, star4, star5;
+        Button share;
 
         public MyViewHolder(View view) {
             super(view);
@@ -46,7 +49,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             star3 = (ImageView) view.findViewById(R.id.star3);
             star4 = (ImageView) view.findViewById(R.id.star4);
             star5 = (ImageView) view.findViewById(R.id.star5);
+            share = (Button) view.findViewById(R.id.share);
+
         }
+
+
     }
 
 
@@ -82,6 +89,20 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                     @Override
                     public void onClick(View view) {
                         showPopupMenu(holder.overflow);
+                    }
+                });
+
+                holder.share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent myIntent= new Intent(Intent.ACTION_SEND);
+                        myIntent.setType("text/plain");
+                        String shareBody="Your body here";
+                        String shareSub="Your Subject here";
+                        myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                        myIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                        mContext.startActivity(Intent.createChooser(myIntent, "Share using"));
+
                     }
                 });
                 return;

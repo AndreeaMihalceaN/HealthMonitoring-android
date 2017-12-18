@@ -100,6 +100,8 @@ public class DataManager {
             user.setHeight(jsonObject.getInt("height"));
             user.setWeight(jsonObject.getInt("weight"));
             user.setEmail(jsonObject.getString("email"));
+            user.setContactNo(jsonObject.getString("contactNo"));
+            user.setAge(jsonObject.getInt("age"));
 
         } catch (JSONException e) {
             e.printStackTrace();

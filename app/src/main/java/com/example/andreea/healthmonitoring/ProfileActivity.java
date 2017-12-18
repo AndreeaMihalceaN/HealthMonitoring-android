@@ -5,12 +5,18 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+
+import manager.DataManager;
 import model.User;
+import webservice.LoginDelegate;
+import webservice.LoginTask;
 import webservice.RegisterDelegate;
 import webservice.RegisterTask;
 import webservice.UpdateDelegate;
@@ -18,7 +24,7 @@ import webservice.UpdateTask;
 
 import static java.lang.Integer.parseInt;
 
-public class ProfileActivity extends AppCompatActivity implements UpdateDelegate {
+public class ProfileActivity extends AppCompatActivity implements UpdateDelegate, LoginDelegate {
 
     private EditText m_editTextFirstName;
     private EditText m_editTextLastName;
@@ -37,14 +43,15 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        profileActivity = this;
         m_cardViewUpdate = (CardView) findViewById(R.id.cardViewUpdate);
-        m_editTextFirstName =(EditText) findViewById(R.id.editTextFirstName);
-        m_editTextLastName =(EditText) findViewById(R.id.editTextLastName);
-        m_editTextEmail =(EditText) findViewById(R.id.editTextEmail);
-        m_editTextContactNo =(EditText) findViewById(R.id.editTextContactNo);
-        m_editTextAge =(EditText) findViewById(R.id.editTextAge);
-        m_editTextHeight =(EditText) findViewById(R.id.editTextHeight);
-        m_editTextWeight =(EditText) findViewById(R.id.editTextWeight);
+        m_editTextFirstName = (EditText) findViewById(R.id.editTextFirstName);
+        m_editTextLastName = (EditText) findViewById(R.id.editTextLastName);
+        m_editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        m_editTextContactNo = (EditText) findViewById(R.id.editTextContactNo);
+        m_editTextAge = (EditText) findViewById(R.id.editTextAge);
+        m_editTextHeight = (EditText) findViewById(R.id.editTextHeight);
+        m_editTextWeight = (EditText) findViewById(R.id.editTextWeight);
 
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
@@ -52,9 +59,9 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         m_editTextLastName.setText(userAfterLogin.getLastName());
         m_editTextEmail.setText(userAfterLogin.getEmail());
         m_editTextContactNo.setText(userAfterLogin.getContactNo());
-        m_editTextAge.setText(userAfterLogin.getAge()+"");
-        m_editTextHeight.setText(userAfterLogin.getHeight()+"");
-        m_editTextWeight.setText(userAfterLogin.getWeight()+"");
+        m_editTextAge.setText(userAfterLogin.getAge() + "");
+        m_editTextHeight.setText(userAfterLogin.getHeight() + "");
+        m_editTextWeight.setText(userAfterLogin.getWeight() + "");
 
 
         m_cardViewUpdate.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +80,8 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
                 UpdateTask updateTask = new UpdateTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), m_editTextFirstName.getText().toString(), m_editTextLastName.getText().toString(), userAfterLogin.getGender(), Integer.parseInt(m_editTextHeight.getText().toString()), Integer.parseInt(m_editTextWeight.getText().toString()), Integer.parseInt(m_editTextAge.getText().toString()), m_editTextEmail.getText().toString(), m_editTextContactNo.getText().toString());
                 updateTask.setUpdateDelegate(profileActivity);
                 Toast.makeText(ProfileActivity.this, "Updated profile! ", Toast.LENGTH_SHORT).show();
+                LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
+                loginTask.setLoginDelegate(profileActivity);
 
             }
         });
@@ -89,5 +98,35 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
     public void onUpdateError(String errorMsg) {
 
         Toast.makeText(ProfileActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(this,HomeActivity.class);
+            intent.putExtra("userAfterLogin", userAfterLogin);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent intent = new Intent(this,HomeActivity.class);
+        intent.putExtra("userAfterLogin", userAfterLogin);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLoginDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            User user = DataManager.getInstance().parseUser(result);
+            userAfterLogin=user;
+        }
     }
 }
