@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by Andreea on 31.10.2017.
  */
 
-public class Food {
+public class Food implements Serializable {
     private String foodname;
     private double carbohydrates;
     private double proteins;
@@ -15,7 +16,20 @@ public class Food {
     private String category;
     private String pictureString;
     private int stars;
+    private String url;
     //private List<Day> days;
+
+
+    public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars, String url) {
+        this.foodname = foodname;
+        this.carbohydrates = carbohydrates;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.category = category;
+        this.pictureString = pictureString;
+        this.stars = stars;
+        this.url = url;
+    }
 
     public Food(String foodname, double carbohydrates, double proteins, double fats, String category) {
         this.foodname = foodname;
@@ -116,6 +130,14 @@ public class Food {
 
     public void setStars(int stars) {
         this.stars = stars;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     //    public List<Day> getDays() {
