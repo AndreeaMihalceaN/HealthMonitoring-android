@@ -17,6 +17,13 @@ public class UserDiary {
 
     }
 
+    public UserDiary(Long id, DayFood dayFood, User user, double quantity) {
+        this.id = id;
+        this.dayFood = dayFood;
+        this.user = user;
+        this.quantity = quantity;
+    }
+
     public UserDiary(DayFood dayFood, User user, double quantity) {
         this.dayFood = dayFood;
         this.user = user;

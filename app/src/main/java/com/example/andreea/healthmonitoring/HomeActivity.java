@@ -175,6 +175,12 @@ public class HomeActivity extends AppCompatActivity {
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent2);
                 return true;
+            case R.id.setting_id:
+                //Toast.makeText(getApplicationContext(), "Log Out icon is selected", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(HomeActivity.this, EditAccountActivity.class);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent3);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 

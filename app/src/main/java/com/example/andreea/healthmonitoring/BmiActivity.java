@@ -41,7 +41,7 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
 
-        bmiActivity=this;
+        bmiActivity = this;
         m_seekBarWeight = (SeekBar) findViewById(R.id.seekBarWeight);
         m_seekBarHeight = (SeekBar) findViewById(R.id.seekBarHeight);
         m_buttonWeight = (Button) findViewById(R.id.buttonWeight);
@@ -49,7 +49,9 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
         m_result = (TextView) findViewById(R.id.textView4);
         m_buttonUpdateWH = (Button) findViewById(R.id.buttonUpdateWH);
         m_seekBarWeight.setMax(350);
-        m_seekBarHeight.setMax(350);
+        m_seekBarHeight.setMax(130);
+
+
         m_buttonUpdateWH.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
@@ -81,6 +83,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
 
+                progress += 30;
+
                 m_buttonWeight.setText("Weight: " + progress + " kg");
                 currentWeight = progress;
                 state();
@@ -103,6 +107,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
+
+                progress += 100;
 
                 m_buttonHeight.setText("Height: " + progress + " cm");
                 currentHeight = progress;
@@ -157,14 +163,14 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
     @Override
     public void onUpdateError(String response) {
-
+        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLoginDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
-            userAfterLogin=user;
+            userAfterLogin = user;
             state();
         }
     }

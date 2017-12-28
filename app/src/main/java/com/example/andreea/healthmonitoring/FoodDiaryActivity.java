@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.icu.util.Calendar;
+import java.util.Calendar;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -85,6 +85,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     private TextView m_textViewFatsResult;
     private TextView m_textViewProteinsResult;
     private TextView m_textViewCategoryResult;
+    private TextView m_textViewQuantityResult;
     private ArrayList<Food> foodList = new ArrayList<Food>();
 
     private FoodDiaryActivity foodDiaryActivity;
@@ -103,41 +104,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
 
-//        SelectFoodTask selectFoodTask = new SelectFoodTask();
-//        selectFoodTask.setSelectFoodDelegate(foodDiaryActivity);
-
-        //{R.drawable.melon, R.drawable.cheese, R.drawable.milkshake, R.drawable.chocolate, R.drawable.vegetablesoup};
-//        int id1=R.drawable.melon;
-//        int id2=R.drawable.cheese;
-//        int id3=R.drawable.milkshake;
-//        int id4=R.drawable.chocolate;
-//        int id5=R.drawable.vegetablesoup;
-//        int id6=R.drawable.oranges;
-//        int id7=R.drawable.banana;
-//        int id8=R.drawable.strawberries;
-//        int id9=R.drawable.carrotjuice;
-
-
-        //final int resourceId = resources.getIdentifier("melon", "drawable", this.getPackageName());
-
-
-//        Food food1=new Food("Melon", 200, 150, 50, "Fruits");
-//        Food food2=new Food("Cheese", 200, 150, 50, "Dairy products");
-//        Food food3=new Food("Milkshake", 200, 150, 50, "Drink");
-//        Food food4=new Food("Chocolate", 200, 150, 50, "Sweets");
-//        Food food5=new Food("Vegetable soup", 200, 150, 50, "Soups");
-
-//        foodList.add(food1);
-//        foodList.add(food2);
-//        foodList.add(food3);
-//        foodList.add(food4);
-//        foodList.add(food5);
-
-        //putInArrayLists();
         m_textViewTotalCarbohydrates = (TextView) findViewById(R.id.textViewTotalCarbohydrates);
         m_textViewTotalFats = (TextView) findViewById(R.id.textViewTotalFats);
         m_textViewTotalProteins = (TextView) findViewById(R.id.textViewTotalProteins);
-
 
         m_listView = (ListView) findViewById(R.id.listView);
         m_textView = (TextView) findViewById(R.id.textView);
@@ -150,8 +119,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         month = month + 1;
 
         m_textView.setText(day + "-" + month + "-" + year);
-        //m_textView.setText(year + "-" + month + "-" + day);
-
 
         m_textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,11 +127,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-                        //m_textView.setText(dayOfMonth + "/" + month + "/" + year);
                         m_textView.setText(dayOfMonth + "-" + month + "-" + year);
                         chooseAnotherDate = true;
                         customAdaptor = new CustomAdaptor();
-                        //foods.clear();
                         userDiaryList.clear();
                         carbohydrates.clear();
                         fats.clear();
@@ -176,9 +141,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                         SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
                         selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
 
-
-                        //customAdaptor.refresAdapter();
-                        //m_listView.setAdapter(customAdaptor);
 
                     }
                 }, year, month, day);
@@ -199,7 +161,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             //m_listView.setAdapter(customAdaptor);
         }
 
-
     }
 
     public void putInArrayLists() {
@@ -216,9 +177,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             resourceId = resources.getIdentifier(userDiary.getDayFood().getFood().getPictureString().toString(), "drawable", this.getPackageName());
             idImages.add((int) resourceId);
             quantityList.add(userDiary.getQuantity());
-            sumCarbohydrates += userDiary.getDayFood().getFood().getCarbohydrates()*userDiary.getQuantity()/100;
-            sumFats += userDiary.getDayFood().getFood().getFats()*userDiary.getQuantity()/100;
-            sumProteins += userDiary.getDayFood().getFood().getProteins()*userDiary.getQuantity()/100;
+            sumCarbohydrates += userDiary.getDayFood().getFood().getCarbohydrates() * userDiary.getQuantity() / 100;
+            sumFats += userDiary.getDayFood().getFood().getFats() * userDiary.getQuantity() / 100;
+            sumProteins += userDiary.getDayFood().getFood().getProteins() * userDiary.getQuantity() / 100;
         }
     }
 
@@ -303,9 +264,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     }
 
     public void setTextViewWithTotalValues() {
-        m_textViewTotalCarbohydrates.setText("Total carbohydrates: "+sumCarbohydrates);
-        m_textViewTotalFats.setText("Total fats: "+sumFats);
-        m_textViewTotalProteins.setText("Total proteins: "+sumProteins);
+        m_textViewTotalCarbohydrates.setText("Total carbohydrates: " + Math.floor(sumCarbohydrates * 100) / 100);
+        m_textViewTotalFats.setText("Total fats: " + Math.floor(sumFats * 100) / 100);
+        m_textViewTotalProteins.setText("Total proteins: " + Math.floor(sumProteins * 100) / 100);
 
     }
 
@@ -358,13 +319,16 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             m_textViewFatsResult = (TextView) view.findViewById(R.id.textViewFatsResult);
             m_textViewProteinsResult = (TextView) view.findViewById(R.id.textViewProteinsResult);
             m_textViewCategoryResult = (TextView) view.findViewById(R.id.textViewCategoryResult);
+            m_textViewQuantityResult =(TextView) view.findViewById(R.id.textViewQuantityResult);
             //mImageView.setImageResource(images[position]);
             mImageView.setImageResource(idImages.get(position));
             mTextView.setText(names.get(position));
-            m_textViewCarbohydratesResult.setText(carbohydrates.get(position) * quantityList.get(position)/100 + "");
-            m_textViewFatsResult.setText(fats.get(position) * quantityList.get(position)/100 + "");
-            m_textViewProteinsResult.setText(proteins.get(position) * quantityList.get(position)/100 + "");
+            //Math.floor(currentWeight / s * 100) / 100;
+            m_textViewCarbohydratesResult.setText(Math.floor(carbohydrates.get(position) * quantityList.get(position) / 100 * 100) / 100 + "");
+            m_textViewFatsResult.setText(Math.floor(fats.get(position) * quantityList.get(position) / 100 * 100) / 100 + "");
+            m_textViewProteinsResult.setText(Math.floor(proteins.get(position) * quantityList.get(position) / 100 * 100) / 100 + "");
             m_textViewCategoryResult.setText(categories.get(position));
+            m_textViewQuantityResult.setText(quantityList.get(position)+"");
 
             return view;
         }

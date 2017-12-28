@@ -259,4 +259,47 @@ public class DataManager {
 
         return day;
     }
+
+    public UserDiary parseUserDiary(String inputJSON) {
+
+        UserDiary userDiary = new UserDiary();
+        Day day;
+
+        try {
+            JSONObject jsonObject = new JSONObject(inputJSON);
+
+            Long idfoodDayJSON = jsonObject.getLong("id");
+            JSONObject foodDayJSON = jsonObject.getJSONObject("dayFood");
+            JSONObject userJSON = jsonObject.getJSONObject("user");
+            JSONObject dayJSON = foodDayJSON.getJSONObject("day");
+            JSONObject foodJSON = foodDayJSON.getJSONObject("food");
+            String dateString = dayJSON.getString("date");
+            Day dayAfterJson = new Day(dateString);
+            Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+            DayFood dayFood = new DayFood(dayAfterJson, foodAfterJson);
+
+            User user = new User();
+            user.setUsername(userJSON.getString("username"));
+
+            user.setFirstName(userJSON.getString("firstName"));
+            user.setLastName(userJSON.getString("lastName"));
+            user.setPassword(userJSON.getString("password"));
+            user.setGender(userJSON.getString("gender"));
+            user.setHeight(userJSON.getInt("height"));
+            user.setWeight(userJSON.getInt("weight"));
+            user.setEmail(userJSON.getString("email"));
+
+            userDiary = new UserDiary(idfoodDayJSON, dayFood, user, jsonObject.getDouble("quantity"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return userDiary;
+    }
+
 }
+
+
+

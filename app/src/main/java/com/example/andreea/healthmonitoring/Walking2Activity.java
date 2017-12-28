@@ -17,13 +17,11 @@ import android.widget.Toast;
 
 public class Walking2Activity extends AppCompatActivity implements SensorEventListener {
 
-
     private SensorManager sensorManager;
     private TextView count;
     boolean activityRunning;
 //    private Sensor mStepCounterSensor;
 //    private Sensor mStepDetectorSensor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +51,6 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
             //am pus aici dar doar sa vad ca se activeaza notificarea
             //addNotification();
         }
-
-//        if(mStepDetectorSensor!=null)
-//        {
-//            Toast.makeText(this, "daa, exista detectorul", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
-//            Toast.makeText(this, "nu exista detector", Toast.LENGTH_SHORT).show();
-//        }
-
     }
 
     @Override
@@ -77,13 +66,11 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         if (activityRunning) {
             count.setText(String.valueOf(event.values[0]));
             //am adaugat aici
-            if(event.values[0]>50)
-            {
+            if (event.values[0] > 50) {
                 addNotification();
                 //Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     @Override

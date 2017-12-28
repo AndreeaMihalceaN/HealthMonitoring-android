@@ -42,6 +42,7 @@ public class NutritionActivity extends AppCompatActivity {
         mChart = (BarChart) findViewById(R.id.chart1);
         mChart.getDescription().setEnabled(false);
 
+
         setData(3);
         mChart.setFitBars(true);
 
@@ -86,6 +87,7 @@ public class NutritionActivity extends AppCompatActivity {
 //        mChart.animateY(5000);
 
         List<BarEntry> entries = new ArrayList<>();
+
         entries.add(new BarEntry(0f, (float) food.getCarbohydrates()));
         entries.add(new BarEntry(1f, (float)food.getFats()));
         entries.add(new BarEntry(2f, (float)food.getProteins()));
