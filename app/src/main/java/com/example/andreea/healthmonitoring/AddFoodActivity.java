@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.text.InputType;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
@@ -67,7 +68,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     private Food receivedFood = new Food();
     private Button m_buttonMinus;
     private Button m_buttonPlus;
-    private Button m_buttonQuantity;
+    private TextView m_textViewQuantity;
     private Button m_buttonRefresh;
     private double counter;
     private String calendarString;
@@ -79,6 +80,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     private AddFoodActivity addFoodActivity;
     private static ArrayList<String> Foods;
     private UserDiary userDiary;
+    private TextView m_textViewError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
         m_buttonMinus = (Button) findViewById(R.id.buttonMinus);
         m_buttonPlus = (Button) findViewById(R.id.buttonPlus);
-        m_buttonQuantity = (Button) findViewById(R.id.buttonQuantity);
+        m_textViewQuantity = (TextView) findViewById(R.id.textViewQuantity);
         m_buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
 
         m_textViewCarbohydratesQuantity = (TextView) findViewById(R.id.textViewCarbohydratesQuantity);
@@ -110,6 +112,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_editTextCategory = (EditText) findViewById(R.id.editTextCategory);
 
         m_autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        m_textViewError = (TextView) findViewById(R.id.textViewError);
 
         doInvisibleAndEnable();
 
@@ -146,7 +149,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
                 m_buttonMinus.setVisibility(View.VISIBLE);
                 m_buttonPlus.setVisibility(View.VISIBLE);
-                m_buttonQuantity.setVisibility(View.VISIBLE);
+                m_textViewQuantity.setVisibility(View.VISIBLE);
                 m_buttonSubmit.setVisibility(View.VISIBLE);
 
                 m_buttonRefresh.setVisibility(View.VISIBLE);
@@ -154,11 +157,30 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
         });
 
+        m_textViewQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_textViewError.setText("");
+                m_textViewQuantity.setCursorVisible(true);
+                m_textViewQuantity.setFocusableInTouchMode(true);
+                m_textViewQuantity.setInputType(InputType.TYPE_CLASS_TEXT);
+                m_textViewQuantity.requestFocus();
+
+            }
+        });
+
+
         m_buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchDayTask searchDayTask = new SearchDayTask(calendarString);
-                searchDayTask.setSearchDayDelegate(addFoodActivity);
+                if(validateTextFromQuantityTextView()) {
+                    m_textViewError.setText("");
+                    counter=Double.parseDouble(m_textViewQuantity.getText().toString());
+                    SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+                    searchDayTask.setSearchDayDelegate(addFoodActivity);
+                }
+                else m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
+
 
             }
         });
@@ -184,6 +206,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             @Override
             public void onClick(View v) {
                 counter = 100;
+                m_textViewQuantity.setText(counter+"");
                 m_autoCompleteTextView.setText("");
                 doInvisibleAndEnable();
                 m_imageViewChooseHealth.setVisibility(View.VISIBLE);
@@ -191,6 +214,15 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             }
         });
 
+    }
+    private Boolean validateTextFromQuantityTextView()
+    {
+        String textFromQuantity=m_textViewQuantity.getText().toString();
+        if(textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?"))
+        {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -202,9 +234,11 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     }
 
     void doInvisibleAndEnable() {
+
+        m_textViewError.setText("");
         m_buttonMinus.setVisibility(View.INVISIBLE);
         m_buttonPlus.setVisibility(View.INVISIBLE);
-        m_buttonQuantity.setVisibility(View.INVISIBLE);
+        m_textViewQuantity.setVisibility(View.INVISIBLE);
         m_buttonRefresh.setVisibility(View.INVISIBLE);
 
         m_textViewCarbohydratesQuantity.setVisibility(View.INVISIBLE);
@@ -286,14 +320,14 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
     private void resetCounter() {
         counter = 100;
-        m_buttonQuantity.setText(counter + "");
+        m_textViewQuantity.setText(counter + "");
         resetParametersFromTextEdit();
 
     }
 
     private void plusCounter() {
         counter += 0.25;
-        m_buttonQuantity.setText(counter + "");
+        m_textViewQuantity.setText(counter + "");
         resetParametersFromTextEdit();
 
     }
@@ -302,7 +336,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         counter -= 0.25;
         if (counter <= 0)
             counter = 0;
-        m_buttonQuantity.setText(counter + "");
+        m_textViewQuantity.setText(counter + "");
         resetParametersFromTextEdit();
 
     }

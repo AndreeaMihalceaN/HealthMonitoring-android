@@ -299,6 +299,29 @@ public class DataManager {
         return userDiary;
     }
 
+    public DayFood parseDayFood(String inputJSON) {
+
+        DayFood dayFood = new DayFood();
+
+        try {
+            JSONObject jsonObject = new JSONObject(inputJSON);
+
+            Long idDayFoodJSON = jsonObject.getLong("id");
+            JSONObject dayJSON = jsonObject.getJSONObject("day");
+            JSONObject foodJSON = jsonObject.getJSONObject("food");
+            Day day = new Day(dayJSON.getString("date"));
+            Food food = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+
+            dayFood = new DayFood(idDayFoodJSON, day, food);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dayFood;
+    }
+
 }
 
 

@@ -32,7 +32,21 @@ public class DayFood {
         this.food = food;
     }
 
+    public DayFood(Long id, Day day, Food food) {
+        this.id = id;
+        this.day = day;
+        this.food = food;
+    }
+
     public DayFood() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
