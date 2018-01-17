@@ -158,7 +158,7 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
         if (!result.isEmpty()) {
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
-            adapter = new AlbumsAdapter(this, foods, covers);
+            adapter = new AlbumsAdapter(this, foods, covers, userAfterLogin);
 
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
             recyclerView.setLayoutManager(mLayoutManager);

@@ -22,10 +22,12 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import manager.DataManager;
 import model.Day;
+import model.DayFood;
 import model.Food;
 import model.User;
 import model.UserDiary;
@@ -33,6 +35,8 @@ import webservice.AddDayDelegate;
 import webservice.AddDayTask;
 import webservice.AddUserDiaryDelegate;
 import webservice.AddUserDiaryTask;
+import webservice.GetFoodByName2Delegate;
+import webservice.GetFoodByName2Task;
 import webservice.GetFoodByNameDelegate;
 import webservice.GetFoodByNameTask;
 import webservice.GetUserDiaryDelegate;
@@ -43,6 +47,8 @@ import webservice.RegisterDayFoodDelegate;
 import webservice.RegisterDayFoodTask;
 import webservice.SearchDayDelegate;
 import webservice.SearchDayTask;
+import webservice.SelectFoodDayDelegate;
+import webservice.SelectFoodDayTask;
 import webservice.SelectFoodDelegate;
 import webservice.SelectFoodTask;
 import webservice.UpdateDayDelegate;
@@ -52,7 +58,7 @@ import webservice.UpdateTask;
 import webservice.UpdateUserDiaryQuantityDelegate;
 import webservice.UpdateUserDiaryQuantityTask;
 
-public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate, GetFoodByNameDelegate, SearchDayDelegate, UpdateDayDelegate, RegisterDayFoodDelegate, AddDayDelegate, AddUserDiaryDelegate, GetUserDiaryDelegate, UpdateUserDiaryQuantityDelegate {
+public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate, GetFoodByNameDelegate, GetFoodByName2Delegate, SearchDayDelegate, UpdateDayDelegate, RegisterDayFoodDelegate, AddDayDelegate, AddUserDiaryDelegate, GetUserDiaryDelegate, UpdateUserDiaryQuantityDelegate, SelectFoodDayDelegate {
 
     private AutoCompleteTextView m_autoCompleteTextView;
     private TextView m_textViewCarbohydratesQuantity;
@@ -81,6 +87,9 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     private static ArrayList<String> Foods;
     private UserDiary userDiary;
     private TextView m_textViewError;
+    private DayFood dayFoodSearch;
+    private String caller;
+    private Food foodReceived;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +100,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         counter = 100;
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+        caller = getIntent().getStringExtra("caller");
+
 
         m_imageViewChooseHealth = (ImageView) findViewById(R.id.imageViewChooseHealth);
         m_buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
@@ -114,10 +125,20 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         m_textViewError = (TextView) findViewById(R.id.textViewError);
 
-        doInvisibleAndEnable();
+        if (caller.equals("AlbumsAdapter")) {
+            foodReceived = (Food) intent.getSerializableExtra("food");
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            calendarString = df.format(c.getTime());
+            actionFromAlbumsAdapter();
 
-        Bundle bundle = getIntent().getExtras();
-        calendarString = bundle.getString("calendarString");
+            //Toast.makeText(addFoodActivity, formattedDate, Toast.LENGTH_SHORT).show();
+        } else {
+            doInvisibleAndEnable();
+
+            Bundle bundle = getIntent().getExtras();
+            calendarString = bundle.getString("calendarString");
+        }
 
         SelectFoodTask selectFoodTask = new SelectFoodTask();
         selectFoodTask.setSelectFoodDelegate(addFoodActivity);
@@ -173,13 +194,13 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateTextFromQuantityTextView()) {
+                if (validateTextFromQuantityTextView()) {
                     m_textViewError.setText("");
-                    counter=Double.parseDouble(m_textViewQuantity.getText().toString());
+                    counter = Double.parseDouble(m_textViewQuantity.getText().toString());
                     SearchDayTask searchDayTask = new SearchDayTask(calendarString);
                     searchDayTask.setSearchDayDelegate(addFoodActivity);
-                }
-                else m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
+                } else
+                    m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
 
 
             }
@@ -205,8 +226,9 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                m_textViewError.setText("");
                 counter = 100;
-                m_textViewQuantity.setText(counter+"");
+                m_textViewQuantity.setText(counter + "");
                 m_autoCompleteTextView.setText("");
                 doInvisibleAndEnable();
                 m_imageViewChooseHealth.setVisibility(View.VISIBLE);
@@ -215,11 +237,25 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         });
 
     }
-    private Boolean validateTextFromQuantityTextView()
-    {
-        String textFromQuantity=m_textViewQuantity.getText().toString();
-        if(textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?"))
-        {
+
+    //private void actionAutoCompleteTextView
+    private void actionFromAlbumsAdapter() {
+        m_autoCompleteTextView.setText(foodReceived.getFoodname().toString());
+        //m_autoCompleteTextView.setImeActionLabel(foodReceived.getFoodname().toString(), KeyEvent.KEYCODE_ENTER);
+        m_imageViewChooseHealth.setVisibility(View.INVISIBLE);
+        GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
+        getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
+        m_editTextCarbohydratesQuantity.setEnabled(false);
+        m_editTextProteinQuantity.setEnabled(false);
+        m_editTextFatsQuantity.setEnabled(false);
+        m_editTextCategory.setEnabled(false);
+
+
+    }
+
+    private Boolean validateTextFromQuantityTextView() {
+        String textFromQuantity = m_textViewQuantity.getText().toString();
+        if (textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?")) {
             return true;
         }
         return false;
@@ -279,6 +315,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             m_editTextProteinQuantity.setText(receivedFood.getProteins() + "");
             m_editTextFatsQuantity.setText(receivedFood.getFats() + "");
             m_editTextCategory.setText(receivedFood.getCategory());
+
             Toast.makeText(getApplicationContext(), "Getfood selected from textEdit", Toast.LENGTH_SHORT).show();
         }
     }
@@ -301,13 +338,14 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             AddDayTask addDayTask = new AddDayTask(calendarString);
             addDayTask.setAddDayDelegate(addFoodActivity);
 
-            dateToday=calendarString;
+            dateToday = calendarString;
 //            RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(calendarString, receivedFood.getFoodname());
 //            registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
         }
+//verifica daca exista acest food in abza de date, corect dat dupa nume
+        GetFoodByName2Task getFoodByName2Task = new GetFoodByName2Task(m_autoCompleteTextView.getText().toString());
+        getFoodByName2Task.setGetFoodByName2Delegate(addFoodActivity);
 
-        GetUserDiaryTask getUserDiaryTask = new GetUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername());
-        getUserDiaryTask.setGetUserDiaryDelegate(addFoodActivity);
 
     }
 
@@ -326,6 +364,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     }
 
     private void plusCounter() {
+        m_textViewError.setText("");
         counter += 0.25;
         m_textViewQuantity.setText(counter + "");
         resetParametersFromTextEdit();
@@ -333,6 +372,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     }
 
     private void minusCounter() {
+        m_textViewError.setText("");
         counter -= 0.25;
         if (counter <= 0)
             counter = 0;
@@ -403,11 +443,9 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             updateUserDiaryQuantityTask.setUpdateUserDiaryQuantityDelegate(addFoodActivity);
             Toast.makeText(addFoodActivity, "Registered food today, just update the quantity", Toast.LENGTH_SHORT).show();
         } else {
-            RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(dateToday, receivedFood.getFoodname());
-            registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
-
-            AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
-            addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
+            //Toast.makeText(addFoodActivity, "atentieee, nameFood introdus gresit", Toast.LENGTH_SHORT).show();
+            SelectFoodDayTask selectFoodDayTask = new SelectFoodDayTask(calendarString, receivedFood.getFoodname());
+            selectFoodDayTask.setSelectFoodDayDelegate(addFoodActivity);
         }
     }
 
@@ -421,4 +459,46 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
 
     }
+
+    @Override
+    public void onSelectFoodDayDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            //dayFoodSearch=DataManager.getInstance().parseDayFood(result);
+            AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
+            addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
+        } else {
+            RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(dateToday, receivedFood.getFoodname());
+            registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
+
+            AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
+            addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
+        }
+    }
+
+    @Override
+    public void onGetFoodByName2Done(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            GetUserDiaryTask getUserDiaryTask = new GetUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername());
+            getUserDiaryTask.setGetUserDiaryDelegate(addFoodActivity);
+
+        } else {
+            m_textViewError.setText("This food doesn't exist in dataBase!");
+
+        }
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(this,FoodDiaryActivity.class);
+            intent.putExtra("userAfterLogin", userAfterLogin);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }

@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public class Food implements Serializable {
+    private Long id;
     private String foodname;
     private double carbohydrates;
     private double proteins;
@@ -17,8 +18,19 @@ public class Food implements Serializable {
     private String pictureString;
     private int stars;
     private String url;
-    //private List<Day> days;
 
+
+    public Food(Long id, String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars, String url) {
+        this.id = id;
+        this.foodname = foodname;
+        this.carbohydrates = carbohydrates;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.category = category;
+        this.pictureString = pictureString;
+        this.stars = stars;
+        this.url = url;
+    }
 
     public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars, String url) {
         this.foodname = foodname;
@@ -37,7 +49,6 @@ public class Food implements Serializable {
         this.proteins = proteins;
         this.fats = fats;
         this.category = category;
-        //this.days= new ArrayList<>();
     }
 
     public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString) {
@@ -59,21 +70,16 @@ public class Food implements Serializable {
         this.stars = stars;
     }
 
-    public Food()
-    {
-        //this.days= new ArrayList<>();
-
+    public Food() {
     }
 
-//    public Food(String food_name, double carbohydrates, double proteins, double fats, String category, List<Day> days) {
-//        this.food_name = food_name;
-//        this.carbohydrates = carbohydrates;
-//        this.proteins = proteins;
-//        this.fats = fats;
-//        this.category = category;
-//        this.days = days;
-//    }
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFoodname() {
         return foodname;
@@ -115,7 +121,6 @@ public class Food implements Serializable {
         this.category = category;
     }
 
-
     public String getPictureString() {
         return pictureString;
     }
@@ -140,11 +145,5 @@ public class Food implements Serializable {
         this.url = url;
     }
 
-    //    public List<Day> getDays() {
-//        return days;
-//    }
 
-//    public void setDays(List<Day> days) {
-//        this.days = days;
-//    }
 }

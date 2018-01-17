@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,9 +36,15 @@ import model.DayFood;
 import model.Food;
 import model.User;
 import model.UserDiary;
+import webservice.DeleteDayFoodDelegate;
+import webservice.DeleteDayFoodTask;
 import webservice.DeleteUserDiaryDelegate;
 import webservice.DeleteUserDiaryTask;
+import webservice.GetAllFoodsFromThisDayDelegate;
+import webservice.GetAllFoodsFromThisDayTask;
 import webservice.RegisterFoodDelegate;
+import webservice.SearchFoodByIdDelegate;
+import webservice.SearchFoodByIdTask;
 import webservice.SelectAnUserDiaryDelegate;
 import webservice.SelectAnUserDiaryTask;
 import webservice.SelectFoodDayDelegate;
@@ -47,7 +54,7 @@ import webservice.SelectFoodFromCurrentDayDelegate;
 import webservice.SelectUserDiaryDelegate;
 import webservice.SelectUserDiaryTask;
 
-public class FoodDiaryActivity extends AppCompatActivity implements RegisterFoodDelegate, SelectFoodDelegate, SelectFoodFromCurrentDayDelegate, SelectUserDiaryDelegate, SelectFoodDayDelegate, SelectAnUserDiaryDelegate, DeleteUserDiaryDelegate {
+public class FoodDiaryActivity extends AppCompatActivity implements RegisterFoodDelegate, SelectFoodDelegate, SelectFoodFromCurrentDayDelegate, SelectUserDiaryDelegate, SelectFoodDayDelegate, SelectAnUserDiaryDelegate, DeleteUserDiaryDelegate, GetAllFoodsFromThisDayDelegate, DeleteDayFoodDelegate {
 
     private User userAfterLogin;
     private TextView m_textView;
@@ -65,8 +72,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     private double sumCarbohydrates;
     private double sumFats;
     private double sumProteins;
-    //private int[] images = {R.drawable.melon, R.drawable.cheese, R.drawable.milkshake, R.drawable.chocolate, R.drawable.vegetablesoup};
-    //private String[] names = {"Melon", "Cheese", "Milkshake", "Chocolate", "Vegetable soup"};
 
     public ArrayList<Double> carbohydrates = new ArrayList<>();
     public ArrayList<Double> fats = new ArrayList<>();
@@ -76,21 +81,16 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     public ArrayList<Integer> idImages = new ArrayList<>();
     public ArrayList<Double> quantityList = new ArrayList<>();
 
-    //    private ImageView mImageView;
-//    private TextView mTextView;
-//    private TextView m_textViewCarbohydratesResult;
-//    private TextView m_textViewFatsResult;
-//    private TextView m_textViewProteinsResult;
-//    private TextView m_textViewCategoryResult;
-//    private TextView m_textViewQuantityResult;
-    private ArrayList<Food> foodList = new ArrayList<Food>();
+    private List<Food> foodList = new ArrayList<Food>();
 
     private FoodDiaryActivity foodDiaryActivity;
     private Resources resources;
     private DayFood dayFood = new DayFood();
     private UserDiary userDiaryForDelete = new UserDiary();
+    String name="";
+    Food foodToSend= new Food();
+    double quatityToSend=0;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +122,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String item = ((TextView) view).getText().toString();
 
                 Toast.makeText(getBaseContext(), "Am dat click", Toast.LENGTH_LONG).show();
             }
@@ -138,7 +137,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                         m_textView.setText(dayOfMonth + "-" + month + "-" + year);
                         chooseAnotherDate = true;
                         adapter = new CustomAdaptor(getApplicationContext(), carbohydrates, fats, proteins, categories, names, idImages, quantityList);
-                        userDiaryList.clear();
+                        if (userDiaryList != null)
+                            userDiaryList.clear();
                         carbohydrates.clear();
                         fats.clear();
                         proteins.clear();
@@ -146,8 +146,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                         names.clear();
                         idImages.clear();
                         quantityList.clear();
-                        SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
-                        selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
+                        GetAllFoodsFromThisDayTask getAllFoodsFromThisDayTask = new GetAllFoodsFromThisDayTask(m_textView.getText().toString(), userAfterLogin.getUsername());
+                        getAllFoodsFromThisDayTask.setGetAllFoodsFromThisDayDelegate(foodDiaryActivity);
 
 
                     }
@@ -161,12 +161,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         if (!chooseAnotherDate) {
             adapter = new CustomAdaptor(getApplicationContext(), carbohydrates, fats, proteins, categories, names, idImages, quantityList);
 
-//            SelectFoodFromCurrentDayTask selectFoodFromCurrentDayTask = new SelectFoodFromCurrentDayTask(m_textView.getText().toString());
-//            selectFoodFromCurrentDayTask.setSelectFoodFromCurrentDayDelegate(foodDiaryActivity);
-            SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
-            selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
+            GetAllFoodsFromThisDayTask getAllFoodsFromThisDayTask = new GetAllFoodsFromThisDayTask(m_textView.getText().toString(), userAfterLogin.getUsername());
+            getAllFoodsFromThisDayTask.setGetAllFoodsFromThisDayDelegate(foodDiaryActivity);
 
-            //m_listView.setAdapter(customAdaptor);
         }
 
     }
@@ -176,19 +173,25 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         sumCarbohydrates = 0;
         sumFats = 0;
         sumProteins = 0;
+        double quantityValue = 0;
         int resourceId;
-        for (UserDiary userDiary : userDiaryList) {
-            carbohydrates.add(userDiary.getDayFood().getFood().getCarbohydrates());
-            fats.add(userDiary.getDayFood().getFood().getFats());
-            proteins.add(userDiary.getDayFood().getFood().getProteins());
-            categories.add(userDiary.getDayFood().getFood().getCategory());
-            names.add(userDiary.getDayFood().getFood().getFoodname());
-            resourceId = resources.getIdentifier(userDiary.getDayFood().getFood().getPictureString().toString(), "drawable", this.getPackageName());
+        for (Food food : foodList) {
+            for (UserDiary userDiary : userDiaryList)
+                if (userDiary.getDayFood().getFoodId() == food.getId())
+                    quantityValue = userDiary.getQuantity();
+
+
+            carbohydrates.add(food.getCarbohydrates());
+            fats.add(food.getFats());
+            proteins.add(food.getProteins());
+            categories.add(food.getCategory());
+            names.add(food.getFoodname());
+            resourceId = resources.getIdentifier(food.getPictureString().toString(), "drawable", this.getPackageName());
             idImages.add((int) resourceId);
-            quantityList.add(userDiary.getQuantity());
-            sumCarbohydrates += userDiary.getDayFood().getFood().getCarbohydrates() * userDiary.getQuantity() / 100;
-            sumFats += userDiary.getDayFood().getFood().getFats() * userDiary.getQuantity() / 100;
-            sumProteins += userDiary.getDayFood().getFood().getProteins() * userDiary.getQuantity() / 100;
+            quantityList.add(quantityValue);
+            sumCarbohydrates += food.getCarbohydrates() * quantityValue / 100;
+            sumFats += food.getFats() * quantityValue / 100;
+            sumProteins += food.getProteins() * quantityValue / 100;
         }
         adapter.notifyDataSetChanged();
     }
@@ -204,13 +207,10 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addFood_id:
-                //RegisterFoodTask registerFoodTask = new RegisterFoodTask(food_name, carbohydrates, proteins, fats, category);
-                //registerFoodTask.setRegisterFoodDelegate(foodDiaryActivity);
-                //Toast.makeText(FoodDiaryActivity.this, "Your have registered! ", Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(), "Add Food icon is selected", Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(FoodDiaryActivity.this, ProfileActivity.class);
                 Intent intent = new Intent(FoodDiaryActivity.this, AddFoodActivity.class);
                 intent.putExtra("userAfterLogin", userAfterLogin);
+                intent.putExtra("caller", "FoodDiaryActivity");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
@@ -219,7 +219,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
-                //startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -244,12 +243,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         if (!result.isEmpty()) {
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
-
-//            String baseAuthStr = username + ":" + password;
-//            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
-//            DataManager.getInstance().setBaseAuthStr(str);
-
-            //putNameFoodInVector();
             putInArrayLists();
             Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
         }
@@ -261,12 +254,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         if (!result.isEmpty()) {
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
-
-//            String baseAuthStr = username + ":" + password;
-//            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
-//            DataManager.getInstance().setBaseAuthStr(str);
-
-            //putNameFoodInVector();
             putInArrayLists();
             m_listView.setAdapter(adapter);
             Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
@@ -287,14 +274,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             userDiaryList = DataManager.getInstance().parseUserDiaryList(result);
             DataManager.getInstance().setUserDiaryList(userDiaryList);
 
-//            String baseAuthStr = username + ":" + password;
-//            String str = "Basic " + Base64.encodeToString(baseAuthStr.getBytes("UTF-8"), Base64.DEFAULT);
-//            DataManager.getInstance().setBaseAuthStr(str);
-
-            //putNameFoodInVector();
             putInArrayLists();
             setTextViewWithTotalValues();
-            //CustomAdaptor adapter= new CustomAdaptor(this, carbohydrates, fats, proteins, categories, names, idImages, quantityList);
             m_listView.setAdapter(adapter);
             Toast.makeText(getApplicationContext(), "Get all foods from database day-user", Toast.LENGTH_SHORT).show();
         }
@@ -324,9 +305,13 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     @Override
     public void onDeleteUserDiaryDone(String result) {
         Toast.makeText(FoodDiaryActivity.this, result, Toast.LENGTH_SHORT).show();
+//        DeleteDayFoodTask deleteDayFoodTask = new DeleteDayFoodTask(m_textView.getText().toString(), name);
+//        deleteDayFoodTask.setDeleteDayFoodDelegate(foodDiaryActivity);
+
         //Refresh listView
         adapter = new CustomAdaptor(getApplicationContext(), carbohydrates, fats, proteins, categories, names, idImages, quantityList);
-        userDiaryList.clear();
+        if (userDiaryList != null)
+            userDiaryList.clear();
         carbohydrates.clear();
         fats.clear();
         proteins.clear();
@@ -334,12 +319,57 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         names.clear();
         idImages.clear();
         quantityList.clear();
-        SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
-        selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
+        GetAllFoodsFromThisDayTask getAllFoodsFromThisDayTask = new GetAllFoodsFromThisDayTask(m_textView.getText().toString(), userAfterLogin.getUsername());
+        getAllFoodsFromThisDayTask.setGetAllFoodsFromThisDayDelegate(foodDiaryActivity);
+
     }
 
     @Override
     public void onDeleteUserDiaryError(String response) {
+        Toast.makeText(FoodDiaryActivity.this, response, Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    @Override
+    public void onGetAllFoodsFromThisDayDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            foodList = DataManager.getInstance().parseFoods(result);
+
+
+            if (foodList.size() >= 1) {
+                SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
+                selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
+            }
+            else {
+                adapter.notifyDataSetChanged();
+                m_listView.setAdapter(adapter);
+            }
+        }
+
+    }
+
+    @Override
+    public void onDeleteDayFoodDone(String result) {
+
+        Toast.makeText(FoodDiaryActivity.this, result, Toast.LENGTH_SHORT).show();
+//        //Refresh listView
+//        adapter = new CustomAdaptor(getApplicationContext(), carbohydrates, fats, proteins, categories, names, idImages, quantityList);
+//        if (userDiaryList != null)
+//            userDiaryList.clear();
+//        carbohydrates.clear();
+//        fats.clear();
+//        proteins.clear();
+//        categories.clear();
+//        names.clear();
+//        idImages.clear();
+//        quantityList.clear();
+//        GetAllFoodsFromThisDayTask getAllFoodsFromThisDayTask = new GetAllFoodsFromThisDayTask(m_textView.getText().toString(), userAfterLogin.getUsername());
+//        getAllFoodsFromThisDayTask.setGetAllFoodsFromThisDayDelegate(foodDiaryActivity);
+    }
+
+    @Override
+    public void onDeleteDayFoodError(String response) {
 
     }
 
@@ -404,27 +434,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.customlayout, null);
             }
-//            View view = getLayoutInflater().inflate(R.layout.customlayout, null);
-//
-//            mImageView = (ImageView) view.findViewById(R.id.imageView);
-//            mTextView = (TextView) view.findViewById(R.id.textView);
-//            m_textViewCarbohydratesResult = (TextView) view.findViewById(R.id.textViewCarbohydratesResult);
-//            m_textViewFatsResult = (TextView) view.findViewById(R.id.textViewFatsResult);
-//            m_textViewProteinsResult = (TextView) view.findViewById(R.id.textViewProteinsResult);
-//            m_textViewCategoryResult = (TextView) view.findViewById(R.id.textViewCategoryResult);
-//            m_textViewQuantityResult = (TextView) view.findViewById(R.id.textViewQuantityResult);
-//            //mImageView.setImageResource(images[position]);
-//            mImageView.setImageResource(idImages.get(position));
-//            mTextView.setText(names.get(position));
-//            //Math.floor(currentWeight / s * 100) / 100;
-//            m_textViewCarbohydratesResult.setText(Math.floor(carbohydrates.get(position) * quantityList.get(position) / 100 * 100) / 100 + "");
-//            m_textViewFatsResult.setText(Math.floor(fats.get(position) * quantityList.get(position) / 100 * 100) / 100 + "");
-//            m_textViewProteinsResult.setText(Math.floor(proteins.get(position) * quantityList.get(position) / 100 * 100) / 100 + "");
-//            m_textViewCategoryResult.setText(categories.get(position));
-//            m_textViewQuantityResult.setText(quantityList.get(position) + "");
 
-
-            ViewHolder holder = new ViewHolder();
+            final ViewHolder holder = new ViewHolder();
             holder.mImageView = (ImageView) convertView.findViewById(R.id.imageView);
             holder.mTextView = (TextView) convertView.findViewById(R.id.textView);
             holder.m_textViewCarbohydratesResult = (TextView) convertView.findViewById(R.id.textViewCarbohydratesResult);
@@ -435,7 +446,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             holder.m_imageViewEditQ = (ImageView) convertView.findViewById(R.id.imageViewEditQ);
             holder.m_imageViewDelete = (ImageView) convertView.findViewById(R.id.imageViewDelete);
 
-            final String name = names.get(position);
+            name = names.get(position);
             holder.mTextView.setText(names.get(position));
             holder.mImageView.setImageResource(idImages.get(position));
             holder.m_textViewCarbohydratesResult.setText(carbohydrates.get(position) + "");
@@ -448,6 +459,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, name, Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -455,9 +467,34 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, name, Toast.LENGTH_SHORT).show();
+                    for(Food selectedfood:foodList)
+                        if(selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
+                            name=selectedfood.getFoodname();
 
                     SelectFoodDayTask selectFoodDayTask = new SelectFoodDayTask(m_textView.getText().toString(), name);
                     selectFoodDayTask.setSelectFoodDayDelegate(foodDiaryActivity);
+
+                }
+            });
+            holder.m_imageViewEditQ.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, " edit", Toast.LENGTH_SHORT).show();
+
+                    for(Food selectedfood:foodList)
+                        if(selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
+                         foodToSend=selectedfood;
+
+                    quatityToSend=Double.parseDouble(holder.m_textViewQuantityResult.getText().toString());
+
+                    Intent intent = new Intent(FoodDiaryActivity.this, EditActivity.class);
+
+                    intent.putExtra("userAfterLogin", userAfterLogin);
+                    intent.putExtra("foodToSend", foodToSend);
+                    intent.putExtra("quantityFromHolderSelected", quatityToSend);
+                    intent.putExtra("calendarString", m_textView.getText());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
 
                 }
             });
@@ -466,6 +503,19 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         }
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(this,HomeActivity.class);
+            intent.putExtra("userAfterLogin", userAfterLogin);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 
 }

@@ -14,44 +14,24 @@ import java.util.Set;
 
 public class Day {
 
+    private Long id;
     private Calendar date;
-    private Set<DayFood> listDayFoods;
-
-    public Set<DayFood> getListDayFoods() {
-        return listDayFoods;
-    }
-
-    //public List<Food> foods;
 
     public Day() {
-        //this.foods= new ArrayList<>();
+
     }
 
-//    public Day(Calendar date, List<Food> foods) {
-//        this.date = date;
-//        this.foods = foods;
-//    }
+    public Day(Long id, Calendar date) {
+        this.id = id;
+        this.date = date;
+    }
 
     public Day(String date) throws ParseException {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(date));
         this.date = cal;
-        //this.foods= new ArrayList<>();
     }
-
-//    public Day(String date, List<Food> foods) throws ParseException {
-//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-//        Calendar cal  = Calendar.getInstance();
-//        cal.setTime(df.parse(date));
-//        this.date=cal;
-//        //this.foods = foods;
-//    }
-
-//    public void addFoodInFoodList(Food newFood)
-//    {
-//        foods.add(newFood);
-//    }
 
     public Calendar getDate() {
         return date;
@@ -61,11 +41,11 @@ public class Day {
         this.date = date;
     }
 
-//    public List<Food> getFoods() {
-//        return foods;
-//    }
-//
-//    public void setFoods(List<Food> foods) {
-//        this.foods = foods;
-//    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

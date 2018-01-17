@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.andreea.healthmonitoring.EditActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonEditQuantity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        app:cardBackgroundColor="@color/colorPrimaryDark">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageView"
+            android:layout_marginTop="19dp"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/textViewNameFood"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_alignLeft="@+id/textViewCarbohydrates"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/textViewCarbohydrates"
+                android:text="NameFood"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewCarbohydrates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textViewNameFood"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:text="Carbohydrates:"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewFats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewCarbohydrates"
+                android:layout_alignStart="@+id/textViewCarbohydrates"
+                android:layout_below="@+id/textViewCarbohydratesResult"
+                android:text="Fats:"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewProteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewFats"
+                android:layout_alignStart="@+id/textViewFats"
+                android:layout_below="@+id/textViewFats"
+                android:text="Proteins:"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewProteins"
+                android:layout_alignStart="@+id/textViewProteins"
+                android:layout_below="@+id/textViewProteins"
+                android:text="Category:"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewCategory"
+                android:layout_alignStart="@+id/textViewCategory"
+                android:layout_below="@+id/textViewCategory"
+                android:text="Quantity:"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewCarbohydratesResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewNameFood"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_toEndOf="@+id/textViewCarbohydrates"
+                android:layout_toRightOf="@+id/textViewCarbohydrates"
+                android:text="CarbohydratesResult"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewFatsResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewCarbohydratesResult"
+                android:layout_alignStart="@+id/textViewCarbohydratesResult"
+                android:layout_below="@+id/textViewCarbohydratesResult"
+                android:text="FatsResult"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewProteinsResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textViewProteins"
+                android:layout_alignBottom="@+id/textViewProteins"
+                android:layout_alignLeft="@+id/textViewFatsResult"
+                android:layout_alignStart="@+id/textViewFatsResult"
+                android:text="ProteinsResult"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewCategoryResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewProteinsResult"
+                android:layout_alignStart="@+id/textViewProteinsResult"
+                android:layout_below="@+id/textViewProteinsResult"
+                android:text="CategoryResult"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewQuatityResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewCategoryResult"
+                android:layout_alignStart="@+id/textViewCategoryResult"
+                android:layout_below="@+id/textViewCategoryResult"
+                android:text="QuatityResult"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textViewError"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_alignEnd="@+id/textViewFats"
+                android:layout_alignRight="@+id/textViewFats"
+                android:layout_below="@+id/textViewQuantity"
+                android:text="Error:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/buttonEditQuantity"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/textViewEditQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Edit quantity from this day"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>

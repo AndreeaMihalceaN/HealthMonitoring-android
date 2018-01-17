@@ -120,21 +120,9 @@ public class DataManager {
             Log.d("TAG", "JSONArray - " + String.valueOf(jsonArray));
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                //Food food = new Food();
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
-                //(String food_name, double carbohydrates, double proteins, double fats, String category)
-//                JSONArray jsonArrayDays = jsonObject.getJSONArray("days");
-//                for (int j = 0; j < jsonArrayDays.length(); j++) {
-//                    JSONObject jsonObject2 = jsonArray.getJSONObject(j);
-//                    ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
-//                    //(String food_name, double carbohydrates, double proteins, double fats, String category)
-//                    day = new Day(jsonObject2.getString("date"));
-//
-//                    daysList.add(day);
-//                }
-                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"), jsonObject.getString("url"));
+                Food food = new Food(jsonObject.getLong("id"),jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"), jsonObject.getString("url"));
 
                 foodsList.add(food);
 
@@ -155,28 +143,18 @@ public class DataManager {
             Log.d("TAG", "JSONArray - " + String.valueOf(jsonArray));
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                //Food food = new Food();
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
-                //(String food_name, double carbohydrates, double proteins, double fats, String category)
-//                JSONArray jsonArrayDays = jsonObject.getJSONArray("days");
-//                for (int j = 0; j < jsonArrayDays.length(); j++) {
-//                    JSONObject jsonObject2 = jsonArray.getJSONObject(j);
-//                    ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
-//                    //(String food_name, double carbohydrates, double proteins, double fats, String category)
-//                    day = new Day(jsonObject2.getString("date"));
-//
-//                    daysList.add(day);
-//                }
+
                 JSONObject foodDayJSON = jsonObject.getJSONObject("dayFood");
                 JSONObject userJSON = jsonObject.getJSONObject("user");
-                JSONObject dayJSON = foodDayJSON.getJSONObject("day");
-                JSONObject foodJSON = foodDayJSON.getJSONObject("food");
-                String dateString = dayJSON.getString("date");
-                Day dayAfterJson = new Day(dateString);
-                Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
-                DayFood dayFood = new DayFood(dayAfterJson, foodAfterJson);
+                long dayJSON = foodDayJSON.getLong("dayId");
+                long foodJSON = foodDayJSON.getLong("foodId");
+                double quantity = jsonObject.getDouble("quantity");
+//                String dateString = dayJSON.getString("date");
+//                Day dayAfterJson = new Day(dateString);
+                //Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+                DayFood dayFood = new DayFood(dayJSON, foodJSON);
 
                 User user = new User();
                 user.setUsername(userJSON.getString("username"));
@@ -189,14 +167,12 @@ public class DataManager {
                 user.setWeight(userJSON.getInt("weight"));
                 user.setEmail(userJSON.getString("email"));
 
-                UserDiary userDiary = new UserDiary(dayFood, user, jsonObject.getDouble("quantity"));
+                UserDiary userDiary = new UserDiary(dayFood, user, quantity);
 
                 userDiaryList.add(userDiary);
 
             }
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
         return userDiaryList;
@@ -206,21 +182,9 @@ public class DataManager {
 
 
         Food food = new Food();
-        Day day;
         try {
             JSONObject jsonObject = new JSONObject(inputJSON);
             Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
-
-
-//            JSONArray jsonArray = jsonObject.getJSONArray("days");
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-//                ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
-//                //(String food_name, double carbohydrates, double proteins, double fats, String category)
-//                day = new Day(jsonObject2.getString("date"));
-//
-//                daysList.add(day);
-//            }
 
             food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"), jsonObject.getString("url"));
 
@@ -233,23 +197,11 @@ public class DataManager {
 
     public Day parseDay(String inputJSON) {
 
-
-        foodsListFromDay = new ArrayList<Food>();
         Day day = new Day();
         try {
             JSONObject jsonObject = new JSONObject(inputJSON);
             Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
 
-
-//            JSONArray jsonArray = jsonObject.getJSONArray("foods");
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                jsonObject = jsonArray.getJSONObject(i);
-//                ///JSONObject foodObject = jsonObject.getJSONObject("foodname");
-//                //(String food_name, double carbohydrates, double proteins, double fats, String category)
-//                Food food = new Food(jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"));
-//
-//                foodsListFromDay.add(food);
-//            }
             day = new Day(jsonObject.getString("date"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -263,20 +215,18 @@ public class DataManager {
     public UserDiary parseUserDiary(String inputJSON) {
 
         UserDiary userDiary = new UserDiary();
-        Day day;
-
         try {
             JSONObject jsonObject = new JSONObject(inputJSON);
 
             Long idfoodDayJSON = jsonObject.getLong("id");
             JSONObject foodDayJSON = jsonObject.getJSONObject("dayFood");
             JSONObject userJSON = jsonObject.getJSONObject("user");
-            JSONObject dayJSON = foodDayJSON.getJSONObject("day");
-            JSONObject foodJSON = foodDayJSON.getJSONObject("food");
-            String dateString = dayJSON.getString("date");
-            Day dayAfterJson = new Day(dateString);
-            Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
-            DayFood dayFood = new DayFood(dayAfterJson, foodAfterJson);
+            Long dayJSON = foodDayJSON.getLong("dayId");
+            Long foodJSON = foodDayJSON.getLong("foodId");
+            //String dateString = dayJSON.getString("date");
+            //Day dayAfterJson = new Day(dateString);
+            //Food foodAfterJson = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+            DayFood dayFood = new DayFood(dayJSON, foodJSON);
 
             User user = new User();
             user.setUsername(userJSON.getString("username"));
@@ -293,8 +243,6 @@ public class DataManager {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
         return userDiary;
     }
@@ -307,16 +255,14 @@ public class DataManager {
             JSONObject jsonObject = new JSONObject(inputJSON);
 
             Long idDayFoodJSON = jsonObject.getLong("id");
-            JSONObject dayJSON = jsonObject.getJSONObject("day");
-            JSONObject foodJSON = jsonObject.getJSONObject("food");
-            Day day = new Day(dayJSON.getString("date"));
-            Food food = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+            Long dayJSON = jsonObject.getLong("dayId");
+            Long foodJSON = jsonObject.getLong("foodId");
+            //Day day = new Day(dayJSON.getString("date"));
+            //Food food = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
 
-            dayFood = new DayFood(idDayFoodJSON, day, food);
+            dayFood = new DayFood(idDayFoodJSON, dayJSON, foodJSON);
 
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
         return dayFood;

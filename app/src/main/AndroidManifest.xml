@@ -60,7 +60,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".NutritionActivity" />
-        <activity android:name=".EditAccountActivity"></activity>
+        <activity android:name=".EditAccountActivity" />
+        <activity android:name=".EditActivity" />
+        <activity android:name=".MoreAboutActivity" />
+        <activity android:name=".BubbleActivity"></activity>
     </application>
 
 </manifest>

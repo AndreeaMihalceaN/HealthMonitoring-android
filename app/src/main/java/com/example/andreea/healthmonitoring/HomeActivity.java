@@ -30,12 +30,12 @@ import model.User;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView textEdit;
-//    private Button m_buttonFoodDiary;
+    //    private Button m_buttonFoodDiary;
 //    private Button m_buttonFoodSuggestion;
 //    private Button m_buttonConsulting;
 //    private Button m_buttonStartWalking;
     private CardView m_cardViewHospital;
-//    private Button m_buttonML;
+    //    private Button m_buttonML;
     private User userAfterLogin;
     private CardView m_cardViewFoodDiary;
     private CardView m_cardViewStartWalking;
@@ -176,11 +176,10 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
             case R.id.setting_id:
-                //Toast.makeText(getApplicationContext(), "Log Out icon is selected", Toast.LENGTH_SHORT).show();
-                Intent intent3 = new Intent(HomeActivity.this, EditAccountActivity.class);
-                intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent3);
-                return true;
+                intent = new Intent(HomeActivity.this, EditAccountActivity.class);
+                intent.putExtra("userAfterLogin", userAfterLogin);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
 

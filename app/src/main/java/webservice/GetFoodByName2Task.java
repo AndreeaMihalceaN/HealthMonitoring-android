@@ -14,34 +14,27 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import manager.DataManager;
-
 /**
- * Created by Andreea on 27.12.2017.
+ * Created by Andreea on 16.01.2018.
  */
 
-public class SelectUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
-    private SelectUserDelegate selectUserDelegate;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String password;
-    private String gender;
-    private String email;
+public class GetFoodByName2Task extends AsyncTask<String, String, String> implements CredentialInterface {
 
+    private GetFoodByName2Delegate getFoodByName2Delegate;
+    private String foodname;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectUserService();
+            return callGetFoodByName2Service();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectUserService() throws IOException, JSONException {
-        String modelString = BASE_URL + "register/searchUser?username="+username+"&firstName="+firstName+"&lastName="+lastName+"&password="+password+"&gender="+gender+"&email="+email;
+    private String callGetFoodByName2Service() throws IOException, JSONException {
+        String modelString = BASE_URL + "food/searchfood";
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
@@ -53,17 +46,13 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("username", username);
-        object.put("firstName", firstName);
-        object.put("lastName", lastName);
-        object.put("password", password);
-        object.put("gender", gender);
-        object.put("email", email);
+        object.put("foodname", foodname);
 
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
         out.close();
+
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
@@ -80,18 +69,13 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         }
         return sb.toString();
 
-
     }
 
-    public SelectUserTask(String username, String firstName, String lastName, String password, String gender, String email) {
+    public GetFoodByName2Task(String foodname) {
 
-        this.username=username;
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.password=password;
-        this.gender=gender;
-        this.email=email;
-        String modelString = BASE_URL + "register/searchUser?username="+username+"&firstName="+firstName+"&lastName="+lastName+"&password="+password+"&gender="+gender+"&email="+email;
+        this.foodname=foodname;
+
+        String modelString = BASE_URL + "food/searchfood";
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
@@ -102,20 +86,20 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectUserDelegate != null) {
+        if (getFoodByName2Delegate != null) {
             try {
-                selectUserDelegate.onSelectUserDone(response);
+                getFoodByName2Delegate.onGetFoodByName2Done(response);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public SelectUserDelegate getDelegate() {
-        return selectUserDelegate;
+    public GetFoodByName2Delegate getDelegate() {
+        return getFoodByName2Delegate;
     }
 
-    public void setSelectUserDelegate(SelectUserDelegate selectUserDelegate) {
-        this.selectUserDelegate = selectUserDelegate;
+    public void setGetFoodByName2Delegate(GetFoodByName2Delegate getFoodByName2Delegate) {
+        this.getFoodByName2Delegate = getFoodByName2Delegate;
     }
 }

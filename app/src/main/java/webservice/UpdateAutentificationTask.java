@@ -10,40 +10,37 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import manager.DataManager;
 
 /**
- * Created by Andreea on 27.12.2017.
+ * Created by Andreea on 08.01.2018.
  */
 
-public class SelectUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
-    private SelectUserDelegate selectUserDelegate;
+public class UpdateAutentificationTask extends AsyncTask<String, String, String> implements CredentialInterface {
+    private UpdateAutentificationDelegate updateAutentificationDelegate;
     private String username;
-    private String firstName;
-    private String lastName;
     private String password;
-    private String gender;
-    private String email;
-
+    private String newPassword;
+    private String newUsername;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectUserService();
+            return callUpdateAutentificationService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectUserService() throws IOException, JSONException {
-        String modelString = BASE_URL + "register/searchUser?username="+username+"&firstName="+firstName+"&lastName="+lastName+"&password="+password+"&gender="+gender+"&email="+email;
+    private String callUpdateAutentificationService() throws IOException, JSONException {
+        String modelString = BASE_URL + "update/updateAutentificationDates?username=" + username + "&password=" + password + "&newUsername=" + newUsername + "&newPassword=" + newPassword;
+
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -54,12 +51,12 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
 
         JSONObject object = new JSONObject();
         object.put("username", username);
-        object.put("firstName", firstName);
-        object.put("lastName", lastName);
         object.put("password", password);
-        object.put("gender", gender);
-        object.put("email", email);
+        object.put("newUsername", newUsername);
+        object.put("newPassword", newPassword);
 
+
+        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
@@ -67,7 +64,7 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK) {
+        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -76,24 +73,21 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            return "";
+            System.out.println(connection.getResponseMessage());
         }
         return sb.toString();
-
-
     }
 
-    public SelectUserTask(String username, String firstName, String lastName, String password, String gender, String email) {
+    public UpdateAutentificationTask(String username, String password, String newUsername, String newPassword) {
 
-        this.username=username;
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.password=password;
-        this.gender=gender;
-        this.email=email;
-        String modelString = BASE_URL + "register/searchUser?username="+username+"&firstName="+firstName+"&lastName="+lastName+"&password="+password+"&gender="+gender+"&email="+email;
+        this.username = username;
+        this.password = password;
+        this.newUsername = newUsername;
+        this.newPassword = newPassword;
+
+        String modelString = BASE_URL + "update/updateAutentificationDates?username=" + username + "&password=" + password + "&newUsername=" + newUsername + "&newPassword=" + newPassword;
+
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
     }
 
@@ -102,20 +96,20 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectUserDelegate != null) {
-            try {
-                selectUserDelegate.onSelectUserDone(response);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if (updateAutentificationDelegate != null) {
+            updateAutentificationDelegate.onUpdateDone(response);
+        }
+        if (response == null) {
+            updateAutentificationDelegate.onUpdateError(response);
         }
     }
 
-    public SelectUserDelegate getDelegate() {
-        return selectUserDelegate;
+    public UpdateAutentificationDelegate getDelegate() {
+        return updateAutentificationDelegate;
     }
 
-    public void setSelectUserDelegate(SelectUserDelegate selectUserDelegate) {
-        this.selectUserDelegate = selectUserDelegate;
+
+    public void setUpdateAutentificationDelegate(UpdateAutentificationDelegate updateAutentificationDelegate) {
+        this.updateAutentificationDelegate = updateAutentificationDelegate;
     }
 }

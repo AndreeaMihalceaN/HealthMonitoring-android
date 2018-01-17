@@ -7,35 +7,20 @@ package model;
 public class DayFood {
     private Long id;
 
-    private Day day;
+    private Long dayId;
 
-    private Food food;
+    private Long foodId;
 
-    public Day getDay() {
-        return day;
-    }
 
-    public void setDay(Day day) {
-        this.day = day;
-    }
-
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
-    public DayFood(Day day, Food food) {
-        this.day = day;
-        this.food = food;
-    }
-
-    public DayFood(Long id, Day day, Food food) {
+    public DayFood(Long id, Long dayId, Long foodId) {
         this.id = id;
-        this.day = day;
-        this.food = food;
+        this.dayId = dayId;
+        this.foodId = foodId;
+    }
+
+    public DayFood(Long dayId, Long foodId) {
+        this.dayId = dayId;
+        this.foodId = foodId;
     }
 
     public DayFood() {
@@ -48,5 +33,21 @@ public class DayFood {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(Long dayId) {
+        this.dayId = dayId;
+    }
+
+    public Long getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(Long foodId) {
+        this.foodId = foodId;
     }
 }

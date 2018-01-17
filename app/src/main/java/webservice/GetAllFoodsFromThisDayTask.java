@@ -14,34 +14,28 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import manager.DataManager;
-
 /**
- * Created by Andreea on 27.12.2017.
+ * Created by Andreea on 14.01.2018.
  */
 
-public class SelectUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
-    private SelectUserDelegate selectUserDelegate;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String password;
-    private String gender;
-    private String email;
+public class GetAllFoodsFromThisDayTask extends AsyncTask<String, String, String> implements CredentialInterface {
 
+    private GetAllFoodsFromThisDayDelegate getAllFoodsFromThisDayDelegate;
+    private String dateString;
+    private String username;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectUserService();
+            return callGetAllFoodsFromThisDayService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectUserService() throws IOException, JSONException {
-        String modelString = BASE_URL + "register/searchUser?username="+username+"&firstName="+firstName+"&lastName="+lastName+"&password="+password+"&gender="+gender+"&email="+email;
+    private String callGetAllFoodsFromThisDayService() throws IOException, JSONException {
+        String modelString = BASE_URL + "userdiary/getAllFoodsFromThisDay?dateString="+dateString+"&username="+username;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
@@ -53,17 +47,14 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
+        object.put("dateString", dateString);
         object.put("username", username);
-        object.put("firstName", firstName);
-        object.put("lastName", lastName);
-        object.put("password", password);
-        object.put("gender", gender);
-        object.put("email", email);
 
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
         out.close();
+
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
@@ -80,18 +71,14 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         }
         return sb.toString();
 
-
     }
 
-    public SelectUserTask(String username, String firstName, String lastName, String password, String gender, String email) {
+    public GetAllFoodsFromThisDayTask(String dateString, String username) {
 
-        this.username=username;
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.password=password;
-        this.gender=gender;
-        this.email=email;
-        String modelString = BASE_URL + "register/searchUser?username="+username+"&firstName="+firstName+"&lastName="+lastName+"&password="+password+"&gender="+gender+"&email="+email;
+        this.dateString = dateString;
+        this.username = username;
+
+        String modelString = BASE_URL + "userdiary/getAllFoodsFromThisDay?dateString="+dateString+"&username="+username;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
@@ -102,20 +89,20 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectUserDelegate != null) {
+        if (getAllFoodsFromThisDayDelegate != null) {
             try {
-                selectUserDelegate.onSelectUserDone(response);
+                getAllFoodsFromThisDayDelegate.onGetAllFoodsFromThisDayDone(response);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public SelectUserDelegate getDelegate() {
-        return selectUserDelegate;
+    public GetAllFoodsFromThisDayDelegate getDelegate() {
+        return getAllFoodsFromThisDayDelegate;
     }
 
-    public void setSelectUserDelegate(SelectUserDelegate selectUserDelegate) {
-        this.selectUserDelegate = selectUserDelegate;
+    public void setGetAllFoodsFromThisDayDelegate(GetAllFoodsFromThisDayDelegate getAllFoodsFromThisDayDelegate) {
+        this.getAllFoodsFromThisDayDelegate = getAllFoodsFromThisDayDelegate;
     }
 }

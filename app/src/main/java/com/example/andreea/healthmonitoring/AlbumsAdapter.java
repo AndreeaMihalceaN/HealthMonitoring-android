@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import model.Food;
+import model.User;
 
 import static com.example.andreea.healthmonitoring.R.id.share;
 
@@ -27,7 +28,7 @@ import static com.example.andreea.healthmonitoring.R.id.share;
  * Created by Andreea on 13.12.2017.
  */
 
-public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder>{
+public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Food> foodsList;
@@ -35,6 +36,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     private int idCover;
     private List<Integer> covers;
     private Food selectedFood;
+    private User userAfterLogin;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
@@ -63,10 +65,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         @Override
         public void onClick(View v) {
-            for(Food food: foodsList)
-            {
-                if(food.getFoodname().equals(title.getText()))
-                {
+            for (Food food : foodsList) {
+                if (food.getFoodname().equals(title.getText())) {
                     shareTextUrl(food.getUrl());
                 }
             }
@@ -99,10 +99,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     }
 
 
-    public AlbumsAdapter(Context mContext, List<Food> foodsList, List<Integer>covers) {
+    public AlbumsAdapter(Context mContext, List<Food> foodsList, List<Integer> covers, User userAfterLogin) {
         this.mContext = mContext;
         this.foodsList = foodsList;
-        this.covers=covers;
+        this.covers = covers;
+        this.userAfterLogin=userAfterLogin;
     }
 
     @Override
@@ -117,12 +118,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Food food = foodsList.get(position);
-        holder.title.setText(food.getFoodname()+"");
+        holder.title.setText(food.getFoodname() + "");
         //holder.stars.setText(food.getStars() + " stars");
-        int numberOfStars= food.getStars();
-        selectedFood=food;
-        switch(numberOfStars)
-        {
+        int numberOfStars = food.getStars();
+        selectedFood = food;
+        switch (numberOfStars) {
             case 1:
                 holder.star1.setImageResource(R.drawable.iconstar);
                 // loading album cover using Glide library
@@ -132,14 +132,24 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 holder.overflow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(Food food: foodsList)
-                        {
-                            if(food.getFoodname().equals(holder.title.getText()))
-                            {
-                                selectedFood=food;
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
                             }
                         }
                         showPopupMenu(holder.overflow);
+                    }
+                });
+
+                holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
+                            }
+                        }
+                        Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -153,14 +163,24 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 holder.overflow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(Food food: foodsList)
-                        {
-                            if(food.getFoodname().equals(holder.title.getText()))
-                            {
-                                selectedFood=food;
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
                             }
                         }
                         showPopupMenu(holder.overflow);
+                    }
+                });
+
+                holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
+                            }
+                        }
+                        Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 return;
@@ -174,14 +194,24 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 holder.overflow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(Food food: foodsList)
-                        {
-                            if(food.getFoodname().equals(holder.title.getText()))
-                            {
-                                selectedFood=food;
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
                             }
                         }
                         showPopupMenu(holder.overflow);
+                    }
+                });
+
+                holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
+                            }
+                        }
+                        Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 return;
@@ -196,14 +226,24 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 holder.overflow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(Food food: foodsList)
-                        {
-                            if(food.getFoodname().equals(holder.title.getText()))
-                            {
-                                selectedFood=food;
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
                             }
                         }
                         showPopupMenu(holder.overflow);
+                    }
+                });
+
+                holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
+                            }
+                        }
+                        Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 return;
@@ -219,16 +259,34 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 holder.overflow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(Food food: foodsList)
-                        {
-                            if(food.getFoodname().equals(holder.title.getText()))
-                            {
-                                selectedFood=food;
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
                             }
                         }
                         showPopupMenu(holder.overflow);
                     }
                 });
+
+                holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
+                            }
+                        }
+                        Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, AddFoodActivity.class);
+                        intent.putExtra("userAfterLogin", userAfterLogin);
+                        intent.putExtra("caller", "AlbumsAdapter");
+                        intent.putExtra("food", selectedFood);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(intent);
+                        mContext.startActivity(intent);
+                    }
+                });
+
                 return;
             default:
                 // loading album cover using Glide library
@@ -237,11 +295,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 holder.overflow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(Food food: foodsList)
-                        {
-                            if(food.getFoodname().equals(holder.title.getText()))
-                            {
-                                selectedFood=food;
+                        for (Food food : foodsList) {
+                            if (food.getFoodname().equals(holder.title.getText())) {
+                                selectedFood = food;
                             }
                         }
                         showPopupMenu(holder.overflow);
