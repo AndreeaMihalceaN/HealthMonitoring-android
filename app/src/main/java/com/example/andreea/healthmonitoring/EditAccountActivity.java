@@ -56,6 +56,7 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
                     m_errorInfo.setText("Complete all fields!!");
                     m_errorInfo.setVisibility(View.VISIBLE);
                 } else if (password.equals(rePassword)) {
+                    m_errorInfo.setText("");
                     UpdateAutentificationTask updateAutentificationTask = new UpdateAutentificationTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), username, password);
                     updateAutentificationTask.setUpdateAutentificationDelegate(editAccountActivity);
                     LoginTask loginTask = new LoginTask(username, password);

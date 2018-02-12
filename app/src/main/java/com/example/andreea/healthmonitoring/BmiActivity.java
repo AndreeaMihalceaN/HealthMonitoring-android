@@ -15,13 +15,15 @@ import java.io.UnsupportedEncodingException;
 
 import manager.DataManager;
 import model.User;
+import webservice.AddWeightStatisticsDelegate;
+import webservice.AddWeightStatisticsTask;
 import webservice.LoginDelegate;
 import webservice.LoginTask;
 import webservice.UpdateTask;
 import webservice.UpdateWHDelegate;
 import webservice.UpdateWHTask;
 
-public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, LoginDelegate {
+public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, LoginDelegate, AddWeightStatisticsDelegate {
 
     private SeekBar m_seekBarWeight;
     private SeekBar m_seekBarHeight;
@@ -158,6 +160,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
     @Override
     public void onUpdateDone(String result) {
+        AddWeightStatisticsTask addWeightStatisticsTask = new AddWeightStatisticsTask(userAfterLogin.getId(), currentWeight);
+        addWeightStatisticsTask.setAddWeightStatisticsDelegate(bmiActivity);
 
     }
 
@@ -173,5 +177,15 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
             userAfterLogin = user;
             state();
         }
+    }
+
+    @Override
+    public void onAddWeightStatisticsDone(String result) {
+
+    }
+
+    @Override
+    public void onAddWeightStatisticsError(String response) {
+
     }
 }

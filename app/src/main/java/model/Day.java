@@ -21,6 +21,7 @@ public class Day {
 
     }
 
+
     public Day(Long id, Calendar date) {
         this.id = id;
         this.date = date;

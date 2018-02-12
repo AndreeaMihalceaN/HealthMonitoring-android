@@ -35,8 +35,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/imageView"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="19dp">
 
             <TextView
                 android:id="@+id/textViewNameFood"
@@ -71,8 +71,8 @@
                 android:layout_alignStart="@+id/textViewCarbohydrates"
                 android:layout_below="@+id/textViewCarbohydratesResult"
                 android:text="Fats:"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewProteins"
@@ -82,8 +82,8 @@
                 android:layout_alignStart="@+id/textViewFats"
                 android:layout_below="@+id/textViewFats"
                 android:text="Proteins:"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewCategory"
@@ -93,8 +93,8 @@
                 android:layout_alignStart="@+id/textViewProteins"
                 android:layout_below="@+id/textViewProteins"
                 android:text="Category:"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewQuantity"
@@ -104,8 +104,8 @@
                 android:layout_alignStart="@+id/textViewCategory"
                 android:layout_below="@+id/textViewCategory"
                 android:text="Quantity:"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewCarbohydratesResult"
@@ -140,8 +140,8 @@
                 android:layout_alignLeft="@+id/textViewFatsResult"
                 android:layout_alignStart="@+id/textViewFatsResult"
                 android:text="ProteinsResult"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewCategoryResult"
@@ -151,8 +151,8 @@
                 android:layout_alignStart="@+id/textViewProteinsResult"
                 android:layout_below="@+id/textViewProteinsResult"
                 android:text="CategoryResult"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewQuatityResult"
@@ -161,13 +161,15 @@
                 android:layout_alignLeft="@+id/textViewCategoryResult"
                 android:layout_alignStart="@+id/textViewCategoryResult"
                 android:layout_below="@+id/textViewCategoryResult"
+                android:background="@color/colorPrimary"
                 android:text="QuatityResult"
-                android:textSize="18sp"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/Black"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewError"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignEnd="@+id/textViewFats"
                 android:layout_alignRight="@+id/textViewFats"

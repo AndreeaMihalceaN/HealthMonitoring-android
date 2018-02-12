@@ -149,7 +149,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                                 selectedFood = food;
                             }
                         }
+                        //Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, AddFoodActivity.class);
+                        intent.putExtra("userAfterLogin", userAfterLogin);
+                        intent.putExtra("caller", "AlbumsAdapter");
+                        intent.putExtra("food", selectedFood);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(intent);
+                        mContext.startActivity(intent);
                     }
                 });
 
@@ -180,7 +188,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                                 selectedFood = food;
                             }
                         }
+                        //Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, AddFoodActivity.class);
+                        intent.putExtra("userAfterLogin", userAfterLogin);
+                        intent.putExtra("caller", "AlbumsAdapter");
+                        intent.putExtra("food", selectedFood);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(intent);
+                        mContext.startActivity(intent);
                     }
                 });
                 return;
@@ -211,7 +227,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                                 selectedFood = food;
                             }
                         }
+                        //Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, AddFoodActivity.class);
+                        intent.putExtra("userAfterLogin", userAfterLogin);
+                        intent.putExtra("caller", "AlbumsAdapter");
+                        intent.putExtra("food", selectedFood);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(intent);
+                        mContext.startActivity(intent);
                     }
                 });
                 return;
@@ -243,7 +267,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                                 selectedFood = food;
                             }
                         }
+                        //Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(mContext, "ai apasat " + selectedFood.getFoodname(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, AddFoodActivity.class);
+                        intent.putExtra("userAfterLogin", userAfterLogin);
+                        intent.putExtra("caller", "AlbumsAdapter");
+                        intent.putExtra("food", selectedFood);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(intent);
+                        mContext.startActivity(intent);
                     }
                 });
                 return;

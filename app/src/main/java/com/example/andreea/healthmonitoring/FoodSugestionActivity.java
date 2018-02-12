@@ -32,10 +32,12 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
 
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
-    private List<Food> foods = new ArrayList<>();;
+    private List<Food> foods = new ArrayList<>();
+    ;
     private FoodSugestionActivity foodSugestionActivity;
     private User userAfterLogin;
-    private List<Integer>  covers = new ArrayList<>();;
+    private List<Integer> covers = new ArrayList<>();
+    ;
     private Resources resources;
 
     @Override
@@ -157,8 +159,15 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             foods = DataManager.getInstance().parseFoods(result);
+            List<Food> foodForSuggestion = new ArrayList<Food>();
             DataManager.getInstance().setFoodsList(foods);
-            adapter = new AlbumsAdapter(this, foods, covers, userAfterLogin);
+            for (Food myFood : foods) {
+                if (!myFood.getPictureString().toString().equals("healthyfood")) {
+                    foodForSuggestion.add(myFood);
+                }
+
+            }
+            adapter = new AlbumsAdapter(this, foodForSuggestion, covers, userAfterLogin);
 
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
             recyclerView.setLayoutManager(mLayoutManager);

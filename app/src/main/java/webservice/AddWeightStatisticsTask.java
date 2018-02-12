@@ -16,34 +16,28 @@ import java.net.URL;
 import manager.DataManager;
 
 /**
- * Created by Andreea on 08.11.2017.
+ * Created by Andreea on 12.02.2018.
  */
 
-public class RegisterFoodTask extends AsyncTask<String, String, String> implements CredentialInterface {
+public class AddWeightStatisticsTask extends AsyncTask<String, String, String> implements CredentialInterface {
 
-    private RegisterFoodDelegate registerFoodDelegate;
-    private String foodname;
-    private double carbohydrates;
-    private double proteins;
-    private double fats;
-    private String category;
-    int rand= ((int) (Math.random()*(5 - 1))) + 1;
-
+    private AddWeightStatisticsDelegate addWeightStatisticsDelegate;
+    private Long userId;
+    private double currentWeight;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callRegisterService();
+            return callAddWeightStatisticsService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callRegisterService() throws IOException, JSONException {
+    private String callAddWeightStatisticsService() throws IOException, JSONException {
 
-        String modelString = BASE_URL + "food/add?"+"foodname="+foodname+"&carbohydrates="+carbohydrates+"&proteins="+proteins+"&fats="+fats+"&category="+category+"&pictureString=healthyfood"+"&stars="+rand+"&url=https://www.healthyfood.co.nz";
-
+        String modelString = BASE_URL + "weightStatistics/add?" + "userId=" + userId + "&currentWeight=" + currentWeight;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
 
@@ -56,12 +50,8 @@ public class RegisterFoodTask extends AsyncTask<String, String, String> implemen
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("foodname", foodname);
-        object.put("carbohydrates", carbohydrates);
-        object.put("proteins", proteins);
-        object.put("fats", fats);
-        object.put("categoy", category);
-
+        object.put("userId", userId);
+        object.put("currentWeight", currentWeight);
 
         connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
@@ -85,16 +75,12 @@ public class RegisterFoodTask extends AsyncTask<String, String, String> implemen
         return sb.toString();
     }
 
-    public RegisterFoodTask(String foodname, double carbohydrates, double proteins, double fats, String category) {
+    public AddWeightStatisticsTask(Long userId, double currentWeight) {
 
-        this.foodname=foodname;
-        this.carbohydrates=carbohydrates;
-        this.proteins=proteins;
-        this.fats=fats;
-        this.category=category;
+        this.userId = userId;
+        this.currentWeight = currentWeight;
 
-
-        String modelString = BASE_URL + "food/add?"+"foodname="+foodname+"&carbohydrates="+carbohydrates+"&proteins="+proteins+"&fats="+fats+"&category="+category+"&pictureString=healthyfood"+"&stars="+rand+"&url=https://www.healthyfood.co.nz";
+        String modelString = BASE_URL + "weightStatistics/add?" + "userId=" + userId + "&currentWeight=" + currentWeight;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
         this.execute(uri.toString());
@@ -105,20 +91,20 @@ public class RegisterFoodTask extends AsyncTask<String, String, String> implemen
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (registerFoodDelegate != null) {
-            registerFoodDelegate.onRegisterFoodDone(response);
+        if (addWeightStatisticsDelegate != null) {
+            addWeightStatisticsDelegate.onAddWeightStatisticsDone(response);
         }
         if (response == null) {
-            registerFoodDelegate.onRegisterFoodError(response);
+            addWeightStatisticsDelegate.onAddWeightStatisticsError(response);
         }
     }
 
-    public RegisterFoodDelegate getDelegate() {
-        return registerFoodDelegate;
+    public AddWeightStatisticsDelegate getDelegate() {
+        return addWeightStatisticsDelegate;
     }
 
 
-    public void setRegisterFoodDelegate(RegisterFoodDelegate registerFoodDelegate) {
-        this.registerFoodDelegate = registerFoodDelegate;
+    public void setAddWeightStatisticsDelegate(AddWeightStatisticsDelegate addWeightStatisticsDelegate) {
+        this.addWeightStatisticsDelegate = addWeightStatisticsDelegate;
     }
 }

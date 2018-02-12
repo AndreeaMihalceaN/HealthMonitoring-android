@@ -14,9 +14,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import model.DailyStatistics;
 import model.Day;
 import model.DayFood;
 import model.Food;
+import model.QuantityFood;
 import model.User;
 import model.UserDiary;
 
@@ -91,8 +93,8 @@ public class DataManager {
             JSONObject jsonObject = new JSONObject(inputJSON);
             Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
 
+            user.setId(jsonObject.getLong("id"));
             user.setUsername(jsonObject.getString("username"));
-
             user.setFirstName(jsonObject.getString("firstName"));
             user.setLastName(jsonObject.getString("lastName"));
             user.setPassword(jsonObject.getString("password"));
@@ -122,7 +124,7 @@ public class DataManager {
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Food food = new Food(jsonObject.getLong("id"),jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"), jsonObject.getString("url"));
+                Food food = new Food(jsonObject.getLong("id"), jsonObject.getString("foodname"), jsonObject.getDouble("carbohydrates"), jsonObject.getDouble("proteins"), jsonObject.getDouble("fats"), jsonObject.getString("category"), jsonObject.getString("pictureString"), jsonObject.getInt("stars"), jsonObject.getString("url"));
 
                 foodsList.add(food);
 
@@ -202,7 +204,11 @@ public class DataManager {
             JSONObject jsonObject = new JSONObject(inputJSON);
             Log.d("TAG", "jsonObject - " + String.valueOf(jsonObject));
 
-            day = new Day(jsonObject.getString("date"));
+            String date = jsonObject.getString("date");
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(df.parse(date));
+            day = new Day(jsonObject.getLong("id"), cal);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -266,6 +272,52 @@ public class DataManager {
             e.printStackTrace();
         }
         return dayFood;
+    }
+
+    public List<QuantityFood> parseQuantityFoodList(String inputJSON) {
+
+        List<QuantityFood> quantityFoodList = new ArrayList<QuantityFood>();
+
+        try {
+            JSONArray jsonArray = new JSONArray(inputJSON);
+            Log.d("TAG", "JSONArray - " + String.valueOf(jsonArray));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONObject foodJSON = jsonObject.getJSONObject("food");
+                double quantity = jsonObject.getDouble("quantity");
+                Food food = new Food(foodJSON.getLong("id"), foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+
+                quantityFoodList.add(new QuantityFood(food, quantity));
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return quantityFoodList;
+    }
+
+    public DailyStatistics parseDailyStatistics(String inputJSON) {
+
+        DailyStatistics dailyStatistics = new DailyStatistics();
+
+        try {
+            JSONObject jsonObject = new JSONObject(inputJSON);
+
+            Long idJSON = jsonObject.getLong("id");
+            Long dayIdJSON = jsonObject.getLong("dayId");
+            double totalCalories = jsonObject.getDouble("totalCalories");
+            Long userIdJSON = jsonObject.getLong("userId");
+            //Day day = new Day(dayJSON.getString("date"));
+            //Food food = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+
+            dailyStatistics = new DailyStatistics(idJSON, userIdJSON, dayIdJSON, totalCalories);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return dailyStatistics;
     }
 
 }

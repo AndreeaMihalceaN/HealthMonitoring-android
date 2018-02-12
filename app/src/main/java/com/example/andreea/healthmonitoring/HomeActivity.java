@@ -24,27 +24,54 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import manager.DataManager;
+import model.DailyStatistics;
+import model.Day;
+import model.QuantityFood;
 import model.User;
+import webservice.AddDailyStatisticsDelegate;
+import webservice.AddDailyStatisticsTask;
+import webservice.GetAllFoodsFromThisDayTask;
+import webservice.GetQuantityFoodDelegate;
+import webservice.GetQuantityFoodTask;
+import webservice.SearchDailyStatisticsDelegate;
+import webservice.SearchDailyStatisticsTask;
+import webservice.SearchDayDelegate;
+import webservice.SearchDayTask;
+import webservice.UpdateDailyStatisticsDelegate;
+import webservice.UpdateDailyStatisticsTask;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDelegate, SearchDayDelegate, AddDailyStatisticsDelegate, SearchDailyStatisticsDelegate, UpdateDailyStatisticsDelegate {
     private TextView textEdit;
     //    private Button m_buttonFoodDiary;
 //    private Button m_buttonFoodSuggestion;
-//    private Button m_buttonConsulting;
-//    private Button m_buttonStartWalking;
+    private CardView m_cardViewConsulting;
+    //    private Button m_buttonStartWalking;
     private CardView m_cardViewHospital;
     //    private Button m_buttonML;
     private User userAfterLogin;
     private CardView m_cardViewFoodDiary;
     private CardView m_cardViewStartWalking;
     private CardView m_cardViewFoodSugestion;
+    private Day currentDay;
+    private String calendarString;
+    List<QuantityFood> quantityFoodList = new ArrayList<>();
+    private HomeActivity homeActivity;
+    private double totalCalories = 0;
+    private Day day;
+    private DailyStatistics dailyStatisticsObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        homeActivity = this;
 
         //textEdit = (TextView) findViewById(R.id.textViewH);
 //        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
@@ -53,10 +80,14 @@ public class HomeActivity extends AppCompatActivity {
         m_cardViewHospital = (CardView) findViewById(R.id.cardViewHospital);
         m_cardViewFoodSugestion = (CardView) findViewById(R.id.cardViewFoodSugestion);
 //        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
-//        m_buttonConsulting = (Button) findViewById(R.id.buttonConsulting);
+        m_cardViewConsulting = (CardView) findViewById(R.id.cardViewConsulting);
 //        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
 //        m_buttonNeareastHospital = (Button) findViewById(R.id.buttonNeareastHospital);
 //        m_buttonML = (Button) findViewById(R.id.buttonML);
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        calendarString = df.format(c.getTime());
 
 
 //        pieChart.setUsePercentValues(true);
@@ -68,6 +99,9 @@ public class HomeActivity extends AppCompatActivity {
         //User userAfterLogin= (User) bundle.get("userAfterLogin");
 
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+
+        GetQuantityFoodTask getQuantityFoodTask = new GetQuantityFoodTask(calendarString, userAfterLogin.getUsername());
+        getQuantityFoodTask.setGetQuantityFoodDelegate(homeActivity);
         //textEdit.setText("Hello " + userAfterLogin.getUsername() + "!");
         //}
 
@@ -148,6 +182,17 @@ public class HomeActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        m_cardViewConsulting.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(HomeActivity.this, BubbleActivity.class);
+////                intent.putExtra("userAfterLogin", userAfterLogin);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override
@@ -184,6 +229,72 @@ public class HomeActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+
+    }
+
+    @Override
+    public void onGetQuantityFoodDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            quantityFoodList = DataManager.getInstance().parseQuantityFoodList(result);
+            for (QuantityFood qFood : quantityFoodList) {
+                totalCalories += qFood.getQuantity() * (qFood.getFood().getCarbohydrates() * 4 + qFood.getFood().getProteins() * 4 + qFood.getFood().getFats() * 9);
+            }
+
+            SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+            searchDayTask.setSearchDayDelegate(homeActivity);
+        }
+
+    }
+
+    @Override
+    public void onSearchDayDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            day = DataManager.getInstance().parseDay(result);
+
+            SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(),day.getId());
+            searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(homeActivity);
+//            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId());
+//            addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
+
+
+        }
+    }
+
+    @Override
+    public void onAddDailyStatisticsDone(String result) {
+
+    }
+
+    @Override
+    public void onAddDailyStatisticsError(String response) {
+        Toast.makeText(HomeActivity.this, response, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onSearchDailyStatisticsDone(String result) throws UnsupportedEncodingException {
+        if(!result.isEmpty())
+        {
+            dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
+            UpdateDailyStatisticsTask updateDailyStatisticsTask = new UpdateDailyStatisticsTask(dailyStatisticsObject.getUserId(), dailyStatisticsObject.getDayId(), totalCalories);
+            updateDailyStatisticsTask.setUpdateDailyStatisticsDelegate(homeActivity);
+
+
+        }
+        else{
+            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId());
+            addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
+        }
+
+    }
+
+    @Override
+    public void onUpdateDailyStatisticsDone(String result) {
+
+    }
+
+    @Override
+    public void onUpdateDailyStatisticsError(String response) {
 
     }
 }

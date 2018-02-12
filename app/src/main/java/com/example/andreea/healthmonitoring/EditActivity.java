@@ -97,15 +97,18 @@ public class EditActivity extends AppCompatActivity implements UpdateUserDiaryEd
             @Override
             public void onClick(View v) {
 
-                if (validateTextFromQuantityTextView()) {
+                if (validateTextFromQuantityTextView() && !m_textViewQuatityResult.getText().toString().isEmpty()) {
                     m_textViewError.setText("");
                     currentQuantity = Double.parseDouble(m_textViewQuatityResult.getText().toString());
                     UpdateUserDiaryEditTask updateUserDiaryEditTask = new UpdateUserDiaryEditTask(currentQuantity, stringDate, foodReceived.getFoodname(), userAfterLogin.getUsername());
                     updateUserDiaryEditTask.setUpdateUserDiaryEditDelegate(editActivity);
 
                     Toast.makeText(editActivity, "Quantity was updated with succes!", Toast.LENGTH_SHORT).show();
-                } else
-                    m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
+                } else {
+                    if(m_textViewQuatityResult.getText().toString().isEmpty())
+                        m_textViewError.setText("Quantity field is empty! Try again with a numeric value");
+                    else m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
+                }
 
             }
         });

@@ -12,38 +12,33 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import manager.DataManager;
+import model.Food;
 
 /**
- * Created by Andreea on 08.11.2017.
+ * Created by Andreea on 12.02.2018.
  */
 
-public class RegisterFoodTask extends AsyncTask<String, String, String> implements CredentialInterface {
-
-    private RegisterFoodDelegate registerFoodDelegate;
-    private String foodname;
-    private double carbohydrates;
-    private double proteins;
-    private double fats;
-    private String category;
-    int rand= ((int) (Math.random()*(5 - 1))) + 1;
-
+public class UpdateDailyStatisticsTask extends AsyncTask<String, String, String> implements CredentialInterface {
+    private UpdateDailyStatisticsDelegate updateDailyStatisticsDelegate;
+    private Long userId;
+    private Long dayId;
+    private double quantity;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callRegisterService();
+            return callUpdateDailyStatisticsService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callRegisterService() throws IOException, JSONException {
-
-        String modelString = BASE_URL + "food/add?"+"foodname="+foodname+"&carbohydrates="+carbohydrates+"&proteins="+proteins+"&fats="+fats+"&category="+category+"&pictureString=healthyfood"+"&stars="+rand+"&url=https://www.healthyfood.co.nz";
-
+    private String callUpdateDailyStatisticsService() throws IOException, JSONException {
+        String modelString = BASE_URL + "dailyStatistics/updateDailyStatistics?quantity=" + quantity + "&userId=" + userId+"&dayId="+dayId;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
 
@@ -56,11 +51,9 @@ public class RegisterFoodTask extends AsyncTask<String, String, String> implemen
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("foodname", foodname);
-        object.put("carbohydrates", carbohydrates);
-        object.put("proteins", proteins);
-        object.put("fats", fats);
-        object.put("categoy", category);
+        object.put("userId", userId);
+        object.put("dayId", dayId);
+        object.put("quantity", quantity);
 
 
         connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
@@ -85,17 +78,12 @@ public class RegisterFoodTask extends AsyncTask<String, String, String> implemen
         return sb.toString();
     }
 
-    public RegisterFoodTask(String foodname, double carbohydrates, double proteins, double fats, String category) {
+    public UpdateDailyStatisticsTask(Long userId, Long dayId, double quantity) {
 
-        this.foodname=foodname;
-        this.carbohydrates=carbohydrates;
-        this.proteins=proteins;
-        this.fats=fats;
-        this.category=category;
-
-
-        String modelString = BASE_URL + "food/add?"+"foodname="+foodname+"&carbohydrates="+carbohydrates+"&proteins="+proteins+"&fats="+fats+"&category="+category+"&pictureString=healthyfood"+"&stars="+rand+"&url=https://www.healthyfood.co.nz";
-
+        this.userId = userId;
+        this.dayId=dayId;
+        this.quantity=quantity;
+        String modelString = BASE_URL + "dailyStatistics/updateDailyStatistics?quantity=" + quantity + "&userId=" + userId+"&dayId="+dayId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         this.execute(uri.toString());
     }
@@ -105,20 +93,20 @@ public class RegisterFoodTask extends AsyncTask<String, String, String> implemen
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (registerFoodDelegate != null) {
-            registerFoodDelegate.onRegisterFoodDone(response);
+        if (updateDailyStatisticsDelegate != null) {
+            updateDailyStatisticsDelegate.onUpdateDailyStatisticsDone(response);
         }
         if (response == null) {
-            registerFoodDelegate.onRegisterFoodError(response);
+            updateDailyStatisticsDelegate.onUpdateDailyStatisticsError(response);
         }
     }
 
-    public RegisterFoodDelegate getDelegate() {
-        return registerFoodDelegate;
+    public UpdateDailyStatisticsDelegate getDelegate() {
+        return updateDailyStatisticsDelegate;
     }
 
 
-    public void setRegisterFoodDelegate(RegisterFoodDelegate registerFoodDelegate) {
-        this.registerFoodDelegate = registerFoodDelegate;
+    public void setUpdateDailyStatisticsDelegate(UpdateDailyStatisticsDelegate updateDailyStatisticsDelegate) {
+        this.updateDailyStatisticsDelegate = updateDailyStatisticsDelegate;
     }
 }

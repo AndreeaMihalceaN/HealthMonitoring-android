@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
+    private Long id;
     private String username;
     private String password;
     private String firstName;
@@ -14,6 +15,20 @@ public class User implements Serializable{
     private String email;
     private String contactNo;
     private int age;
+
+    public User(Long id, String username, String password, String firstName, String lastName, String gender, int height, int weight, String email, String contactNo, int age) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.height = height;
+        this.weight = weight;
+        this.email = email;
+        this.contactNo = contactNo;
+        this.age = age;
+    }
 
     public User(String username, String password, String firstName, String lastName, String gender, int height, int weight) {
         this.username = username;
@@ -119,6 +134,14 @@ public class User implements Serializable{
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

@@ -40,7 +40,7 @@
         android:layout_below="@+id/textViewCarbohydratesQuantity"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="carbohydrates"
+        android:text="0"
         android:textSize="16sp" />
 
     <TextView
@@ -58,13 +58,13 @@
         android:id="@+id/editTextProteinQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewProteinQuantity"
+        android:layout_alignStart="@+id/textViewProteinQuantity"
+        android:layout_below="@+id/textViewProteinQuantity"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="proteins"
-        android:textSize="16sp"
-        android:layout_below="@+id/textViewProteinQuantity"
-        android:layout_alignLeft="@+id/textViewProteinQuantity"
-        android:layout_alignStart="@+id/textViewProteinQuantity" />
+        android:text="0"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textViewFatsQuantity"
@@ -86,7 +86,7 @@
         android:layout_below="@+id/textViewFatsQuantity"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="fats"
+        android:text="0"
         android:textSize="16sp" />
 
     <TextView
@@ -188,7 +188,7 @@
         android:layout_below="@+id/buttonPlus"
         android:layout_alignLeft="@+id/buttonMinus"
         android:layout_alignStart="@+id/buttonMinus"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="30dp" />
 
     <ImageView
         android:id="@+id/imageViewChooseHealth"
@@ -209,6 +209,16 @@
         android:text=""
         android:textColor="@android:color/holo_red_dark"
         android:textSize="10sp"/>
+
+    <Button
+        android:id="@+id/buttonAddNewFood"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewError"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_green_light"
+        android:text="Add a new food"
+        android:textColor="@color/colorWhite" />
 
 
 </RelativeLayout>

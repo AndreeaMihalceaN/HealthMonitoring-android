@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andreea.healthmonitoring.LoginActivity">
+    tools:context="com.example.andreea.healthmonitoring.LoginActivity"
+    tools:weightSum="1"
+    android:gravity="center">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -15,7 +17,8 @@
         tools:layout_editor_absoluteX="166dp"
         tools:layout_editor_absoluteY="425dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"/>
 
     <EditText
         android:id="@+id/editTextUsername"
@@ -30,7 +33,8 @@
         android:layout_marginTop="13dp"
         android:layout_below="@+id/imageView25"
         android:layout_alignRight="@+id/checkBoxRememberMe"
-        android:layout_alignEnd="@+id/checkBoxRememberMe" />
+        android:layout_alignEnd="@+id/checkBoxRememberMe"
+        android:layout_weight="1"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -45,7 +49,8 @@
         android:hint="Password"
         android:inputType="textPassword"
         tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="180dp" />
+        tools:layout_editor_absoluteY="180dp"
+        android:layout_weight="1"/>
 
     <CheckBox
         android:id="@+id/checkBoxRememberMe"
@@ -56,7 +61,8 @@
         android:layout_marginTop="14dp"
         android:text="Remember me"
         tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="245dp" />
+        tools:layout_editor_absoluteY="245dp"
+        android:layout_weight="1"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/buttonSignIn"
@@ -68,7 +74,8 @@
         android:layout_below="@+id/checkBoxRememberMe"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -96,7 +103,8 @@
         android:layout_marginTop="1dp"
         android:layout_below="@+id/buttonSignIn"
         android:layout_alignLeft="@+id/buttonSignIn"
-        android:layout_alignStart="@+id/buttonSignIn">
+        android:layout_alignStart="@+id/buttonSignIn"
+        android:layout_weight="1">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -119,6 +127,7 @@
         app:srcCompat="@drawable/logo_health"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"/>
 
 </RelativeLayout>

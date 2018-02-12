@@ -87,9 +87,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     private Resources resources;
     private DayFood dayFood = new DayFood();
     private UserDiary userDiaryForDelete = new UserDiary();
-    String name="";
-    Food foodToSend= new Food();
-    double quatityToSend=0;
+    String name = "";
+    Food foodToSend = new Food();
+    double quatityToSend = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,10 +340,14 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             if (foodList.size() >= 1) {
                 SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
                 selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
-            }
-            else {
+            } else {
                 adapter.notifyDataSetChanged();
                 m_listView.setAdapter(adapter);
+
+                m_textViewTotalCarbohydrates.setText("Total carbohydrates: 0");
+                m_textViewTotalFats.setText("Total fats: 0");
+                m_textViewTotalProteins.setText("Total proteins: 0");
+
             }
         }
 
@@ -467,9 +471,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, name, Toast.LENGTH_SHORT).show();
-                    for(Food selectedfood:foodList)
-                        if(selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
-                            name=selectedfood.getFoodname();
+                    for (Food selectedfood : foodList)
+                        if (selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
+                            name = selectedfood.getFoodname();
 
                     SelectFoodDayTask selectFoodDayTask = new SelectFoodDayTask(m_textView.getText().toString(), name);
                     selectFoodDayTask.setSelectFoodDayDelegate(foodDiaryActivity);
@@ -481,11 +485,11 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 public void onClick(View view) {
                     Toast.makeText(context, " edit", Toast.LENGTH_SHORT).show();
 
-                    for(Food selectedfood:foodList)
-                        if(selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
-                         foodToSend=selectedfood;
+                    for (Food selectedfood : foodList)
+                        if (selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
+                            foodToSend = selectedfood;
 
-                    quatityToSend=Double.parseDouble(holder.m_textViewQuantityResult.getText().toString());
+                    quatityToSend = Double.parseDouble(holder.m_textViewQuantityResult.getText().toString());
 
                     Intent intent = new Intent(FoodDiaryActivity.this, EditActivity.class);
 
@@ -507,7 +511,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this,HomeActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("userAfterLogin", userAfterLogin);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -515,7 +519,6 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
 }
