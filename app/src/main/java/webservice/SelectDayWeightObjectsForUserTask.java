@@ -10,36 +10,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import manager.DataManager;
-
 /**
- * Created by Andreea on 29.11.2017.
+ * Created by Andreea on 13.02.2018.
  */
 
-public class AddDayTask extends AsyncTask<String, String, String> implements CredentialInterface  {
+public class SelectDayWeightObjectsForUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
 
-    private AddDayDelegate addDayDelegate;
-    private String dateString;
+    private SelectDayWeightObjectsForUserDelegate selectDayWeightObjectsForUserDelegate;
+    private Long userId;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callAddDayService();
+            return callSelectDayWeightObjectsForUserService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callAddDayService()  throws IOException, JSONException {
-
-        String modelString = BASE_URL + "day/addDateString?"+"dateString="+dateString;
-
+    private String callSelectDayWeightObjectsForUserService() throws IOException, JSONException {
+        String modelString = BASE_URL + "weightStatistics/dayWeightForUser?userId=" + userId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -49,17 +46,17 @@ public class AddDayTask extends AsyncTask<String, String, String> implements Cre
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("dateString", dateString);
+        object.put("userId", userId);
 
-        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
         out.close();
 
+
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
+        if (httpResult == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -68,17 +65,19 @@ public class AddDayTask extends AsyncTask<String, String, String> implements Cre
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            System.out.println(connection.getResponseMessage());
+            return "";
         }
         return sb.toString();
+
     }
 
-    public AddDayTask(String dateString) {
+    public SelectDayWeightObjectsForUserTask(Long userId) {
 
-        this.dateString=dateString;
-        String modelString = BASE_URL + "day/addDateString?"+"dateString="+dateString;
+        this.userId = userId;
 
+        String modelString = BASE_URL + "weightStatistics/dayWeightForUser?userId=" + userId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
     }
 
@@ -87,21 +86,20 @@ public class AddDayTask extends AsyncTask<String, String, String> implements Cre
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (addDayDelegate != null) {
-            addDayDelegate.onAddDayDone(response);
+        if (selectDayWeightObjectsForUserDelegate != null) {
+            try {
+                selectDayWeightObjectsForUserDelegate.onSelectDayWeightObjectsForUserDone(response);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
-        if (response == null) {
-            addDayDelegate.onAddDayError(response);
-        }
     }
 
-    public AddDayDelegate getDelegate() {
-        return addDayDelegate;
+    public SelectDayWeightObjectsForUserDelegate getDelegate() {
+        return selectDayWeightObjectsForUserDelegate;
     }
 
-
-    public void setAddDayDelegate(AddDayDelegate addDayDelegate) {
-        this.addDayDelegate = addDayDelegate;
+    public void setSelectDayWeightObjectsForUserDelegate(SelectDayWeightObjectsForUserDelegate selectDayWeightObjectsForUserDelegate) {
+        this.selectDayWeightObjectsForUserDelegate = selectDayWeightObjectsForUserDelegate;
     }
-
 }

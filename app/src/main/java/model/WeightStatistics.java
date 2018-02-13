@@ -7,12 +7,17 @@ package model;
 public class WeightStatistics {
     private Long id;
     private Long userId;
+    private Long dayId;
     private double currentWeight;
 
-    public WeightStatistics(Long id, Long userId, double currentWeight) {
+    public WeightStatistics(Long id, Long userId, Long dayId, double currentWeight) {
         this.id = id;
         this.userId = userId;
+        this.dayId = dayId;
         this.currentWeight = currentWeight;
+    }
+
+    public WeightStatistics() {
     }
 
     public Long getId() {
@@ -38,4 +43,14 @@ public class WeightStatistics {
     public void setCurrentWeight(double currentWeight) {
         this.currentWeight = currentWeight;
     }
+
+    public Long getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(Long dayId) {
+        this.dayId = dayId;
+    }
+
+
 }

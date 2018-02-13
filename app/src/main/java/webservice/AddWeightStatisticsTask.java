@@ -23,7 +23,9 @@ public class AddWeightStatisticsTask extends AsyncTask<String, String, String> i
 
     private AddWeightStatisticsDelegate addWeightStatisticsDelegate;
     private Long userId;
+    private Long dayId;
     private double currentWeight;
+
 
     @Override
     protected String doInBackground(String... params) {
@@ -37,7 +39,7 @@ public class AddWeightStatisticsTask extends AsyncTask<String, String, String> i
 
     private String callAddWeightStatisticsService() throws IOException, JSONException {
 
-        String modelString = BASE_URL + "weightStatistics/add?" + "userId=" + userId + "&currentWeight=" + currentWeight;
+        String modelString = BASE_URL + "weightStatistics/add?" + "userId=" + userId + "&dayId=" + dayId + "&currentWeight=" + currentWeight;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
 
@@ -51,6 +53,7 @@ public class AddWeightStatisticsTask extends AsyncTask<String, String, String> i
 
         JSONObject object = new JSONObject();
         object.put("userId", userId);
+        object.put("dayId", dayId);
         object.put("currentWeight", currentWeight);
 
         connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
@@ -75,12 +78,13 @@ public class AddWeightStatisticsTask extends AsyncTask<String, String, String> i
         return sb.toString();
     }
 
-    public AddWeightStatisticsTask(Long userId, double currentWeight) {
+    public AddWeightStatisticsTask(Long userId, Long dayId, double currentWeight) {
 
         this.userId = userId;
+        this.dayId = dayId;
         this.currentWeight = currentWeight;
 
-        String modelString = BASE_URL + "weightStatistics/add?" + "userId=" + userId + "&currentWeight=" + currentWeight;
+        String modelString = BASE_URL + "weightStatistics/add?" + "userId=" + userId + "&dayId=" + dayId + "&currentWeight=" + currentWeight;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
         this.execute(uri.toString());

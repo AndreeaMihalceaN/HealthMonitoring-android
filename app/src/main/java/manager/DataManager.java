@@ -12,15 +12,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import model.DailyStatistics;
 import model.Day;
 import model.DayFood;
+import model.DayWeight;
 import model.Food;
 import model.QuantityFood;
 import model.User;
 import model.UserDiary;
+import model.WeightStatistics;
 
 /**
  * Created by Andreea on 30.10.2017.
@@ -319,6 +323,91 @@ public class DataManager {
         }
         return dailyStatistics;
     }
+
+    public WeightStatistics parseWeightStatistics(String inputJSON) {
+
+        WeightStatistics weightStatistics = new WeightStatistics();
+
+        try {
+            JSONObject jsonObject = new JSONObject(inputJSON);
+
+            Long idJSON = jsonObject.getLong("id");
+            Long userIdJSON = jsonObject.getLong("userId");
+            Long dayIdJSON = jsonObject.getLong("dayId");
+            double currentWeight = jsonObject.getDouble("currentWeight");
+
+            weightStatistics = new WeightStatistics(idJSON, userIdJSON, dayIdJSON, currentWeight);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return weightStatistics;
+    }
+
+    public List<WeightStatistics> parseWeightStatisticsList(String inputJSON) {
+
+        List<WeightStatistics> weightStatisticsList = new ArrayList<WeightStatistics>();
+
+
+        try {
+            JSONArray jsonArray = new JSONArray(inputJSON);
+            Log.d("TAG", "JSONArray - " + String.valueOf(jsonArray));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                Long id = jsonObject.getLong("id");
+                double currentWeight = jsonObject.getDouble("currentWeight");
+                Long userId = jsonObject.getLong("userId");
+                Long dayId = jsonObject.getLong("dayId");
+                WeightStatistics weightStatistics = new WeightStatistics(id, userId, dayId, currentWeight);
+
+
+                weightStatisticsList.add(weightStatistics);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return weightStatisticsList;
+    }
+
+    public Set<DayWeight> parseDayWeightList(String inputJSON) {
+
+        Set<DayWeight> dayWeightList = new HashSet<>();
+
+
+        try {
+            JSONArray jsonArray = new JSONArray(inputJSON);
+            Log.d("TAG", "JSONArray - " + String.valueOf(jsonArray));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                JSONObject dayJson = jsonObject.getJSONObject("day");
+                double currentWeight = jsonObject.getDouble("currentWeight");
+                Long id = dayJson.getLong("id");
+                String date = dayJson.getString("date");
+                DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(df.parse(date));
+                Day myDay = new Day(id, cal);
+
+                DayWeight dayWeight = new DayWeight(myDay, currentWeight);
+
+                dayWeightList.add(dayWeight);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dayWeightList;
+    }
+
 
 }
 

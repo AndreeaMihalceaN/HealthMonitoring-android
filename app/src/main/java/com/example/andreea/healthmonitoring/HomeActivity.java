@@ -100,8 +100,10 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
 
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
 
-        GetQuantityFoodTask getQuantityFoodTask = new GetQuantityFoodTask(calendarString, userAfterLogin.getUsername());
-        getQuantityFoodTask.setGetQuantityFoodDelegate(homeActivity);
+        SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+        searchDayTask.setSearchDayDelegate(homeActivity);
+//        GetQuantityFoodTask getQuantityFoodTask = new GetQuantityFoodTask(calendarString, userAfterLogin.getUsername());
+//        getQuantityFoodTask.setGetQuantityFoodDelegate(homeActivity);
         //textEdit.setText("Hello " + userAfterLogin.getUsername() + "!");
         //}
 
@@ -240,8 +242,10 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
                 totalCalories += qFood.getQuantity() * (qFood.getFood().getCarbohydrates() * 4 + qFood.getFood().getProteins() * 4 + qFood.getFood().getFats() * 9);
             }
 
-            SearchDayTask searchDayTask = new SearchDayTask(calendarString);
-            searchDayTask.setSearchDayDelegate(homeActivity);
+            SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
+            searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(homeActivity);
+//            SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+//            searchDayTask.setSearchDayDelegate(homeActivity);
         }
 
     }
@@ -251,8 +255,10 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
         if (!result.isEmpty()) {
             day = DataManager.getInstance().parseDay(result);
 
-            SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(),day.getId());
-            searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(homeActivity);
+            GetQuantityFoodTask getQuantityFoodTask = new GetQuantityFoodTask(calendarString, userAfterLogin.getUsername());
+            getQuantityFoodTask.setGetQuantityFoodDelegate(homeActivity);
+//            SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(),day.getId());
+//            searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(homeActivity);
 //            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId());
 //            addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
 
@@ -273,15 +279,13 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
 
     @Override
     public void onSearchDailyStatisticsDone(String result) throws UnsupportedEncodingException {
-        if(!result.isEmpty())
-        {
+        if (!result.isEmpty()) {
             dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
             UpdateDailyStatisticsTask updateDailyStatisticsTask = new UpdateDailyStatisticsTask(dailyStatisticsObject.getUserId(), dailyStatisticsObject.getDayId(), totalCalories);
             updateDailyStatisticsTask.setUpdateDailyStatisticsDelegate(homeActivity);
 
 
-        }
-        else{
+        } else {
             AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId());
             addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
         }

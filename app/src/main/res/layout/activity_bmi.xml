@@ -23,7 +23,9 @@
         android:background="@drawable/measuressmall"
         android:id="@+id/imageSwitcher"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" >
+
+    </ImageSwitcher>
 
     <Button
         android:id="@+id/buttonWeight"
@@ -87,7 +89,19 @@
         android:layout_height="35dp"
         android:layout_below="@+id/seekBarHeight"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:background="@color/yellow"
+        android:layout_marginTop="14dp"
         android:text="Update in my profile" />
+
+    <Button
+        android:id="@+id/buttonViewProgress"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/buttonUpdateWH"
+        android:layout_alignStart="@+id/buttonUpdateWH"
+        android:layout_below="@+id/buttonUpdateWH"
+        android:layout_marginTop="14dp"
+        android:background="@color/yellow"
+        android:text="View Progress" />
+
 </RelativeLayout>
