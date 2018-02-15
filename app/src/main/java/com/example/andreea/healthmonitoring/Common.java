@@ -1,6 +1,7 @@
 package com.example.andreea.healthmonitoring;
 
 
+import com.example.andreea.healthmonitoring.Model.Results;
 import com.example.andreea.healthmonitoring.Remote.IGoogleAPIService;
 import com.example.andreea.healthmonitoring.Remote.RetrofitClient;
 
@@ -9,6 +10,8 @@ import com.example.andreea.healthmonitoring.Remote.RetrofitClient;
  */
 
 public class Common {
+    public static Results currentResult;
+
     private static final String GOOGLE_API_URL="https://maps.googleapis.com/";
 
     public static IGoogleAPIService getGoogleAPIService()

@@ -36,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
     private CardView m_cardViewUpdate;
     private User userAfterLogin;
     private ProfileActivity profileActivity;
+    private EditText m_errorInfo;
 
 
     @Override
@@ -52,6 +53,8 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         m_editTextAge = (EditText) findViewById(R.id.editTextAge);
         m_editTextHeight = (EditText) findViewById(R.id.editTextHeight);
         m_editTextWeight = (EditText) findViewById(R.id.editTextWeight);
+        m_errorInfo = (EditText) findViewById(R.id.errorInfo);
+        m_errorInfo.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
@@ -64,22 +67,96 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         m_editTextWeight.setText(userAfterLogin.getWeight() + "");
 
 
+        m_editTextFirstName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+        m_editTextLastName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+        m_editTextEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+        m_editTextContactNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+        m_editTextAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+        m_editTextHeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+        m_editTextWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                m_errorInfo.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
         m_cardViewUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                username = m_editTextUsername.getText().toString();
-//                password = m_editTextPassword.getText().toString();
-//                firstName = m_editTextFirstName.getText().toString();
-//                lastName = m_editTextLastName.getText().toString();
-//                height = Integer.parseInt(m_editTextHeight.getText().toString());
-//                weight = Integer.parseInt(m_editTextWeight.getText().toString());
-//                gender = radioButton.getText().toString();
-//                //gender="F";
+
+                String firstName = m_editTextFirstName.getText().toString();
+                String lastName = m_editTextLastName.getText().toString();
+                String email = m_editTextEmail.getText().toString();
+                String contactNo = m_editTextContactNo.getText().toString();
+                String age = m_editTextAge.getText().toString();
+                String height = m_editTextHeight.getText().toString();
+                String weight = m_editTextWeight.getText().toString();
+                m_errorInfo.setText("");
+
+                if (!firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !contactNo.isEmpty() && !age.isEmpty() && !height.isEmpty() && !weight.isEmpty()) {
+                    if (emailValid(email) && contactNumberValid(contactNo) && isNumericValue(age) && isNumericValue(height) && isNumericValue(weight)) {
+                        UpdateTask updateTask = new UpdateTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), m_editTextFirstName.getText().toString(), m_editTextLastName.getText().toString(), userAfterLogin.getGender(), Integer.parseInt(m_editTextHeight.getText().toString()), Integer.parseInt(m_editTextWeight.getText().toString()), Integer.parseInt(m_editTextAge.getText().toString()), m_editTextEmail.getText().toString(), m_editTextContactNo.getText().toString());
+                        updateTask.setUpdateDelegate(profileActivity);
+                        Toast.makeText(ProfileActivity.this, "Updated profile! ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        m_errorInfo.setVisibility(View.VISIBLE);
+                        if (!emailValid(email))
+                            m_errorInfo.setText(m_errorInfo.getText().toString() + "Invalid email. ");
+                        if (!contactNumberValid(contactNo))
+                            m_errorInfo.setText(m_errorInfo.getText().toString() + "Invalid phone number. ");
+                        if (!isNumericValue(age))
+                            m_errorInfo.setText(m_errorInfo.getText().toString() + "Age contains letter, invalid age. ");
+                        if (!isNumericValue(height))
+                            m_errorInfo.setText(m_errorInfo.getText().toString() + "Height contains letter, invalid height. ");
+                        if (!isNumericValue(weight))
+                            m_errorInfo.setText(m_errorInfo.getText().toString() + "Weight contains letter, invalid weight. ");
+
+                    }
+
+                } else {
+                    m_errorInfo.setVisibility(View.VISIBLE);
+                    m_errorInfo.setText("Complete all fields! ");
+                }
 
 
-                UpdateTask updateTask = new UpdateTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), m_editTextFirstName.getText().toString(), m_editTextLastName.getText().toString(), userAfterLogin.getGender(), Integer.parseInt(m_editTextHeight.getText().toString()), Integer.parseInt(m_editTextWeight.getText().toString()), Integer.parseInt(m_editTextAge.getText().toString()), m_editTextEmail.getText().toString(), m_editTextContactNo.getText().toString());
-                updateTask.setUpdateDelegate(profileActivity);
-                Toast.makeText(ProfileActivity.this, "Updated profile! ", Toast.LENGTH_SHORT).show();
                 LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
                 loginTask.setLoginDelegate(profileActivity);
 
@@ -89,8 +166,29 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
 
     }
 
+    private Boolean isNumericValue(String value) {
+
+        if (value.matches("[0-9]+") && value.charAt(0) != '0' && value.length() > 0 && value.length() < 4) {
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean emailValid(String email) {
+        if (email.endsWith("@yahoo.com") || email.endsWith("@gmail.com"))
+            return true;
+        return false;
+    }
+
+    private Boolean contactNumberValid(String contactNo) {
+        if (contactNo.matches("\\d{10}")) return true;
+        return false;
+    }
+
+
     @Override
     public void onUpdateDone(String result) {
+        m_errorInfo.setVisibility(View.INVISIBLE);
 
     }
 
@@ -103,7 +201,7 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this,HomeActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("userAfterLogin", userAfterLogin);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -113,10 +211,9 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this,HomeActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("userAfterLogin", userAfterLogin);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -126,7 +223,7 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
     public void onLoginDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
-            userAfterLogin=user;
+            userAfterLogin = user;
         }
     }
 }

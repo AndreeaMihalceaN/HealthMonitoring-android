@@ -1,14 +1,15 @@
 package com.example.andreea.healthmonitoring;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -45,6 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker mMarker;
     private LocationRequest mLocationRequest;
     IGoogleAPIService mService;
+    MyPlaces currentPlace;
+
 
 
     @Override
@@ -81,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
 
-
+            
         });
 
 
@@ -94,24 +97,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .enqueue(new Callback<MyPlaces>() {
                     @Override
                     public void onResponse(Call<MyPlaces> call, Response<MyPlaces> response) {
+
+                        currentPlace= response.body();
+
                         if(response.isSuccessful())
                         {
                             for(int i=0; i<response.body().getResults().length; i++)
                             {
                                 MarkerOptions markerOptions = new MarkerOptions();
                                 Results googlePlace=response.body().getResults()[i];
-                                double lat=Double.parseDouble(googlePlace.getGeometry().getLocation().getLat());
-                                double lng=Double.parseDouble(googlePlace.getGeometry().getLocation().getLng());
+                                double lat= Double.parseDouble(googlePlace.getGeometry().getLocation().getLat());
+                                double lng= Double.parseDouble(googlePlace.getGeometry().getLocation().getLng());
                                 String placeName= googlePlace.getName();
                                 String vicinity = googlePlace.getVicinity();
                                 LatLng latlng= new LatLng(lat,lng);
                                 markerOptions.position(latlng);
                                 markerOptions.title(placeName);
                                 if(placeType.equals("hospital"))
-                                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_hospital));
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_hospital));
                                 else
                                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
+                                markerOptions.snippet(String.valueOf(i)); //Assign index for maker
                                 //Add to map
                                 mMap.addMarker(markerOptions);
                                 //Move Camera
@@ -167,13 +174,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             case MY_PERMISSION_CODE:
             {
-                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+                if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED)
                 {
-                    if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
+                    if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED)
                     {
                         if(mGoogleApiClient == null)
                             buildGoogleApiClient();
-                        mMap.setMyLocationEnabled(true);
+                            mMap.setMyLocationEnabled(true);
 
                     }
 
@@ -213,6 +220,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+        //Make event click on Marker
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                //When user select marker, just ger Result of Place and assign to static variable
+                Common.currentResult= currentPlace.getResults()[Integer.parseInt(marker.getSnippet())];
+
+                //Start new Activity
+                startActivity(new Intent(MapsActivity.this, ViewPlace.class));
+                return true;
+            }
+        });
 
     }
 
