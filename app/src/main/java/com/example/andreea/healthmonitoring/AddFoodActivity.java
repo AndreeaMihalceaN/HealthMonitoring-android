@@ -135,6 +135,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             Calendar c = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             calendarString = df.format(c.getTime());
+            m_buttonAddNewFood.setVisibility(View.INVISIBLE);
+            m_buttonAddNewFood.setEnabled(false);
             actionFromAlbumsAdapter();
 
             //Toast.makeText(addFoodActivity, formattedDate, Toast.LENGTH_SHORT).show();

@@ -185,16 +185,16 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
             }
         });
 
-//        m_cardViewConsulting.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(HomeActivity.this, BubbleActivity.class);
-////                intent.putExtra("userAfterLogin", userAfterLogin);
+        m_cardViewConsulting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+//                intent.putExtra("userAfterLogin", userAfterLogin);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

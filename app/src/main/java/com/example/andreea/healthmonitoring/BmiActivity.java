@@ -1,6 +1,7 @@
 package com.example.andreea.healthmonitoring;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -10,15 +11,20 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import manager.DataManager;
 import model.Day;
 import model.DayWeight;
+import model.MonthWeight;
 import model.User;
 import model.WeightStatistics;
 import webservice.AddDayDelegate;
@@ -53,6 +59,20 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
     private Button m_buttonViewProgress;
     boolean wantToSeeProgress = false;
     private Set<DayWeight> dayWeightList;//= new ArrayList<>();
+    List<Double> ian = new ArrayList<>();
+    List<Double> feb = new ArrayList<>();
+    List<Double> mar = new ArrayList<>();
+    List<Double> apr = new ArrayList<>();
+    List<Double> may = new ArrayList<>();
+    List<Double> jun = new ArrayList<>();
+    List<Double> jul = new ArrayList<>();
+    List<Double> aug = new ArrayList<>();
+    List<Double> sep = new ArrayList<>();
+    List<Double> oct = new ArrayList<>();
+    List<Double> nov = new ArrayList<>();
+    List<Double> dec = new ArrayList<>();
+    List<MonthWeight> weightValuesForProgress= new ArrayList<MonthWeight>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,9 +312,233 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
     @Override
     public void onSelectDayWeightObjectsForUserDone(String result) throws UnsupportedEncodingException {
+
         if (!result.isEmpty()) {
             dayWeightList = DataManager.getInstance().parseDayWeightList(result);
-            Toast.makeText(bmiActivity, dayWeightList.size()+"", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(bmiActivity, dayWeightList.size()+"", Toast.LENGTH_SHORT).show();
+
+            for (DayWeight dayWeight : dayWeightList) {
+                int numberMonth = dayWeight.getDay().getDate().get(Calendar.MONTH)+1;
+                switch (numberMonth) {
+                    case 1:
+                        ian.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 2:
+                        feb.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 3:
+                        mar.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 4:
+                        apr.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 5:
+                        may.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 6:
+                        jun.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 7:
+                        jul.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 8:
+                        aug.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 9:
+                        sep.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 10:
+                        oct.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 11:
+                        nov.add(dayWeight.getCurrentWeight());
+                        break;
+                    case 12:
+                        dec.add(dayWeight.getCurrentWeight());
+                        break;
+
+                }
+
+            }
+
+            for(int i=1; i<=12; i++)
+            {
+                switch (i)
+                {
+                    case 1:
+                        int sizeIan=ian.size();
+                        if(sizeIan>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(0, ian.get(sizeIan-1)));
+                            weightValuesForProgress.add(new MonthWeight(0, ian.get(sizeIan-2)));
+                        }
+                        else if(sizeIan==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(0, ian.get(0)));
+                        }
+
+                        break;
+                    case 2:
+                        int sizeFeb=feb.size();
+                        if(sizeFeb>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(1, feb.get(sizeFeb-1)));
+                            weightValuesForProgress.add(new MonthWeight(1, feb.get(sizeFeb-2)));
+                        }
+                        else if(sizeFeb==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(1, feb.get(0)));
+                        }
+
+
+                        break;
+                    case 3:
+                        int sizeMar=mar.size();
+                        if(sizeMar>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(2, mar.get(sizeMar-1)));
+                            weightValuesForProgress.add(new MonthWeight(2, mar.get(sizeMar-2)));
+                        }
+                        else if(sizeMar==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(2, mar.get(0)));
+                        }
+
+
+                        break;
+                    case 4:
+                        int sizeApr=apr.size();
+                        if(sizeApr>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(3, apr.get(sizeApr-1)));
+                            weightValuesForProgress.add(new MonthWeight(3, apr.get(sizeApr-2)));
+                        }
+                        else if(sizeApr==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(3, apr.get(0)));
+                        }
+
+
+                        break;
+                    case 5:
+                        int sizeMay=may.size();
+                        if(sizeMay>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(4, may.get(sizeMay-1)));
+                            weightValuesForProgress.add(new MonthWeight(4, may.get(sizeMay-2)));
+                        }
+                        else if(sizeMay==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(4, may.get(0)));
+                        }
+
+
+                        break;
+                    case 6:
+                        int sizeJun=jun.size();
+                        if(sizeJun>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(5, jun.get(sizeJun-1)));
+                            weightValuesForProgress.add(new MonthWeight(5, jun.get(sizeJun-2)));
+                        }
+                        else if(sizeJun==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(5, jun.get(0)));
+                        }
+
+
+                        break;
+                    case 7:
+                        int sizeJul=jul.size();
+                        if(sizeJul>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(6, jul.get(sizeJul-1)));
+                            weightValuesForProgress.add(new MonthWeight(6, jul.get(sizeJul-2)));
+                        }
+                        else if(sizeJul==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(6, jul.get(0)));
+                        }
+
+
+                        break;
+                    case 8:
+                        int sizeAug=aug.size();
+                        if(sizeAug>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(7, aug.get(sizeAug-1)));
+                            weightValuesForProgress.add(new MonthWeight(7, aug.get(sizeAug-2)));
+                        }
+                        else if(sizeAug==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(7, aug.get(0)));
+                        }
+
+
+                        break;
+                    case 9:
+                        int sizeSep=sep.size();
+                        if(sizeSep>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(8, sep.get(sizeSep-1)));
+                            weightValuesForProgress.add(new MonthWeight(8, sep.get(sizeSep-2)));
+                        }
+                        else if(sizeSep==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(8, sep.get(0)));
+                        }
+
+
+                        break;
+                    case 10:
+                        int sizeOct=oct.size();
+                        if(sizeOct>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(9, oct.get(sizeOct-1)));
+                            weightValuesForProgress.add(new MonthWeight(9, oct.get(sizeOct-2)));
+                        }
+                        else if(sizeOct==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(9, oct.get(0)));
+                        }
+
+
+                        break;
+                    case 11:
+                        int sizeNov=nov.size();
+                        if(sizeNov>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(10, nov.get(sizeNov-1)));
+                            weightValuesForProgress.add(new MonthWeight(10, nov.get(sizeNov-2)));
+                        }
+                        else if(sizeNov==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(10, nov.get(0)));
+                        }
+
+
+                        break;
+                    case 12:
+                        int sizeDec=dec.size();
+                        if(sizeDec>=2)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(11, dec.get(sizeDec-1)));
+                            weightValuesForProgress.add(new MonthWeight(11, dec.get(sizeDec-2)));
+                        }
+                        else if(sizeDec==1)
+                        {
+                            weightValuesForProgress.add(new MonthWeight(11, dec.get(0)));
+                        }
+
+                        break;
+                }
+            }
+
+
+            Intent intent = new Intent(BmiActivity.this, ProgressActivity.class);
+            intent.putExtra("weightValuesForProgress", (Serializable) weightValuesForProgress);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
     }

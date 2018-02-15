@@ -219,15 +219,15 @@
                     android:id="@+id/imageView5"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/cerclebackgroundgreen"
+                    android:background="@drawable/cerclebackgroundblue"
                     android:padding="10dp"
-                    android:src="@drawable/ic_hearing_black_24dp" />
+                    android:src="@drawable/ic_local_hospital_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Consulting"
+                    android:text="Hospital"
                     android:textStyle="bold" />
 
                 <View
@@ -241,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Check your health"
+                    android:text="The nearest hospital"
                     android:textColor="@color/dark_light" />
 
 
@@ -330,9 +330,9 @@
                     android:id="@+id/imageView3"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/cerclebackgroundblue"
+                    android:background="@drawable/cerclebackgroundlime"
                     android:padding="10dp"
-                    android:src="@drawable/ic_local_hospital_black_24dp" />
+                    android:src="@drawable/ic_fingerprint_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
