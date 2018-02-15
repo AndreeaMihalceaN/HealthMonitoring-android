@@ -3,6 +3,7 @@ package com.example.andreea.healthmonitoring;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -14,31 +15,43 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import manager.DataManager;
 import model.MonthWeight;
+import model.User;
+import webservice.LoginDelegate;
+import webservice.LoginTask;
 
-public class ProgressActivity extends AppCompatActivity {
+public class ProgressActivity extends AppCompatActivity implements LoginDelegate {
 
     BarChart barChart;
     List<MonthWeight> weightValuesForProgress = new ArrayList<>();
-    ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-    ArrayList<BarEntry> barEntries1 = new ArrayList<BarEntry>();
+    ArrayList<BarEntry> barEntries;
+    ArrayList<BarEntry> barEntries1;
+    User userAfterLogin;
+    ProgressActivity progressActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
+        progressActivity = this;
 
         Intent intent = getIntent();
-        List<MonthWeight> weightValuesForProgress = (List<MonthWeight>) intent.getSerializableExtra("weightValuesForProgress");
+        weightValuesForProgress = (List<MonthWeight>) intent.getSerializableExtra("weightValuesForProgress");
+//        Intent intent = getIntent();
+        userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
 
-        barEntries.clear();
-        barEntries1.clear();
+        barEntries = new ArrayList<BarEntry>();
+        barEntries1 = new ArrayList<BarEntry>();
+//        barEntries.clear();
+//        barEntries1.clear();
         barChart = (BarChart) findViewById(R.id.barchart);
-        barChart.clear();
+        //barChart.clear();
         barChart.setFitBars(true);
 //        barChart.setDrawBarShadow(false);
 //        barChart.setDrawValueAboveBar(true);
@@ -109,6 +122,9 @@ public class ProgressActivity extends AppCompatActivity {
         barChart.invalidate(); // refresh
         barChart.animateY(5000);
 
+        LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
+        loginTask.setLoginDelegate(progressActivity);
+
 
     }
 
@@ -118,6 +134,14 @@ public class ProgressActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onLoginDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            User user = DataManager.getInstance().parseUser(result);
+            userAfterLogin = user;
+        }
     }
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {
@@ -133,5 +157,32 @@ public class ProgressActivity extends AppCompatActivity {
             return mValues[(int) value];
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(this, BmiActivity.class);
+            intent.putExtra("userAfterLogin", userAfterLogin);
+//            intent.putExtra("foodToSend", foodReceived);
+//            intent.putExtra("quantityFromHolderSelected", currentQuantity);
+//            intent.putExtra("calendarString", stringDate);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, BmiActivity.class);
+        intent.putExtra("userAfterLogin", userAfterLogin);
+//        intent.putExtra("foodToSend", foodReceived);
+//        intent.putExtra("quantityFromHolderSelected", currentQuantity);
+//        intent.putExtra("calendarString", stringDate);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

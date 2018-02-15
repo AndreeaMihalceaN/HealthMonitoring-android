@@ -184,7 +184,7 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
                 e.printStackTrace();
             }
 
-            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
         }
 
     }

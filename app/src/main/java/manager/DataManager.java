@@ -373,9 +373,9 @@ public class DataManager {
         return weightStatisticsList;
     }
 
-    public Set<DayWeight> parseDayWeightList(String inputJSON) {
+    public List<DayWeight> parseDayWeightList(String inputJSON) {
 
-        Set<DayWeight> dayWeightList = new HashSet<>();
+        List<DayWeight> dayWeightList = new ArrayList<>();
 
 
         try {

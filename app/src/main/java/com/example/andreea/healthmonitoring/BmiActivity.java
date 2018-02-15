@@ -58,20 +58,20 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
     private String calendarString;
     private Button m_buttonViewProgress;
     boolean wantToSeeProgress = false;
-    private Set<DayWeight> dayWeightList;//= new ArrayList<>();
-    List<Double> ian = new ArrayList<>();
-    List<Double> feb = new ArrayList<>();
-    List<Double> mar = new ArrayList<>();
-    List<Double> apr = new ArrayList<>();
-    List<Double> may = new ArrayList<>();
-    List<Double> jun = new ArrayList<>();
-    List<Double> jul = new ArrayList<>();
-    List<Double> aug = new ArrayList<>();
-    List<Double> sep = new ArrayList<>();
-    List<Double> oct = new ArrayList<>();
-    List<Double> nov = new ArrayList<>();
-    List<Double> dec = new ArrayList<>();
-    List<MonthWeight> weightValuesForProgress= new ArrayList<MonthWeight>();
+    private List<DayWeight> dayWeightList;//= new ArrayList<>();
+    List<Double> ian;
+    List<Double> feb;
+    List<Double> mar;
+    List<Double> apr;
+    List<Double> may;
+    List<Double> jun;
+    List<Double> jul;
+    List<Double> aug;
+    List<Double> sep;
+    List<Double> oct;
+    List<Double> nov;
+    List<Double> dec;
+    List<MonthWeight> weightValuesForProgress = new ArrayList<MonthWeight>();
 
 
     @Override
@@ -79,6 +79,18 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
         bmiActivity = this;
+        ian = new ArrayList<>();
+        feb = new ArrayList<>();
+        mar = new ArrayList<>();
+        apr = new ArrayList<>();
+        may = new ArrayList<>();
+        jun = new ArrayList<>();
+        jul = new ArrayList<>();
+        aug = new ArrayList<>();
+        sep = new ArrayList<>();
+        oct = new ArrayList<>();
+        nov = new ArrayList<>();
+        dec = new ArrayList<>();
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -318,7 +330,7 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
             //Toast.makeText(bmiActivity, dayWeightList.size()+"", Toast.LENGTH_SHORT).show();
 
             for (DayWeight dayWeight : dayWeightList) {
-                int numberMonth = dayWeight.getDay().getDate().get(Calendar.MONTH)+1;
+                int numberMonth = dayWeight.getDay().getDate().get(Calendar.MONTH) + 1;
                 switch (numberMonth) {
                     case 1:
                         ian.add(dayWeight.getCurrentWeight());
@@ -361,172 +373,134 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
             }
 
-            for(int i=1; i<=12; i++)
-            {
-                switch (i)
-                {
+            for (int i = 1; i <= 12; i++) {
+                switch (i) {
                     case 1:
-                        int sizeIan=ian.size();
-                        if(sizeIan>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(0, ian.get(sizeIan-1)));
-                            weightValuesForProgress.add(new MonthWeight(0, ian.get(sizeIan-2)));
-                        }
-                        else if(sizeIan==1)
-                        {
+                        int sizeIan = ian.size();
+                        if (sizeIan >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(0, ian.get(sizeIan - 2)));
+                            weightValuesForProgress.add(new MonthWeight(0, ian.get(sizeIan - 1)));
+                        } else if (sizeIan == 1) {
                             weightValuesForProgress.add(new MonthWeight(0, ian.get(0)));
                         }
 
                         break;
                     case 2:
-                        int sizeFeb=feb.size();
-                        if(sizeFeb>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(1, feb.get(sizeFeb-1)));
-                            weightValuesForProgress.add(new MonthWeight(1, feb.get(sizeFeb-2)));
-                        }
-                        else if(sizeFeb==1)
-                        {
+                        int sizeFeb = feb.size();
+                        if (sizeFeb >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(1, feb.get(sizeFeb - 2)));
+                            weightValuesForProgress.add(new MonthWeight(1, feb.get(sizeFeb - 1)));
+                        } else if (sizeFeb == 1) {
                             weightValuesForProgress.add(new MonthWeight(1, feb.get(0)));
                         }
 
 
                         break;
                     case 3:
-                        int sizeMar=mar.size();
-                        if(sizeMar>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(2, mar.get(sizeMar-1)));
-                            weightValuesForProgress.add(new MonthWeight(2, mar.get(sizeMar-2)));
-                        }
-                        else if(sizeMar==1)
-                        {
+                        int sizeMar = mar.size();
+                        if (sizeMar >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(2, mar.get(sizeMar - 2)));
+                            weightValuesForProgress.add(new MonthWeight(2, mar.get(sizeMar - 1)));
+                        } else if (sizeMar == 1) {
                             weightValuesForProgress.add(new MonthWeight(2, mar.get(0)));
                         }
 
 
                         break;
                     case 4:
-                        int sizeApr=apr.size();
-                        if(sizeApr>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(3, apr.get(sizeApr-1)));
-                            weightValuesForProgress.add(new MonthWeight(3, apr.get(sizeApr-2)));
-                        }
-                        else if(sizeApr==1)
-                        {
+                        int sizeApr = apr.size();
+                        if (sizeApr >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(3, apr.get(sizeApr - 2)));
+                            weightValuesForProgress.add(new MonthWeight(3, apr.get(sizeApr - 1)));
+                        } else if (sizeApr == 1) {
                             weightValuesForProgress.add(new MonthWeight(3, apr.get(0)));
                         }
 
 
                         break;
                     case 5:
-                        int sizeMay=may.size();
-                        if(sizeMay>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(4, may.get(sizeMay-1)));
-                            weightValuesForProgress.add(new MonthWeight(4, may.get(sizeMay-2)));
-                        }
-                        else if(sizeMay==1)
-                        {
+                        int sizeMay = may.size();
+                        if (sizeMay >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(4, may.get(sizeMay - 2)));
+                            weightValuesForProgress.add(new MonthWeight(4, may.get(sizeMay - 1)));
+                        } else if (sizeMay == 1) {
                             weightValuesForProgress.add(new MonthWeight(4, may.get(0)));
                         }
 
 
                         break;
                     case 6:
-                        int sizeJun=jun.size();
-                        if(sizeJun>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(5, jun.get(sizeJun-1)));
-                            weightValuesForProgress.add(new MonthWeight(5, jun.get(sizeJun-2)));
-                        }
-                        else if(sizeJun==1)
-                        {
+                        int sizeJun = jun.size();
+                        if (sizeJun >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(5, jun.get(sizeJun - 2)));
+                            weightValuesForProgress.add(new MonthWeight(5, jun.get(sizeJun - 1)));
+                        } else if (sizeJun == 1) {
                             weightValuesForProgress.add(new MonthWeight(5, jun.get(0)));
                         }
 
 
                         break;
                     case 7:
-                        int sizeJul=jul.size();
-                        if(sizeJul>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(6, jul.get(sizeJul-1)));
-                            weightValuesForProgress.add(new MonthWeight(6, jul.get(sizeJul-2)));
-                        }
-                        else if(sizeJul==1)
-                        {
+                        int sizeJul = jul.size();
+                        if (sizeJul >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(6, jul.get(sizeJul - 2)));
+                            weightValuesForProgress.add(new MonthWeight(6, jul.get(sizeJul - 1)));
+                        } else if (sizeJul == 1) {
                             weightValuesForProgress.add(new MonthWeight(6, jul.get(0)));
                         }
 
 
                         break;
                     case 8:
-                        int sizeAug=aug.size();
-                        if(sizeAug>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(7, aug.get(sizeAug-1)));
-                            weightValuesForProgress.add(new MonthWeight(7, aug.get(sizeAug-2)));
-                        }
-                        else if(sizeAug==1)
-                        {
+                        int sizeAug = aug.size();
+                        if (sizeAug >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(7, aug.get(sizeAug - 2)));
+                            weightValuesForProgress.add(new MonthWeight(7, aug.get(sizeAug - 1)));
+                        } else if (sizeAug == 1) {
                             weightValuesForProgress.add(new MonthWeight(7, aug.get(0)));
                         }
 
 
                         break;
                     case 9:
-                        int sizeSep=sep.size();
-                        if(sizeSep>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(8, sep.get(sizeSep-1)));
-                            weightValuesForProgress.add(new MonthWeight(8, sep.get(sizeSep-2)));
-                        }
-                        else if(sizeSep==1)
-                        {
+                        int sizeSep = sep.size();
+                        if (sizeSep >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(8, sep.get(sizeSep - 2)));
+                            weightValuesForProgress.add(new MonthWeight(8, sep.get(sizeSep - 1)));
+                        } else if (sizeSep == 1) {
                             weightValuesForProgress.add(new MonthWeight(8, sep.get(0)));
                         }
 
 
                         break;
                     case 10:
-                        int sizeOct=oct.size();
-                        if(sizeOct>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(9, oct.get(sizeOct-1)));
-                            weightValuesForProgress.add(new MonthWeight(9, oct.get(sizeOct-2)));
-                        }
-                        else if(sizeOct==1)
-                        {
+                        int sizeOct = oct.size();
+                        if (sizeOct >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(9, oct.get(sizeOct - 2)));
+                            weightValuesForProgress.add(new MonthWeight(9, oct.get(sizeOct - 1)));
+                        } else if (sizeOct == 1) {
                             weightValuesForProgress.add(new MonthWeight(9, oct.get(0)));
                         }
 
 
                         break;
                     case 11:
-                        int sizeNov=nov.size();
-                        if(sizeNov>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(10, nov.get(sizeNov-1)));
-                            weightValuesForProgress.add(new MonthWeight(10, nov.get(sizeNov-2)));
-                        }
-                        else if(sizeNov==1)
-                        {
+                        int sizeNov = nov.size();
+                        if (sizeNov >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(10, nov.get(sizeNov - 2)));
+                            weightValuesForProgress.add(new MonthWeight(10, nov.get(sizeNov - 1)));
+                        } else if (sizeNov == 1) {
                             weightValuesForProgress.add(new MonthWeight(10, nov.get(0)));
                         }
 
 
                         break;
                     case 12:
-                        int sizeDec=dec.size();
-                        if(sizeDec>=2)
-                        {
-                            weightValuesForProgress.add(new MonthWeight(11, dec.get(sizeDec-1)));
-                            weightValuesForProgress.add(new MonthWeight(11, dec.get(sizeDec-2)));
-                        }
-                        else if(sizeDec==1)
-                        {
+                        int sizeDec = dec.size();
+                        if (sizeDec >= 2) {
+                            weightValuesForProgress.add(new MonthWeight(11, dec.get(sizeDec - 2)));
+                            weightValuesForProgress.add(new MonthWeight(11, dec.get(sizeDec - 1)));
+                        } else if (sizeDec == 1) {
                             weightValuesForProgress.add(new MonthWeight(11, dec.get(0)));
                         }
 
@@ -537,6 +511,7 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
             Intent intent = new Intent(BmiActivity.this, ProgressActivity.class);
             intent.putExtra("weightValuesForProgress", (Serializable) weightValuesForProgress);
+            intent.putExtra("userAfterLogin", userAfterLogin);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

@@ -123,7 +123,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getBaseContext(), "Am dat click", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "Am dat click", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -244,7 +244,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
             putInArrayLists();
-            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -256,7 +256,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             DataManager.getInstance().setFoodsList(foods);
             putInArrayLists();
             m_listView.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -277,7 +277,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
             putInArrayLists();
             setTextViewWithTotalValues();
             m_listView.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(), "Get all foods from database day-user", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), "Get all foods from database day-user", Toast.LENGTH_SHORT).show();
         }
     }
 

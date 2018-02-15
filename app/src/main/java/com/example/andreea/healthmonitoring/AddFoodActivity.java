@@ -211,7 +211,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                         getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 //                        RegisterFoodTask registerFood = new RegisterFoodTask(m_autoCompleteTextView.getText().toString(), Double.parseDouble(m_editTextCarbohydratesQuantity.getText().toString()), Double.parseDouble(m_editTextProteinQuantity.getText().toString()), Double.parseDouble(m_editTextFatsQuantity.getText().toString()), m_editTextCategory.getText().toString());
 //                        registerFood.setRegisterFoodDelegate(addFoodActivity);
-                        Toast.makeText(addFoodActivity, "Da, e bine", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(addFoodActivity, "Da, e bine", Toast.LENGTH_SHORT).show();
                         m_buttonRefresh.setVisibility(View.VISIBLE);
                     } else
                         m_textViewError.setText("Quantity, Qarbohydrates, Fats, Proteins fields contains letters or field for new food is empty! Try again!");
@@ -423,7 +423,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                 SearchDayTask searchDayTask = new SearchDayTask(calendarString);
                 searchDayTask.setSearchDayDelegate(addFoodActivity);
             }
-            Toast.makeText(getApplicationContext(), "Getfood selected from textEdit", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Getfood selected from textEdit", Toast.LENGTH_SHORT).show();
         } else {
             if (ok) {
                 RegisterFoodTask registerFood = new RegisterFoodTask(m_autoCompleteTextView.getText().toString(), Double.parseDouble(m_editTextCarbohydratesQuantity.getText().toString()), Double.parseDouble(m_editTextProteinQuantity.getText().toString()), Double.parseDouble(m_editTextFatsQuantity.getText().toString()), m_editTextCategory.getText().toString());
@@ -445,10 +445,10 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 //            RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(dateToday, receivedFood.getFoodname());
 //            registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
 
-            Toast.makeText(getApplicationContext(), dateToday + " este data selectata", Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "Get currentDay", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), dateToday + " este data selectata", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Get currentDay", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "NU exista aceasta data", Toast.LENGTH_SHORT).show();
+           // Toast .makeText(getApplicationContext(), "NU exista aceasta data", Toast.LENGTH_SHORT).show();
             AddDayTask addDayTask = new AddDayTask(calendarString);
             addDayTask.setAddDayDelegate(addFoodActivity);
 
@@ -503,7 +503,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
             putNameFoodInVector();
-            Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
         }
     }
 
