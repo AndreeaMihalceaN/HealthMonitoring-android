@@ -17,12 +17,16 @@ import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import manager.DataManager;
 import model.DailyStatistics;
 import model.Day;
 import model.User;
+import webservice.SearchDailyStatisticsByUserIdDelegate;
+import webservice.SearchDailyStatisticsByUserIdTask;
 import webservice.SearchDailyStatisticsDelegate;
 import webservice.SearchDailyStatisticsTask;
 import webservice.SearchDayDelegate;
@@ -30,7 +34,7 @@ import webservice.SearchDayTask;
 import webservice.UpdateDailyStatisticsDelegate;
 import webservice.UpdateDailyStatisticsTask;
 
-public class Walking2Activity extends AppCompatActivity implements SensorEventListener, UpdateDailyStatisticsDelegate, SearchDayDelegate, SearchDailyStatisticsDelegate {
+public class Walking2Activity extends AppCompatActivity implements SensorEventListener, UpdateDailyStatisticsDelegate, SearchDayDelegate, SearchDailyStatisticsDelegate, SearchDailyStatisticsByUserIdDelegate {
 
     private SensorManager sensorManager;
     private TextView count;
@@ -41,6 +45,13 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     private User userAfterLogin;
     private Day day;
     private DailyStatistics dailyStatisticsObject;
+    private TextView textViewResultDay1;
+    private TextView textViewResultDay2;
+    private TextView textViewResultDay3;
+    private TextView textViewResultDay4;
+    private TextView textViewResultToday;
+    private List<DailyStatistics> dailyStatisticsListForThisUser = new ArrayList<>();
+
     private float numberOfSteps;
 //    private Sensor mStepCounterSensor;
 //    private Sensor mStepDetectorSensor;
@@ -53,7 +64,16 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         walking2Activity = this;
         Intent intent = getIntent();
 
+        textViewResultDay1 = (TextView) findViewById(R.id.textViewResultDay1);
+        textViewResultDay2 = (TextView) findViewById(R.id.textViewResultDay2);
+        textViewResultDay3 = (TextView) findViewById(R.id.textViewResultDay3);
+        textViewResultDay4 = (TextView) findViewById(R.id.textViewResultDay4);
+        textViewResultToday = (TextView) findViewById(R.id.textViewResultToday);
+
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+
+        SearchDailyStatisticsByUserIdTask searchDailyStatisticsByUserIdTask = new SearchDailyStatisticsByUserIdTask(userAfterLogin.getId());
+        searchDailyStatisticsByUserIdTask.setSearchDailyStatisticsByUserIdDelegate(walking2Activity);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -96,12 +116,13 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     public void onSensorChanged(SensorEvent event) {
         if (activityRunning) {
             count.setText(String.valueOf(event.values[0]));
+            textViewResultToday.setText(String.valueOf(event.values[0]));
             //am adaugat aici
             if (event.values[0] > 50) {
                 addNotification();
                 //Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
             }
-            float numberOfSteps=event.values[0];
+            float numberOfSteps = event.values[0];
             changeCaloriesInDatabase();
 
         }
@@ -167,6 +188,13 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     public void onSearchDailyStatisticsDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
+        }
+    }
+
+    @Override
+    public void onSearchDailyStatisticsByUserIdDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            dailyStatisticsListForThisUser = DataManager.getInstance().parseDailyStatisticsList(result);
         }
     }
 }

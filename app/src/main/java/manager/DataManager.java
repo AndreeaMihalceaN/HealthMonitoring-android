@@ -163,6 +163,7 @@ public class DataManager {
                 DayFood dayFood = new DayFood(dayJSON, foodJSON);
 
                 User user = new User();
+                user.setId(userJSON.getLong("id"));
                 user.setUsername(userJSON.getString("username"));
 
                 user.setFirstName(userJSON.getString("firstName"));
@@ -239,6 +240,7 @@ public class DataManager {
             DayFood dayFood = new DayFood(dayJSON, foodJSON);
 
             User user = new User();
+            user.setId(userJSON.getLong("id"));
             user.setUsername(userJSON.getString("username"));
 
             user.setFirstName(userJSON.getString("firstName"));
@@ -313,10 +315,11 @@ public class DataManager {
             Long dayIdJSON = jsonObject.getLong("dayId");
             double totalCalories = jsonObject.getDouble("totalCalories");
             Long userIdJSON = jsonObject.getLong("userId");
+            double steps = jsonObject.getDouble("steps");
             //Day day = new Day(dayJSON.getString("date"));
             //Food food = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
 
-            dailyStatistics = new DailyStatistics(idJSON, userIdJSON, dayIdJSON, totalCalories);
+            dailyStatistics = new DailyStatistics(idJSON, userIdJSON, dayIdJSON, totalCalories, steps);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -371,6 +374,40 @@ public class DataManager {
             e.printStackTrace();
         }
         return weightStatisticsList;
+    }
+
+    public List<DailyStatistics> parseDailyStatisticsList(String inputJSON) {
+
+        List<DailyStatistics> dailyStatisticsList = new ArrayList<DailyStatistics>();
+        DailyStatistics dailyStatistics = new DailyStatistics();
+
+
+        try {
+            JSONArray jsonArray = new JSONArray(inputJSON);
+            Log.d("TAG", "JSONArray - " + String.valueOf(jsonArray));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                Long idJSON = jsonObject.getLong("id");
+                Long dayIdJSON = jsonObject.getLong("dayId");
+                double totalCalories = jsonObject.getDouble("totalCalories");
+                Long userIdJSON = jsonObject.getLong("userId");
+                double steps = jsonObject.getDouble("steps");
+                //Day day = new Day(dayJSON.getString("date"));
+                //Food food = new Food(foodJSON.getString("foodname"), foodJSON.getDouble("carbohydrates"), foodJSON.getDouble("proteins"), foodJSON.getDouble("fats"), foodJSON.getString("category"), foodJSON.getString("pictureString"), foodJSON.getInt("stars"), foodJSON.getString("url"));
+
+                dailyStatistics = new DailyStatistics(idJSON, userIdJSON, dayIdJSON, totalCalories, steps);
+
+
+                dailyStatisticsList.add(dailyStatistics);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return dailyStatisticsList;
     }
 
     public List<DayWeight> parseDayWeightList(String inputJSON) {

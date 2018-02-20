@@ -10,39 +10,32 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import manager.DataManager;
-
 /**
- * Created by Andreea on 25.01.2018.
+ * Created by Andreea on 18.02.2018.
  */
 
-public class AddDailyStatisticsTask extends AsyncTask<String, String, String> implements CredentialInterface {
-
-    private AddDailyStatisticsDelegate addDailyStatisticsDelegate;
-    private Long dayId;
-    private double totalCalories;
+public class SearchDailyStatisticsByUserIdTask extends AsyncTask<String, String, String> implements CredentialInterface {
+    private SearchDailyStatisticsByUserIdDelegate searchDailyStatisticsByUserIdDelegate;
     private Long userId;
-    private double steps;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callAddDailyStatisticsService();
+            return callSearchDailyStatisticsByUserIdService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callAddDailyStatisticsService() throws IOException, JSONException {
-
-        String modelString = BASE_URL + "dailyStatistics/add2?" + "dayId=" + dayId + "&totalCalories=" + totalCalories + "&userId=" + userId + "&steps=" + steps;
-
+    private String callSearchDailyStatisticsByUserIdService() throws IOException, JSONException {
+        String modelString = BASE_URL + "dailyStatistics/searchDailyStatisticsByUserId?userId=" + userId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -52,11 +45,8 @@ public class AddDailyStatisticsTask extends AsyncTask<String, String, String> im
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("dayId", dayId);
-        object.put("totalCalories", totalCalories);
         object.put("userId", userId);
 
-        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
@@ -64,7 +54,7 @@ public class AddDailyStatisticsTask extends AsyncTask<String, String, String> im
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
+        if (httpResult == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -73,21 +63,19 @@ public class AddDailyStatisticsTask extends AsyncTask<String, String, String> im
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            System.out.println(connection.getResponseMessage());
+            return "";
         }
         return sb.toString();
+
+
     }
 
-    public AddDailyStatisticsTask(Long dayId, double totalCalories, Long userId, double steps) {
+    public SearchDailyStatisticsByUserIdTask(Long userId) {
 
-        this.dayId = dayId;
-        this.totalCalories = totalCalories;
         this.userId = userId;
-        this.steps=steps;
-
-        String modelString = BASE_URL + "dailyStatistics/add2?" + "dayId=" + dayId + "&totalCalories=" + totalCalories + "&userId=" + userId + "&steps=" + steps;
-
+        String modelString = BASE_URL + "dailyStatistics/searchDailyStatisticsByUserId?userId=" + userId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
     }
 
@@ -96,21 +84,20 @@ public class AddDailyStatisticsTask extends AsyncTask<String, String, String> im
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (addDailyStatisticsDelegate != null) {
-            addDailyStatisticsDelegate.onAddDailyStatisticsDone(response);
+        if (searchDailyStatisticsByUserIdDelegate != null) {
+            try {
+                searchDailyStatisticsByUserIdDelegate.onSearchDailyStatisticsByUserIdDone(response);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
-        if (response == null) {
-            addDailyStatisticsDelegate.onAddDailyStatisticsError(response);
-        }
     }
 
-    public AddDailyStatisticsDelegate getDelegate() {
-        return addDailyStatisticsDelegate;
+    public SearchDailyStatisticsByUserIdDelegate getDelegate() {
+        return searchDailyStatisticsByUserIdDelegate;
     }
 
-
-    public void setAddDailyStatisticsDelegate(AddDailyStatisticsDelegate addDailyStatisticsDelegate) {
-        this.addDailyStatisticsDelegate = addDailyStatisticsDelegate;
+    public void setSearchDailyStatisticsByUserIdDelegate(SearchDailyStatisticsByUserIdDelegate searchDailyStatisticsByUserIdDelegate) {
+        this.searchDailyStatisticsByUserIdDelegate = searchDailyStatisticsByUserIdDelegate;
     }
-
 }

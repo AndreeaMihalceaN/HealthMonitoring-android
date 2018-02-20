@@ -60,7 +60,7 @@ import webservice.UpdateTask;
 import webservice.UpdateUserDiaryQuantityDelegate;
 import webservice.UpdateUserDiaryQuantityTask;
 
-public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate, GetFoodByNameDelegate, GetFoodByName2Delegate, SearchDayDelegate, UpdateDayDelegate, RegisterDayFoodDelegate, AddDayDelegate, AddUserDiaryDelegate, GetUserDiaryDelegate, UpdateUserDiaryQuantityDelegate, SelectFoodDayDelegate, RegisterFoodDelegate {
+public class AddFoodActivity extends AppCompatActivity implements SelectFoodDelegate, GetFoodByNameDelegate, GetFoodByName2Delegate, SearchDayDelegate, UpdateDayDelegate, RegisterDayFoodDelegate, AddDayDelegate, AddUserDiaryDelegate, GetUserDiaryDelegate, UpdateUserDiaryQuantityDelegate, SelectFoodDayDelegate, RegisterFoodDelegate, LoginDelegate {
 
     private AutoCompleteTextView m_autoCompleteTextView;
     private TextView m_textViewCarbohydratesQuantity;
@@ -160,20 +160,25 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                         Toast.LENGTH_LONG).show();
 
                 m_imageViewChooseHealth.setVisibility(View.INVISIBLE);
+
                 GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
                 getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 
                 m_textViewCarbohydratesQuantity.setVisibility(View.VISIBLE);
                 m_editTextCarbohydratesQuantity.setVisibility(View.VISIBLE);
+                m_editTextCarbohydratesQuantity.setEnabled(false);
 
                 m_textViewProteinQuantity.setVisibility(View.VISIBLE);
                 m_editTextProteinQuantity.setVisibility(View.VISIBLE);
+                m_editTextProteinQuantity.setEnabled(false);
 
                 m_textViewFatsQuantity.setVisibility(View.VISIBLE);
                 m_editTextFatsQuantity.setVisibility(View.VISIBLE);
+                m_editTextFatsQuantity.setEnabled(false);
 
                 m_textViewCategory.setVisibility(View.VISIBLE);
                 m_editTextCategory.setVisibility(View.VISIBLE);
+                m_editTextCategory.setEnabled(false);
 
                 m_buttonMinus.setVisibility(View.VISIBLE);
                 m_buttonPlus.setVisibility(View.VISIBLE);
@@ -202,6 +207,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                counter = Double.parseDouble(m_textViewQuantity.getText().toString());
                 if ("Register new food AND Submit".equals(m_buttonSubmit.getText())) {
                     if (validateTextEditsForAdd()) {
                         ok = true;
@@ -211,8 +217,9 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                         getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 //                        RegisterFoodTask registerFood = new RegisterFoodTask(m_autoCompleteTextView.getText().toString(), Double.parseDouble(m_editTextCarbohydratesQuantity.getText().toString()), Double.parseDouble(m_editTextProteinQuantity.getText().toString()), Double.parseDouble(m_editTextFatsQuantity.getText().toString()), m_editTextCategory.getText().toString());
 //                        registerFood.setRegisterFoodDelegate(addFoodActivity);
-                       // Toast.makeText(addFoodActivity, "Da, e bine", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(addFoodActivity, "Da, e bine", Toast.LENGTH_SHORT).show();
                         m_buttonRefresh.setVisibility(View.VISIBLE);
+
                     } else
                         m_textViewError.setText("Quantity, Qarbohydrates, Fats, Proteins fields contains letters or field for new food is empty! Try again!");
                 } else {
@@ -222,6 +229,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                         counter = Double.parseDouble(m_textViewQuantity.getText().toString());
                         SearchDayTask searchDayTask = new SearchDayTask(calendarString);
                         searchDayTask.setSearchDayDelegate(addFoodActivity);
+
                     } else
                         m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
                 }
@@ -255,26 +263,31 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
                 m_textViewQuantity.setText(counter + "");
                 m_autoCompleteTextView.setText("");
                 doInvisibleAndEnable();
-                if (ok) {
-                    m_editTextCarbohydratesQuantity.setText("0");
-                    m_editTextFatsQuantity.setText("0");
-                    m_editTextProteinQuantity.setText("0");
-                    m_editTextCategory.setText("Type a Category");
+                //if (ok) {
+                m_editTextCarbohydratesQuantity.setText("0");
+                m_editTextFatsQuantity.setText("0");
+                m_editTextProteinQuantity.setText("0");
+                m_editTextCategory.setText("Type a Category");
 
-                }
+                //}
                 m_imageViewChooseHealth.setVisibility(View.VISIBLE);
                 m_buttonAddNewFood.setVisibility(View.VISIBLE);
+
+                LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
+                loginTask.setLoginDelegate(addFoodActivity);
 
             }
         });
 
+
         m_buttonAddNewFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ok = true;
+                //ok = true;
                 m_textViewError.setText("");
-                counter = 100;
-                m_textViewQuantity.setText(counter + "");
+//                counter = 100;
+//                m_textViewQuantity.setText(counter + "");
+                counter = Double.parseDouble(m_textViewQuantity.getText().toString());
                 m_autoCompleteTextView.setText("");
                 doVisibleAndEnableForAddNew();
                 m_imageViewChooseHealth.setVisibility(View.INVISIBLE);
@@ -283,6 +296,27 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
             }
         });
+
+    }
+
+    public void refreshFunction() {
+        m_textViewError.setText("");
+        counter = 100;
+        m_textViewQuantity.setText(counter + "");
+        m_autoCompleteTextView.setText("");
+        doInvisibleAndEnable();
+        //if (ok) {
+        m_editTextCarbohydratesQuantity.setText("0");
+        m_editTextFatsQuantity.setText("0");
+        m_editTextProteinQuantity.setText("0");
+        m_editTextCategory.setText("Type a Category");
+
+        //}
+        m_imageViewChooseHealth.setVisibility(View.VISIBLE);
+        m_buttonAddNewFood.setVisibility(View.VISIBLE);
+        LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
+        loginTask.setLoginDelegate(addFoodActivity);
+
 
     }
 
@@ -448,7 +482,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             //Toast.makeText(getApplicationContext(), dateToday + " este data selectata", Toast.LENGTH_SHORT).show();
             //Toast.makeText(getApplicationContext(), "Get currentDay", Toast.LENGTH_SHORT).show();
         } else {
-           // Toast .makeText(getApplicationContext(), "NU exista aceasta data", Toast.LENGTH_SHORT).show();
+            // Toast .makeText(getApplicationContext(), "NU exista aceasta data", Toast.LENGTH_SHORT).show();
             AddDayTask addDayTask = new AddDayTask(calendarString);
             addDayTask.setAddDayDelegate(addFoodActivity);
 
@@ -503,7 +537,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
             putNameFoodInVector();
-           // Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -544,7 +578,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
     @Override
     public void onAddUserDiaryDone(String result) {
-
+        refreshFunction();
     }
 
     @Override
@@ -570,6 +604,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onUpdateDone(String result) {
 
+        refreshFunction();
     }
 
     @Override
@@ -588,8 +623,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(dateToday, receivedFood.getFoodname());
             registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
 
-            AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
-            addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
+//            AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
+//            addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
         }
     }
 
@@ -598,11 +633,12 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         if (!result.isEmpty()) {
             GetUserDiaryTask getUserDiaryTask = new GetUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername());
             getUserDiaryTask.setGetUserDiaryDelegate(addFoodActivity);
-
-        } else {
-            m_textViewError.setText("This food doesn't exist in dataBase!");
-
         }
+//        } else {
+//            if(!ok)
+//            m_textViewError.setText("This food doesn't exist in dataBase!");
+//
+//        }
 
     }
 
@@ -629,5 +665,13 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onRegisterFoodError(String response) {
         Toast.makeText(AddFoodActivity.this, response, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoginDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            User user = DataManager.getInstance().parseUser(result);
+            userAfterLogin = user;
+        }
     }
 }

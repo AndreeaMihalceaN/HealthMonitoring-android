@@ -185,7 +185,6 @@ public class ProfileActivity extends AppCompatActivity implements UpdateDelegate
         return false;
     }
 
-
     @Override
     public void onUpdateDone(String result) {
         m_errorInfo.setVisibility(View.INVISIBLE);

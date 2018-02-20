@@ -286,7 +286,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
 
 
         } else {
-            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId());
+            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId(), 0);
             addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
         }
 

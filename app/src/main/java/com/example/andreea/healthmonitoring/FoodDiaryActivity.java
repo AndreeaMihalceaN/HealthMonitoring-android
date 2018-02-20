@@ -54,7 +54,7 @@ import webservice.SelectFoodFromCurrentDayDelegate;
 import webservice.SelectUserDiaryDelegate;
 import webservice.SelectUserDiaryTask;
 
-public class FoodDiaryActivity extends AppCompatActivity implements RegisterFoodDelegate, SelectFoodDelegate, SelectFoodFromCurrentDayDelegate, SelectUserDiaryDelegate, SelectFoodDayDelegate, SelectAnUserDiaryDelegate, DeleteUserDiaryDelegate, GetAllFoodsFromThisDayDelegate, DeleteDayFoodDelegate {
+public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFoodDelegate, SelectFoodDelegate, SelectFoodFromCurrentDayDelegate,*/ SelectUserDiaryDelegate, SelectFoodDayDelegate, SelectAnUserDiaryDelegate, DeleteUserDiaryDelegate, GetAllFoodsFromThisDayDelegate, DeleteDayFoodDelegate {
 
     private User userAfterLogin;
     private TextView m_textView;
@@ -90,6 +90,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
     String name = "";
     Food foodToSend = new Food();
     double quatityToSend = 0;
+    double quantityValue = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,25 +174,24 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
         sumCarbohydrates = 0;
         sumFats = 0;
         sumProteins = 0;
-        double quantityValue = 0;
         int resourceId;
         for (Food food : foodList) {
-            for (UserDiary userDiary : userDiaryList)
-                if (userDiary.getDayFood().getFoodId() == food.getId())
-                    quantityValue = userDiary.getQuantity();
+            for (UserDiary userDiaryObj : userDiaryList)
+                if (userDiaryObj.getDayFood().getFoodId().equals(food.getId())) {
+                    quantityValue = userDiaryObj.getQuantity();
 
-
-            carbohydrates.add(food.getCarbohydrates());
-            fats.add(food.getFats());
-            proteins.add(food.getProteins());
-            categories.add(food.getCategory());
-            names.add(food.getFoodname());
-            resourceId = resources.getIdentifier(food.getPictureString().toString(), "drawable", this.getPackageName());
-            idImages.add((int) resourceId);
-            quantityList.add(quantityValue);
-            sumCarbohydrates += food.getCarbohydrates() * quantityValue / 100;
-            sumFats += food.getFats() * quantityValue / 100;
-            sumProteins += food.getProteins() * quantityValue / 100;
+                    carbohydrates.add(food.getCarbohydrates());
+                    fats.add(food.getFats());
+                    proteins.add(food.getProteins());
+                    categories.add(food.getCategory());
+                    names.add(food.getFoodname());
+                    resourceId = resources.getIdentifier(food.getPictureString().toString(), "drawable", this.getPackageName());
+                    idImages.add((int) resourceId);
+                    quantityList.add(quantityValue);
+                    sumCarbohydrates += food.getCarbohydrates() * quantityValue / 100;
+                    sumFats += food.getFats() * quantityValue / 100;
+                    sumProteins += food.getProteins() * quantityValue / 100;
+                }
         }
         adapter.notifyDataSetChanged();
     }
@@ -224,41 +224,41 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public void onRegisterFoodDone(String result) {
-
-    }
-
-    @Override
-    public void onRegisterFoodError(String errorMsg) {
-        Toast.makeText(FoodDiaryActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
-
-    }
+//
+//    @Override
+//    public void onRegisterFoodDone(String result) {
+//
+//    }
+//
+//    @Override
+//    public void onRegisterFoodError(String errorMsg) {
+//        Toast.makeText(FoodDiaryActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+//
+//    }
 
     //in metoda aceasta nu va intra deoarece eu nu m nevoie sa aflu toata lista de food din bd, de aeea nu apelez SelectFoodTask
-    @Override
-    public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
+//    @Override
+//    public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
+//
+//        if (!result.isEmpty()) {
+//            foods = DataManager.getInstance().parseFoods(result);
+//            DataManager.getInstance().setFoodsList(foods);
+//            putInArrayLists();
+//            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-        if (!result.isEmpty()) {
-            foods = DataManager.getInstance().parseFoods(result);
-            DataManager.getInstance().setFoodsList(foods);
-            putInArrayLists();
-            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onSelectFoodFromCurrentDayDone(String result) throws UnsupportedEncodingException {
-
-        if (!result.isEmpty()) {
-            foods = DataManager.getInstance().parseFoods(result);
-            DataManager.getInstance().setFoodsList(foods);
-            putInArrayLists();
-            m_listView.setAdapter(adapter);
-            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    public void onSelectFoodFromCurrentDayDone(String result) throws UnsupportedEncodingException {
+//
+//        if (!result.isEmpty()) {
+//            foods = DataManager.getInstance().parseFoods(result);
+//            DataManager.getInstance().setFoodsList(foods);
+//            putInArrayLists();
+//            m_listView.setAdapter(adapter);
+//            //Toast.makeText(getApplicationContext(), "Get all foods from database", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     public void setTextViewWithTotalValues() {
         m_textViewTotalCarbohydrates.setText("Total carbohydrates: " + Math.floor(sumCarbohydrates * 100) / 100);
@@ -276,6 +276,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements RegisterFood
 
             putInArrayLists();
             setTextViewWithTotalValues();
+            adapter.notifyDataSetChanged();
             m_listView.setAdapter(adapter);
            // Toast.makeText(getApplicationContext(), "Get all foods from database day-user", Toast.LENGTH_SHORT).show();
         }

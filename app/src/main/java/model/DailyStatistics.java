@@ -9,12 +9,21 @@ public class DailyStatistics {
     private Long userId;
     private Long dayId;
     private double totalCalories;
+    private double steps;
 
     public DailyStatistics(Long id, Long userId, Long dayId, double totalCalories) {
         this.id = id;
         this.userId = userId;
         this.dayId = dayId;
         this.totalCalories = totalCalories;
+    }
+
+    public DailyStatistics(Long id, Long userId, Long dayId, double totalCalories, double steps) {
+        this.id = id;
+        this.userId = userId;
+        this.dayId = dayId;
+        this.totalCalories = totalCalories;
+        this.steps = steps;
     }
 
     public DailyStatistics() {
@@ -51,5 +60,13 @@ public class DailyStatistics {
 
     public void setTotalCalories(double totalCalories) {
         this.totalCalories = totalCalories;
+    }
+
+    public double getSteps() {
+        return steps;
+    }
+
+    public void setSteps(double steps) {
+        this.steps = steps;
     }
 }
