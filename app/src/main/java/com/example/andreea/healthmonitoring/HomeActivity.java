@@ -37,6 +37,8 @@ import model.QuantityFood;
 import model.User;
 import webservice.AddDailyStatisticsDelegate;
 import webservice.AddDailyStatisticsTask;
+import webservice.AddDayDelegate;
+import webservice.AddDayTask;
 import webservice.GetAllFoodsFromThisDayTask;
 import webservice.GetQuantityFoodDelegate;
 import webservice.GetQuantityFoodTask;
@@ -47,7 +49,7 @@ import webservice.SearchDayTask;
 import webservice.UpdateDailyStatisticsDelegate;
 import webservice.UpdateDailyStatisticsTask;
 
-public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDelegate, SearchDayDelegate, AddDailyStatisticsDelegate, SearchDailyStatisticsDelegate, UpdateDailyStatisticsDelegate {
+public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDelegate, SearchDayDelegate, AddDailyStatisticsDelegate, SearchDailyStatisticsDelegate, UpdateDailyStatisticsDelegate, AddDayDelegate {
     private TextView textEdit;
     //    private Button m_buttonFoodDiary;
 //    private Button m_buttonFoodSuggestion;
@@ -59,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
     private CardView m_cardViewFoodDiary;
     private CardView m_cardViewStartWalking;
     private CardView m_cardViewFoodSugestion;
+    private CardView m_cardViewVideos;
     private Day currentDay;
     private String calendarString;
     List<QuantityFood> quantityFoodList = new ArrayList<>();
@@ -81,6 +84,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
         m_cardViewFoodSugestion = (CardView) findViewById(R.id.cardViewFoodSugestion);
 //        m_buttonFoodSuggestion = (Button) findViewById(R.id.buttonFoodSuggestion);
         m_cardViewConsulting = (CardView) findViewById(R.id.cardViewConsulting);
+        m_cardViewVideos =(CardView) findViewById(R.id.cardViewVideo);
 //        m_buttonStartWalking = (Button) findViewById(R.id.buttonStartWalking);
 //        m_buttonNeareastHospital = (Button) findViewById(R.id.buttonNeareastHospital);
 //        m_buttonML = (Button) findViewById(R.id.buttonML);
@@ -195,6 +199,14 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
             }
         });
+
+        m_cardViewVideos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, VideoListDemoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -264,6 +276,10 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
 
 
         }
+        else{
+            AddDayTask addDayTask = new AddDayTask(calendarString);
+            addDayTask.setAddDayDelegate(homeActivity);
+        }
     }
 
     @Override
@@ -299,6 +315,16 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
 
     @Override
     public void onUpdateDailyStatisticsError(String response) {
+
+    }
+
+    @Override
+    public void onAddDayDone(String result) {
+
+    }
+
+    @Override
+    public void onAddDayError(String response) {
 
     }
 }

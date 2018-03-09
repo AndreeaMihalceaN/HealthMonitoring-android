@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,29 +11,47 @@ import android.hardware.SensorManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import manager.DataManager;
 import model.DailyStatistics;
 import model.Day;
 import model.User;
+import webservice.AddDailyStatisticsDelegate;
+import webservice.AddDailyStatisticsTask;
+import webservice.AddDayDelegate;
+import webservice.AddDayTask;
 import webservice.SearchDailyStatisticsByUserIdDelegate;
 import webservice.SearchDailyStatisticsByUserIdTask;
 import webservice.SearchDailyStatisticsDelegate;
 import webservice.SearchDailyStatisticsTask;
+import webservice.SearchDayByIdDelegate;
 import webservice.SearchDayDelegate;
 import webservice.SearchDayTask;
 import webservice.UpdateDailyStatisticsDelegate;
 import webservice.UpdateDailyStatisticsTask;
+import webservice.UpdateStatisticsDailyStepsDelegate;
+import webservice.UpdateStatisticsDailyStepsTask;
 
-public class Walking2Activity extends AppCompatActivity implements SensorEventListener, UpdateDailyStatisticsDelegate, SearchDayDelegate, SearchDailyStatisticsDelegate, SearchDailyStatisticsByUserIdDelegate {
+public class Walking2Activity extends AppCompatActivity implements SensorEventListener, UpdateDailyStatisticsDelegate, SearchDayDelegate, SearchDailyStatisticsDelegate, SearchDailyStatisticsByUserIdDelegate, AddDayDelegate, AddDailyStatisticsDelegate, UpdateStatisticsDailyStepsDelegate, SearchDayByIdDelegate {
 
     private SensorManager sensorManager;
     private TextView count;
@@ -50,9 +67,23 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     private TextView textViewResultDay3;
     private TextView textViewResultDay4;
     private TextView textViewResultToday;
+    boolean forFill = false;
     private List<DailyStatistics> dailyStatisticsListForThisUser = new ArrayList<>();
+    int j = 1;
 
     private float numberOfSteps;
+    private boolean ok = false;
+    private boolean okNewDay = false;
+    private double day1 = 0;
+    private double day2 = 0;
+    private double day3 = 0;
+    private double day4 = 0;
+    private double dayToday = 0;
+    private GraphView graph;
+    private Button personalRecord;
+    private String dateForTask;
+    private List<String> dates = new ArrayList<>();
+
 //    private Sensor mStepCounterSensor;
 //    private Sensor mStepDetectorSensor;
 
@@ -62,6 +93,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         setContentView(R.layout.activity_walking2);
         count = (TextView) findViewById(R.id.tv_steps);
         walking2Activity = this;
+        ok = false;
+        okNewDay = false;
         Intent intent = getIntent();
 
         textViewResultDay1 = (TextView) findViewById(R.id.textViewResultDay1);
@@ -69,20 +102,38 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         textViewResultDay3 = (TextView) findViewById(R.id.textViewResultDay3);
         textViewResultDay4 = (TextView) findViewById(R.id.textViewResultDay4);
         textViewResultToday = (TextView) findViewById(R.id.textViewResultToday);
+        personalRecord = (Button) findViewById(R.id.personalRecord);
+
+        graph = (GraphView) findViewById(R.id.graph);
 
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
-
-        SearchDailyStatisticsByUserIdTask searchDailyStatisticsByUserIdTask = new SearchDailyStatisticsByUserIdTask(userAfterLogin.getId());
-        searchDailyStatisticsByUserIdTask.setSearchDailyStatisticsByUserIdDelegate(walking2Activity);
-
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         calendarString = df.format(c.getTime());
+
+
+        SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+        searchDayTask.setSearchDayDelegate(walking2Activity);
+
+//        SearchDailyStatisticsByUserIdTask searchDailyStatisticsByUserIdTask = new SearchDailyStatisticsByUserIdTask(userAfterLogin.getId());
+//        searchDailyStatisticsByUserIdTask.setSearchDailyStatisticsByUserIdDelegate(walking2Activity);
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 //        mStepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 //        mStepDetectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        SearchDayTask searchDayTask = new SearchDayTask(calendarString);
-        searchDayTask.setSearchDayDelegate(walking2Activity);
+//        SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+//        searchDayTask.setSearchDayDelegate(walking2Activity);
+
+        personalRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Walking2Activity.this, PersonalRecordActivity.class);
+                intent.putExtra("userAfterLogin", userAfterLogin);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -117,6 +168,22 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         if (activityRunning) {
             count.setText(String.valueOf(event.values[0]));
             textViewResultToday.setText(String.valueOf(event.values[0]));
+            dayToday = event.values[0];
+
+            //pentru refresh graph, trebuie sa verific pe tableta
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+                    new DataPoint(0, day1),
+                    new DataPoint(1, day2),
+                    new DataPoint(2, day3),
+                    new DataPoint(3, day4),
+                    new DataPoint(4, dayToday)
+            });
+            graph.removeAllSeries();
+            graph.addSeries(series);
+
+
+            UpdateStatisticsDailyStepsTask updateStatisticsDailyStepsTask = new UpdateStatisticsDailyStepsTask(dailyStatisticsObject.getUserId(), dailyStatisticsObject.getDayId(), Double.parseDouble(count.getText().toString()));
+            updateStatisticsDailyStepsTask.setUpdateStatisticsDailyStepsDelegate(walking2Activity);
             //am adaugat aici
             if (event.values[0] > 50) {
                 addNotification();
@@ -170,31 +237,196 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     }
 
+
+    @Override
+    public void onSearchDailyStatisticsDone(String result) throws UnsupportedEncodingException, ParseException {
+        if (!result.isEmpty()) {
+            dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
+            textViewResultToday.setText(dailyStatisticsObject.getSteps() + "");
+
+
+            int numberMonth = day.getDate().get(Calendar.MONTH) + 1;
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            Calendar cal = day.getDate();
+            for (int i = 1; i <= 4; i++) {
+                cal.setTime(new Date());
+                cal.add(Calendar.DAY_OF_YEAR, -i);
+                Date dayPrev = cal.getTime();
+                String dateString = dayPrev.toString();
+                dateForTask = df.format(dayPrev);
+                dates.add(dateString);
+
+                //fillAllDays();
+
+                //j = 4 - i + 1;
+                //}
+//            for (int i = 0; i <= 4; i++) {
+                okNewDay = true;
+                SearchDayTask searchDayTask = new SearchDayTask(dateForTask);
+                searchDayTask.setSearchDayDelegate(walking2Activity);
+            }
+        } else {
+            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), 0, userAfterLogin.getId(), 0);
+            addDailyStatisticsTask.setAddDailyStatisticsDelegate(walking2Activity);
+        }
+    }
+
+//    public void fillAllDays()
+//    {
+//        for(String stringDate: dates) {
+//            forFill=true;
+//            SearchDayTask searchDayTask = new SearchDayTask(stringDate);
+//            searchDayTask.setSearchDayDelegate(walking2Activity);
+//        }
+//    }
+
     @Override
     public void onSearchDayDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             day = DataManager.getInstance().parseDay(result);
 
-            SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
-            searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(walking2Activity);
-//            AddDailyStatisticsTask addDailyStatisticsTask = new AddDailyStatisticsTask(day.getId(), totalCalories, userAfterLogin.getId());
-//            addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
+            if (okNewDay) {
+                for (DailyStatistics dayObject : dailyStatisticsListForThisUser) {
+                    if (dayObject.getDayId().equals(day.getId())) {
+                        switch (j) {
+                            case 1:
+                                textViewResultDay4.setText(dayObject.getSteps() + "");
+                                day4 = dayObject.getSteps();
+                                //okNewDay = false;
+                                j++;
+                                refreshGraph();
+                                break;
+                            case 2:
+                                textViewResultDay3.setText(dayObject.getSteps() + "");
+                                day3 = dayObject.getSteps();
+                                //okNewDay = false;
+                                j++;
+                                refreshGraph();
+                                break;
+                            case 3:
+                                textViewResultDay2.setText(dayObject.getSteps() + "");
+                                day2 = dayObject.getSteps();
+                                //okNewDay = false;
+                                j++;
+                                refreshGraph();
+                                break;
+                            case 4:
+                                textViewResultDay1.setText(dayObject.getSteps() + "");
+                                day1 = dayObject.getSteps();
+                                //okNewDay = false;
+                                j++;
+                                refreshGraph();
+//                                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+//                                        new DataPoint(0, day1),
+//                                        new DataPoint(1, day2),
+//                                        new DataPoint(2, day3),
+//                                        new DataPoint(3, day4),
+//                                        new DataPoint(4, dayToday)
+//                                });
+//                                graph.addSeries(series);
+                                break;
 
-
+                        }
+                    }
+                }
+            } else {
+                SearchDailyStatisticsByUserIdTask searchDailyStatisticsByUserIdTask = new SearchDailyStatisticsByUserIdTask(userAfterLogin.getId());
+                searchDailyStatisticsByUserIdTask.setSearchDailyStatisticsByUserIdDelegate(walking2Activity);
+            }
         }
+//        } else {
+//            AddDayTask addDayTask = new AddDayTask(dateForTask);
+//            addDayTask.setAddDayDelegate(walking2Activity);
+//
+//        }
     }
 
-    @Override
-    public void onSearchDailyStatisticsDone(String result) throws UnsupportedEncodingException {
-        if (!result.isEmpty()) {
-            dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
-        }
+
+    public void refreshGraph() {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+                new DataPoint(0, day1),
+                new DataPoint(1, day2),
+                new DataPoint(2, day3),
+                new DataPoint(3, day4),
+                new DataPoint(4, dayToday)
+        });
+        graph.removeAllSeries();
+        graph.addSeries(series);
     }
 
     @Override
     public void onSearchDailyStatisticsByUserIdDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             dailyStatisticsListForThisUser = DataManager.getInstance().parseDailyStatisticsList(result);
+
+            SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
+            searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(walking2Activity);
+
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("userAfterLogin", userAfterLogin);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("userAfterLogin", userAfterLogin);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAddDayDone(String result) {
+        //okNewDay = true;
+//        SearchDayTask searchDayTask = new SearchDayTask(calendarString);
+//        searchDayTask.setSearchDayDelegate(walking2Activity);
+        SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
+        searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(walking2Activity);
+
+    }
+
+    @Override
+    public void onAddDayError(String response) {
+
+    }
+
+    @Override
+    public void onAddDailyStatisticsDone(String result) {
+        SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
+        searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(walking2Activity);
+
+    }
+
+    @Override
+    public void onAddDailyStatisticsError(String response) {
+
+    }
+
+    @Override
+    public void onUpdateStatisticsDailyStepsDone(String result) {
+
+    }
+
+    @Override
+    public void onUpdateStatisticsDailyStepsError(String response) {
+
+    }
+
+    @Override
+    public void onSearchDayByIdDone(String result) throws UnsupportedEncodingException {
+        if (!result.isEmpty()) {
+            day = DataManager.getInstance().parseDay(result);
         }
     }
 }

@@ -13,30 +13,28 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 
 /**
- * Created by Andreea on 12.02.2018.
+ * Created by Andreea on 28.02.2018.
  */
 
-public class SearchDailyStatisticsTask extends AsyncTask<String, String, String> implements CredentialInterface {
+public class SearchDayByIdTask extends AsyncTask<String, String, String> implements CredentialInterface {
 
-    private SearchDailyStatisticsDelegate searchDailyStatisticsDelegate;
-    private Long userId;
-    private Long dayId;
+    private SearchDayByIdDelegate searchDayByIdDelegate;
+    private Long id;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSearchDailyStatisticsService();
+            return callSearchDayByIdService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSearchDailyStatisticsService() throws IOException, JSONException {
-        String modelString = BASE_URL + "dailyStatistics/searchDailyStatistics?userId=" + userId + "&dayId=" + dayId;
+    private String callSearchDayByIdService() throws IOException, JSONException {
+        String modelString = BASE_URL + "day/searchDayById?id=" + id;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
@@ -48,8 +46,7 @@ public class SearchDailyStatisticsTask extends AsyncTask<String, String, String>
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("userId", userId);
-        object.put("dayId", dayId);
+        object.put("id", id);
 
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
@@ -74,12 +71,11 @@ public class SearchDailyStatisticsTask extends AsyncTask<String, String, String>
 
     }
 
-    public SearchDailyStatisticsTask(Long userId, Long dayId) {
+    public SearchDayByIdTask(Long id) {
 
-        this.userId = userId;
-        this.dayId = dayId;
+        this.id = id;
 
-        String modelString = BASE_URL + "dailyStatistics/searchDailyStatistics?userId=" + userId + "&dayId=" + dayId;
+        String modelString = BASE_URL + "day/searchDayById?id=" + id;
         Uri uri = Uri.parse(modelString).buildUpon().build();
         //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         this.execute(uri.toString());
@@ -90,22 +86,21 @@ public class SearchDailyStatisticsTask extends AsyncTask<String, String, String>
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (searchDailyStatisticsDelegate != null) {
+        if (searchDayByIdDelegate != null) {
             try {
-                searchDailyStatisticsDelegate.onSearchDailyStatisticsDone(response);
+                searchDayByIdDelegate.onSearchDayByIdDone(response);
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public SearchDailyStatisticsDelegate getDelegate() {
-        return searchDailyStatisticsDelegate;
+    public SearchDayByIdDelegate getDelegate() {
+        return searchDayByIdDelegate;
     }
 
-    public void setSearchDailyStatisticsDelegate(SearchDailyStatisticsDelegate searchDailyStatisticsDelegate) {
-        this.searchDailyStatisticsDelegate = searchDailyStatisticsDelegate;
+    public void setSearchDayByIdDelegate(SearchDayByIdDelegate searchDayByIdDelegate) {
+        this.searchDayByIdDelegate = searchDayByIdDelegate;
     }
 }
+

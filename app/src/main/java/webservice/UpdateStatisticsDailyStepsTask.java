@@ -10,35 +10,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
+
+import manager.DataManager;
 
 /**
- * Created by Andreea on 12.02.2018.
+ * Created by Andreea on 25.02.2018.
  */
 
-public class SearchDailyStatisticsTask extends AsyncTask<String, String, String> implements CredentialInterface {
-
-    private SearchDailyStatisticsDelegate searchDailyStatisticsDelegate;
+public class UpdateStatisticsDailyStepsTask extends AsyncTask<String, String, String> implements CredentialInterface {
+    private UpdateStatisticsDailyStepsDelegate updateStatisticsDailyStepsDelegate;
     private Long userId;
     private Long dayId;
+    private double steps;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSearchDailyStatisticsService();
+            return callUpdateStatisticsDailyStepsService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSearchDailyStatisticsService() throws IOException, JSONException {
-        String modelString = BASE_URL + "dailyStatistics/searchDailyStatistics?userId=" + userId + "&dayId=" + dayId;
+    private String callUpdateStatisticsDailyStepsService() throws IOException, JSONException {
+        String modelString = BASE_URL + "dailyStatistics/updateDailyStatisticsSteps?steps=" + steps + "&userId=" + userId + "&dayId=" + dayId;
+
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
+
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -50,16 +51,18 @@ public class SearchDailyStatisticsTask extends AsyncTask<String, String, String>
         JSONObject object = new JSONObject();
         object.put("userId", userId);
         object.put("dayId", dayId);
+        object.put("steps", steps);
 
+
+        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-
+        out.write(object.toString());
         out.close();
-
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK) {
+        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -68,20 +71,18 @@ public class SearchDailyStatisticsTask extends AsyncTask<String, String, String>
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            return "";
+            System.out.println(connection.getResponseMessage());
         }
         return sb.toString();
-
     }
 
-    public SearchDailyStatisticsTask(Long userId, Long dayId) {
+    public UpdateStatisticsDailyStepsTask(Long userId, Long dayId, double steps) {
 
         this.userId = userId;
         this.dayId = dayId;
-
-        String modelString = BASE_URL + "dailyStatistics/searchDailyStatistics?userId=" + userId + "&dayId=" + dayId;
+        this.steps = steps;
+        String modelString = BASE_URL + "dailyStatistics/updateDailyStatisticsSteps?steps=" + steps + "&userId=" + userId + "&dayId=" + dayId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         this.execute(uri.toString());
     }
 
@@ -90,22 +91,21 @@ public class SearchDailyStatisticsTask extends AsyncTask<String, String, String>
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (searchDailyStatisticsDelegate != null) {
-            try {
-                searchDailyStatisticsDelegate.onSearchDailyStatisticsDone(response);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        if (updateStatisticsDailyStepsDelegate != null) {
+            updateStatisticsDailyStepsDelegate.onUpdateStatisticsDailyStepsDone(response);
+        }
+        if (response == null) {
+            updateStatisticsDailyStepsDelegate.onUpdateStatisticsDailyStepsError(response);
         }
     }
 
-    public SearchDailyStatisticsDelegate getDelegate() {
-        return searchDailyStatisticsDelegate;
+    public UpdateStatisticsDailyStepsDelegate getDelegate() {
+        return updateStatisticsDailyStepsDelegate;
     }
 
-    public void setSearchDailyStatisticsDelegate(SearchDailyStatisticsDelegate searchDailyStatisticsDelegate) {
-        this.searchDailyStatisticsDelegate = searchDailyStatisticsDelegate;
+
+    public void setUpdateStatisticsDailyStepsDelegate(UpdateStatisticsDailyStepsDelegate updateStatisticsDailyStepsDelegate) {
+        this.updateStatisticsDailyStepsDelegate = updateStatisticsDailyStepsDelegate;
     }
+
 }

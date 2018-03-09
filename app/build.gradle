@@ -28,6 +28,7 @@ repositories {
 
 
 
+
 dependencies {
     //am adaugat linia
     //compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -57,4 +58,7 @@ dependencies {
     //    //apply plugin: 'com.google.gms.google-services'
     compile 'com.github.igalata:Bubble-Picker:v0.2.4'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'com.jjoe64:graphview:4.2.1'
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
+
 }

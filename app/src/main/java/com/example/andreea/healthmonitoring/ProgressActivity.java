@@ -43,15 +43,11 @@ public class ProgressActivity extends AppCompatActivity implements LoginDelegate
 
         Intent intent = getIntent();
         weightValuesForProgress = (List<MonthWeight>) intent.getSerializableExtra("weightValuesForProgress");
-//        Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
 
         barEntries = new ArrayList<BarEntry>();
         barEntries1 = new ArrayList<BarEntry>();
-//        barEntries.clear();
-//        barEntries1.clear();
         barChart = (BarChart) findViewById(R.id.barchart);
-        //barChart.clear();
         barChart.setFitBars(true);
 //        barChart.setDrawBarShadow(false);
 //        barChart.setDrawValueAboveBar(true);
