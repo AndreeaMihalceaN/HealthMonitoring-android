@@ -32,6 +32,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
     private int age;
     private String email;
     private String contactNo;
+    private double stepsObjective;
 
 
     @Override
@@ -46,7 +47,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
 
     private String callRegisterService() throws IOException, JSONException {
 
-        String modelString = BASE_URL + "register/add?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + 0 + "&email=" + "" + "&contactNo=" + "";
+        String modelString = BASE_URL + "register/add?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + 0 + "&email=" + "" + "&contactNo=" + ""+"$stepsObjective="+0;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
 
@@ -69,6 +70,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
         object.put("age", age);
         object.put("email", email);
         object.put("contactNo", contactNo);
+        object.put("stepsObjective", stepsObjective);
 
 
         connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
@@ -93,7 +95,7 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
         return sb.toString();
     }
 
-    public RegisterTask(String username, String password, String firstName, String lastName, String gender, int height, int weight, int age, String email, String contactNo) {
+    public RegisterTask(String username, String password, String firstName, String lastName, String gender, int height, int weight, int age, String email, String contactNo, double stepsObjective) {
 
         this.username = username;
         this.password = password;
@@ -105,9 +107,10 @@ public class RegisterTask extends AsyncTask<String, String, String> implements C
         this.age = age;
         this.email = email;
         this.contactNo = contactNo;
+        this.stepsObjective=stepsObjective;
 
 
-        String modelString = BASE_URL + "register/add?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + 0 + "&email=" + "" + "&contactNo=" + "";
+        String modelString = BASE_URL + "register/add?username=" + username + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&age=" + 0 + "&email=" + "" + "&contactNo=" + ""+"&stepsObjective="+stepsObjective;
 
         Uri uri = Uri.parse(modelString).buildUpon().build();
         this.execute(uri.toString());

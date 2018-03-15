@@ -235,6 +235,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("7 Minute Quick and Effective Workout | Danielle Peazer", "Lu1qJrjxzME"));
                     list.add(new VideoEntry("Workout: Squat Challenge | Danielle Peazer", "N_o0RspYLD0"));
                     list.add(new VideoEntry("4 STEPS TO FLAT ABS | Danielle Peazer", "ux-vQZVv79Y"));
+                    break;
 
                 case Calendar.MONDAY:
                     list.add(new VideoEntry("Low Impact Cardio and Toning Workout for Beginners", "GjAhM651ZPU"));
@@ -244,6 +245,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("15 Minute HIIT Workout - No Equipment HIIT Cardio At Home", "0DSrudz6IVY"));
                     list.add(new VideoEntry("Quick Sweat Cardio Workout to Lose Weight & Burn Belly Fat Fast", "X1TuhAn6C-g"));
                     list.add(new VideoEntry("At Home Cardio Workout to Burn Fat and Tone (High & Low Impact Modifications)", "llRzBwD_TJw"));
+                    break;
 
 
                 case Calendar.TUESDAY:
@@ -254,6 +256,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("Bikini Body Pilates - 27 Minute Abs, Butt and Thighs Pilates Workout", "OjeveoQgp6I"));
                     list.add(new VideoEntry("Relaxing Stretching Workout for Flexibility and Stress Relief - Full Body Yoga Pilates Blend", "7h_Pn7NyJ0k"));
                     list.add(new VideoEntry("Pilates Lower Body Workout to Tighten & Tone the Butt and Thighs - Home Pilates Workout Video", "9rbEqYCkXgo"));
+                    break;
 
 
                 case Calendar.WEDNESDAY:
@@ -264,6 +267,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("Best At Home Upper Body Strength Workout for Arms, Shoulders, Chest & Back", "Z_5DW7K9QCk"));
                     list.add(new VideoEntry("Shoulders, Back, Chest and Arm Workout for Strong Toned Upper Body", "EkeWuJE3aW8"));
                     list.add(new VideoEntry("Get Strong! Upper Body Workout for Arms, Shoulders, Chest & Back (Descending Reps)", "wpTVnDwTd_M"));
+                    break;
 
                 case Calendar.THURSDAY:
                     list.add(new VideoEntry("Low Impact Cardio and Toning Workout for Beginners", "GjAhM651ZPU"));
@@ -273,6 +277,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("15 Minute HIIT Workout - No Equipment HIIT Cardio At Home", "0DSrudz6IVY"));
                     list.add(new VideoEntry("Quick Sweat Cardio Workout to Lose Weight & Burn Belly Fat Fast", "X1TuhAn6C-g"));
                     list.add(new VideoEntry("At Home Cardio Workout to Burn Fat and Tone (High & Low Impact Modifications)", "llRzBwD_TJw"));
+                    break;
 
                 case Calendar.FRIDAY:
                     list.add(new VideoEntry("No Equipment Butt and Thigh Workout at Home - Bodyweight Lower Body Workout", "Hp39axsuFs8"));
@@ -282,6 +287,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("At Home Butt and Thigh Workout - Strength, Pilates and Barre Workout (Bored Easily)", "BtBQm4BBsR0"));
                     list.add(new VideoEntry("Brutal Butt & Thigh Workout - 30 Minute Lower Body Sculpting - Drop it Like a Squat!", "11JXbBBgfWg"));
                     list.add(new VideoEntry("10 Minute Butt and Thigh Workouts at Home - Express Glute & Thigh Toning Routine", "X663kXIufZI"));
+                    break;
 
                 case Calendar.SATURDAY:
                     list.add(new VideoEntry("Fat Burning HIIT Pilates Workout - 35 Minute Pilates and HIIT Cardio Blend", "G9TSbIrp8qQ"));
@@ -291,6 +297,7 @@ public class VideoListDemoActivity extends Activity implements OnFullscreenListe
                     list.add(new VideoEntry("Bikini Body Pilates - 27 Minute Abs, Butt and Thighs Pilates Workout", "OjeveoQgp6I"));
                     list.add(new VideoEntry("Relaxing Stretching Workout for Flexibility and Stress Relief - Full Body Yoga Pilates Blend", "7h_Pn7NyJ0k"));
                     list.add(new VideoEntry("Pilates Lower Body Workout to Tighten & Tone the Butt and Thighs - Home Pilates Workout Video", "9rbEqYCkXgo"));
+                    break;
 
             }
 

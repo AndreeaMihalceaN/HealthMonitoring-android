@@ -383,6 +383,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                     return true;
                 case R.id.actionMoreAbout:
                     Toast.makeText(mContext, "More about", Toast.LENGTH_SHORT).show();
+                    Intent intent2 = new Intent(mContext, MoreAboutActivity.class);
+                    intent2.putExtra("selectedFood", selectedFood);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    mContext.startActivity(intent2);
                     return true;
                 default:
             }

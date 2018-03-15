@@ -14,36 +14,29 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import manager.DataManager;
-
 /**
- * Created by Andreea on 27.12.2017.
+ * Created by Andreea on 09.03.2018.
  */
 
-public class SelectUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
-    private SelectUserDelegate selectUserDelegate;
-    private String username;
-//    private String firstName;
-//    private String lastName;
-//    private String password;
-//    private String gender;
-//    private String email;
+public class SearchDay2Task extends AsyncTask<String, String, String> implements CredentialInterface {
 
+    private SearchDay2Delegate searchDay2Delegate;
+    private String dateString;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectUserService();
+            return callSerachDay2Service();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectUserService() throws IOException, JSONException {
-        String modelString = BASE_URL + "register/searchUserByUsername?username=" + username;
+    private String callSerachDay2Service() throws IOException, JSONException {
+        String modelString = BASE_URL + "day/searchDayString?dateString=" + dateString;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -53,17 +46,13 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("username", username);
-//        object.put("firstName", firstName);
-//        object.put("lastName", lastName);
-//        object.put("password", password);
-//        object.put("gender", gender);
-//        object.put("email", email);
+        object.put("dateString", dateString);
 
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        out.write(object.toString());
+
         out.close();
+
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
@@ -80,20 +69,15 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         }
         return sb.toString();
 
-
     }
 
-    public SelectUserTask(String username/*, String firstName, String lastName, String password, String gender, String email*/) {
+    public SearchDay2Task(String dateString) {
 
-        this.username = username;
-//        this.firstName=firstName;
-//        this.lastName=lastName;
-//        this.password=password;
-//        this.gender=gender;
-//        this.email=email;
-        String modelString = BASE_URL + "register/searchUserByUsername?username=" + username;
+        this.dateString = dateString;
+
+        String modelString = BASE_URL + "day/searchDayString?dateString=" + dateString;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         this.execute(uri.toString());
     }
 
@@ -102,20 +86,20 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectUserDelegate != null) {
+        if (searchDay2Delegate != null) {
             try {
-                selectUserDelegate.onSelectUserDone(response);
+                searchDay2Delegate.onSearchDay2Done(response);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public SelectUserDelegate getDelegate() {
-        return selectUserDelegate;
+    public SearchDay2Delegate getDelegate() {
+        return searchDay2Delegate;
     }
 
-    public void setSelectUserDelegate(SelectUserDelegate selectUserDelegate) {
-        this.selectUserDelegate = selectUserDelegate;
+    public void setSearchDay2Delegate(SearchDay2Delegate searchDay2Delegate) {
+        this.searchDay2Delegate = searchDay2Delegate;
     }
 }

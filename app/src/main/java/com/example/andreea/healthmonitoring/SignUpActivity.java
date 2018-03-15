@@ -106,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
                             m_editTextWeight.setText("");
                         } else {
                             if (email.endsWith("@yahoo.com") || email.endsWith("@gmail.com")) {
-                                SelectUserTask loginTask = new SelectUserTask(username, firstName, lastName, password, gender, email);
+                                SelectUserTask loginTask = new SelectUserTask(username/*, firstName, lastName, password, gender, email*/);
                                 loginTask.setSelectUserDelegate(signUpActivity);
 
                             } else {
@@ -153,7 +153,7 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
             Toast.makeText(signUpActivity, "This user already exists!", Toast.LENGTH_SHORT).show();
 
         } else {
-            RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight, 0, email, " ");
+            RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight, 0, email, " ", 6000);
             loginTask.setRegisterDelegate(signUpActivity);
             Toast.makeText(SignUpActivity.this, "Your have registered! ", Toast.LENGTH_SHORT).show();
         }

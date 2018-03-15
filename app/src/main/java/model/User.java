@@ -15,6 +15,23 @@ public class User implements Serializable {
     private String email;
     private String contactNo;
     private int age;
+    private double stepsObjective;
+
+
+    public User(Long id, String username, String password, String firstName, String lastName, String gender, int height, int weight, String email, String contactNo, int age, double stepsObjective) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.height = height;
+        this.weight = weight;
+        this.email = email;
+        this.contactNo = contactNo;
+        this.age = age;
+        this.stepsObjective = stepsObjective;
+    }
 
     public User(Long id, String username, String password, String firstName, String lastName, String gender, int height, int weight, String email, String contactNo, int age) {
         this.id = id;
@@ -54,6 +71,14 @@ public class User implements Serializable {
     }
 
     public User() {
+    }
+
+    public double getStepsObjective() {
+        return stepsObjective;
+    }
+
+    public void setStepsObjective(double stepsObjective) {
+        this.stepsObjective = stepsObjective;
     }
 
     public String getUsername() {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -73,6 +74,30 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
             }
         });
 
+        editTextPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                editTextPassword.setCursorVisible(true);
+                editTextPassword.setFocusableInTouchMode(true);
+//                editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                editTextPassword.requestFocus();
+
+            }
+        });
+
+        editTextRetypePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_errorInfo.setText("");
+                editTextRetypePassword.setCursorVisible(true);
+                editTextRetypePassword.setFocusableInTouchMode(true);
+//                editTextRetypePassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                editTextRetypePassword.requestFocus();
+
+            }
+        });
+
 
     }
 
@@ -90,7 +115,7 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this,HomeActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("userAfterLogin", userAfterLogin);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -98,6 +123,7 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

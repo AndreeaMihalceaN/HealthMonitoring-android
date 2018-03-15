@@ -10,40 +10,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import manager.DataManager;
 
 /**
- * Created by Andreea on 27.12.2017.
+ * Created by Andreea on 14.03.2018.
  */
 
-public class SelectUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
-    private SelectUserDelegate selectUserDelegate;
+public class UpdateStepsObjectiveTask extends AsyncTask<String, String, String> implements CredentialInterface {
+    private UpdateStepsObjectiveDelegate updateStepsObjectiveDelegate;
     private String username;
-//    private String firstName;
-//    private String lastName;
-//    private String password;
-//    private String gender;
-//    private String email;
-
+    private String password;
+    private double stepsObjective;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectUserService();
+            return callUpdateStepsObjectiveService();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectUserService() throws IOException, JSONException {
-        String modelString = BASE_URL + "register/searchUserByUsername?username=" + username;
+    private String callUpdateStepsObjectiveService() throws IOException, JSONException {
+        String modelString = BASE_URL + "update/updateStepsObjective?username=" + username + "&password=" + password + "&stepsObjective=" + stepsObjective;
+
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -54,12 +50,11 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
 
         JSONObject object = new JSONObject();
         object.put("username", username);
-//        object.put("firstName", firstName);
-//        object.put("lastName", lastName);
-//        object.put("password", password);
-//        object.put("gender", gender);
-//        object.put("email", email);
+        object.put("password", password);
+        object.put("stepsObjective", stepsObjective);
 
+
+        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());
@@ -67,7 +62,7 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
-        if (httpResult == HttpURLConnection.HTTP_OK) {
+        if (httpResult == HttpURLConnection.HTTP_OK || httpResult == HttpURLConnection.HTTP_CREATED || httpResult == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -76,24 +71,18 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
             br.close();
             System.out.println("" + sb.toString());
         } else {
-            return "";
+            System.out.println(connection.getResponseMessage());
         }
         return sb.toString();
-
-
     }
 
-    public SelectUserTask(String username/*, String firstName, String lastName, String password, String gender, String email*/) {
+    public UpdateStepsObjectiveTask(String username, String password, double stepsObjective) {
 
         this.username = username;
-//        this.firstName=firstName;
-//        this.lastName=lastName;
-//        this.password=password;
-//        this.gender=gender;
-//        this.email=email;
-        String modelString = BASE_URL + "register/searchUserByUsername?username=" + username;
+        this.password = password;
+        this.stepsObjective = stepsObjective;
+        String modelString = BASE_URL + "update/updateStepsObjective?username=" + username + "&password=" + password + "&stepsObjective=" + stepsObjective;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
         this.execute(uri.toString());
     }
 
@@ -102,20 +91,21 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectUserDelegate != null) {
-            try {
-                selectUserDelegate.onSelectUserDone(response);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if (updateStepsObjectiveDelegate != null) {
+            updateStepsObjectiveDelegate.onUpdateStepsObjectiveDone(response);
+        }
+        if (response == null) {
+            updateStepsObjectiveDelegate.onUpdateStepsObjectiveError(response);
         }
     }
 
-    public SelectUserDelegate getDelegate() {
-        return selectUserDelegate;
+    public UpdateStepsObjectiveDelegate getDelegate() {
+        return updateStepsObjectiveDelegate;
     }
 
-    public void setSelectUserDelegate(SelectUserDelegate selectUserDelegate) {
-        this.selectUserDelegate = selectUserDelegate;
+
+    public void setUpdateStepsObjectiveDelegate(UpdateStepsObjectiveDelegate updateStepsObjectiveDelegate) {
+        this.updateStepsObjectiveDelegate = updateStepsObjectiveDelegate;
     }
+
 }

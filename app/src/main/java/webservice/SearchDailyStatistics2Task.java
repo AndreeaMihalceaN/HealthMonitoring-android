@@ -13,37 +13,32 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import manager.DataManager;
+import java.text.ParseException;
 
 /**
- * Created by Andreea on 27.12.2017.
+ * Created by Andreea on 09.03.2018.
  */
 
-public class SelectUserTask extends AsyncTask<String, String, String> implements CredentialInterface {
-    private SelectUserDelegate selectUserDelegate;
-    private String username;
-//    private String firstName;
-//    private String lastName;
-//    private String password;
-//    private String gender;
-//    private String email;
+public class SearchDailyStatistics2Task extends AsyncTask<String, String, String> implements CredentialInterface {
 
+    private SearchDailyStatistics2Delegate searchDailyStatistics2Delegate;
+    private Long userId;
+    private Long dayId;
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            return callSelectUserService();
+            return callSearchDailyStatistics2Service();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private String callSelectUserService() throws IOException, JSONException {
-        String modelString = BASE_URL + "register/searchUserByUsername?username=" + username;
+    private String callSearchDailyStatistics2Service() throws IOException, JSONException {
+        String modelString = BASE_URL + "dailyStatistics/searchDailyStatistics?userId=" + userId + "&dayId=" + dayId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -53,17 +48,14 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         connection.setReadTimeout(1000000);
 
         JSONObject object = new JSONObject();
-        object.put("username", username);
-//        object.put("firstName", firstName);
-//        object.put("lastName", lastName);
-//        object.put("password", password);
-//        object.put("gender", gender);
-//        object.put("email", email);
+        object.put("userId", userId);
+        object.put("dayId", dayId);
 
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        out.write(object.toString());
+
         out.close();
+
 
         StringBuilder sb = new StringBuilder();
         int httpResult = connection.getResponseCode();
@@ -80,20 +72,16 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         }
         return sb.toString();
 
-
     }
 
-    public SelectUserTask(String username/*, String firstName, String lastName, String password, String gender, String email*/) {
+    public SearchDailyStatistics2Task(Long userId, Long dayId) {
 
-        this.username = username;
-//        this.firstName=firstName;
-//        this.lastName=lastName;
-//        this.password=password;
-//        this.gender=gender;
-//        this.email=email;
-        String modelString = BASE_URL + "register/searchUserByUsername?username=" + username;
+        this.userId = userId;
+        this.dayId = dayId;
+
+        String modelString = BASE_URL + "dailyStatistics/searchDailyStatistics?userId=" + userId + "&dayId=" + dayId;
         Uri uri = Uri.parse(modelString).buildUpon().build();
-        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("food/all").build();
+        //Uri uri = Uri.parse(BASE_URL).buildUpon().appendPath("day/searchDay").build();
         this.execute(uri.toString());
     }
 
@@ -102,20 +90,22 @@ public class SelectUserTask extends AsyncTask<String, String, String> implements
         super.onPostExecute(o);
         String response = String.valueOf(o);
 
-        if (selectUserDelegate != null) {
+        if (searchDailyStatistics2Delegate != null) {
             try {
-                selectUserDelegate.onSelectUserDone(response);
+                searchDailyStatistics2Delegate.onSearchDailyStatistics2Done(response);
             } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public SelectUserDelegate getDelegate() {
-        return selectUserDelegate;
+    public SearchDailyStatistics2Delegate getDelegate() {
+        return searchDailyStatistics2Delegate;
     }
 
-    public void setSelectUserDelegate(SelectUserDelegate selectUserDelegate) {
-        this.selectUserDelegate = selectUserDelegate;
+    public void setSearchDailyStatistics2Delegate(SearchDailyStatistics2Delegate searchDailyStatistics2Delegate) {
+        this.searchDailyStatistics2Delegate = searchDailyStatistics2Delegate;
     }
 }

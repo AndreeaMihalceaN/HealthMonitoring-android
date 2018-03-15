@@ -103,8 +103,10 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
         m_result = (TextView) findViewById(R.id.textView4);
         m_buttonUpdateWH = (Button) findViewById(R.id.buttonUpdateWH);
         m_buttonViewProgress = (Button) findViewById(R.id.buttonViewProgress);
-        m_seekBarWeight.setMax(350);
-        m_seekBarHeight.setMax(130);
+//        m_seekBarWeight.setMax(350);
+//        m_seekBarHeight.setMax(130);
+        m_seekBarWeight.setMax(450);
+        m_seekBarHeight.setMax(200);
 
 
         m_buttonUpdateWH.setVisibility(View.INVISIBLE);
@@ -138,7 +140,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
 
-                progress += 30;
+                //progress += 30;
+                progress ++;
 
                 m_buttonWeight.setText("Weight: " + progress + " kg");
                 currentWeight = progress;
@@ -163,7 +166,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
 
-                progress += 100;
+                //progress += 100;
+                progress ++;
 
                 m_buttonHeight.setText("Height: " + progress + " cm");
                 currentHeight = progress;
