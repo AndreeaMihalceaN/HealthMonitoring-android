@@ -20,9 +20,9 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewFoodDiary"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
+            android:layout_margin="5dp"
             android:clickable="true"
             android:layout_weight="1"
             android:foreground="?android:attr/selectableItemBackground">
@@ -37,8 +37,8 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/cerclebackgroudpurple"
                     android:padding="10dp"
                     android:src="@drawable/ic_perm_contact_calendar_black_24dp" />
@@ -48,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Food Diary"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <View
@@ -61,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:textSize="18dp"
                     android:text="Check your food diary"
                     android:textColor="@color/dark_light" />
 
@@ -70,8 +72,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewFoodSugestion"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -86,8 +88,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/cerclebackgroundpink"
                     android:padding="10dp"
                     android:src="@drawable/ic_local_dining_black_24dp" />
@@ -97,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Food Sugestion"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <View
@@ -111,6 +114,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="List healthy foods"
+                    android:textSize="18dp"
                     android:textColor="@color/dark_light" />
 
 
@@ -202,8 +206,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewConsulting"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -218,8 +222,8 @@
 
                 <ImageView
                     android:id="@+id/imageView5"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/cerclebackgroundblue"
                     android:padding="10dp"
                     android:src="@drawable/ic_local_hospital_black_24dp" />
@@ -229,6 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Hospital"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <View
@@ -242,6 +247,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:textSize="18dp"
                     android:text="The nearest hospital"
                     android:textColor="@color/dark_light" />
 
@@ -251,8 +257,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewStartWalking"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -268,8 +274,8 @@
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/cerclebackgroundyello"
                     android:padding="8dp"
                     android:src="@drawable/ic_directions_walk_black_24dp" />
@@ -278,6 +284,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:textSize="20dp"
                     android:text="Start Walking"
                     android:textStyle="bold" />
 
@@ -293,6 +300,7 @@
                     android:layout_weight="0.56"
                     android:gravity="center"
                     android:padding="2dp"
+                    android:textSize="18dp"
                     android:text="Monitoring your activity"
                     android:textColor="@color/dark_light" />
 
@@ -313,8 +321,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewHospital"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -329,8 +337,8 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/cerclebackgroundlime"
                     android:padding="8dp"
                     android:src="@drawable/ic_fingerprint_black_24dp" />
@@ -340,6 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="BMI"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <View
@@ -353,6 +362,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="1dp"
+                    android:textSize="18dp"
                     android:text="Calculate your Body Mass Index"
                     android:textColor="@color/dark_light" />
 
@@ -362,8 +372,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewVideo"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -379,8 +389,8 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/cerclebackgroundred"
                     android:padding="10dp"
                     android:src="@drawable/ic_live_tv_black_24dp" />
@@ -390,6 +400,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Workout Videos"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <View
@@ -404,6 +415,7 @@
                     android:layout_weight="0.56"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:textSize="18dp"
                     android:text="Workout at Home"
                     android:textColor="@color/dark_light" />
 

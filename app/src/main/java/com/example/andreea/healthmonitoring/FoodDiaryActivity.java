@@ -153,6 +153,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
 
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 datePickerDialog.show();
             }
 
@@ -278,7 +279,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
             setTextViewWithTotalValues();
             adapter.notifyDataSetChanged();
             m_listView.setAdapter(adapter);
-           // Toast.makeText(getApplicationContext(), "Get all foods from database day-user", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), "Get all foods from database day-user", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
     private double totalCalories = 0;
     private Day day;
     private DailyStatistics dailyStatisticsObject;
+    private double eventValuePrevious=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
         //User userAfterLogin= (User) bundle.get("userAfterLogin");
 
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+        eventValuePrevious = intent.getDoubleExtra("eventValuePrevious", eventValuePrevious);
 
         SearchDayTask searchDayTask = new SearchDayTask(calendarString);
         searchDayTask.setSearchDayDelegate(homeActivity);
@@ -161,6 +163,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
                 Intent intent = new Intent(HomeActivity.this, Walking2Activity.class);
 
                 intent.putExtra("userAfterLogin", userAfterLogin);
+                intent.putExtra("eventValuePrevious", eventValuePrevious);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();

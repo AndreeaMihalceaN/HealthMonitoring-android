@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.andreea.healthmonitoring.BmiActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <SeekBar
+                android:id="@+id/seekBarWeight"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="120dp"  />
+
+            <ImageSwitcher
+                android:id="@+id/imageSwitcher"
+                android:layout_width="110dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/measuressmall">
+
+            </ImageSwitcher>
+
+            <Button
+                android:id="@+id/buttonWeight"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
+                android:background="?android:attr/colorPrimary"
+                android:contextClickable="false"
+                android:elegantTextHeight="false"
+                android:freezesText="true"
+                android:text="Weight: x kg"
+                android:textEditNoPasteWindowLayout="@drawable/cerclequatitybutton"
+                tools:style="@style/Widget.AppCompat.Button.Small" />
+
+            <Button
+                android:id="@+id/buttonHeight"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="170dp"
+                android:background="?android:attr/colorPrimary"
+                android:text="Height: x cm"
+                android:textEditNoPasteWindowLayout="@drawable/cerclequatitybutton"
+                tools:style="@style/Widget.AppCompat.Button.Small" />
+
+            <SeekBar
+                android:id="@+id/seekBarHeight"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="200dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:text="BMI"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/buttonViewProgress"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="250dp"
+                android:background="@color/yellow"
+                android:layout_centerHorizontal="true"
+                android:text="View Progress" />
+
+            <Button
+                android:id="@+id/buttonUpdateWH"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="300dp"
+                android:background="@color/yellow"
+                android:layout_centerHorizontal="true"
+                android:text="Update in my profile" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.andreea.healthmonitoring.SettingObjectiveActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set your daily objective"
+        android:textSize="35dp"
+        android:layout_marginTop="180dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/textEditStepsObjective"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:textSize="40dp"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:text="200"
+        />
+
+    <Button
+        android:id="@+id/buttonStepObjective"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450dp"
+        android:textSize="20dp"
+        android:text="Update step objective" />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:text=""
+        android:textColor="@color/PowerRed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="260dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/stepsobj"
+        android:layout_marginTop="600dp"/>
+
+
+</RelativeLayout>

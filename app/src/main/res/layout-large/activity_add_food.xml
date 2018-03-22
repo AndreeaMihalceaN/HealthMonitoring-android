@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context="com.example.andreea.healthmonitoring.AddFoodActivity">
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:ems="10"
+        android:hint="Enter Food Name"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textViewCarbohydratesQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/autoCompleteTextView"
+        android:layout_alignStart="@+id/autoCompleteTextView"
+        android:layout_below="@+id/autoCompleteTextView"
+        android:layout_marginTop="21dp"
+        android:text="Carbohydrates Quantity (in cal)"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextCarbohydratesQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewCarbohydratesQuantity"
+        android:layout_alignStart="@+id/textViewCarbohydratesQuantity"
+        android:layout_below="@+id/textViewCarbohydratesQuantity"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="0"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewProteinQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextCarbohydratesQuantity"
+        android:layout_alignStart="@+id/editTextCarbohydratesQuantity"
+        android:layout_below="@+id/editTextCarbohydratesQuantity"
+        android:layout_marginTop="23dp"
+        android:text="Protein Quantity (in cal)"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextProteinQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewProteinQuantity"
+        android:layout_alignStart="@+id/textViewProteinQuantity"
+        android:layout_below="@+id/textViewProteinQuantity"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="0"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewFatsQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextProteinQuantity"
+        android:layout_alignStart="@+id/editTextProteinQuantity"
+        android:layout_below="@+id/editTextProteinQuantity"
+        android:layout_marginTop="20dp"
+        android:text="Fats Quantity (in cal)"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextFatsQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewFatsQuantity"
+        android:layout_alignStart="@+id/textViewFatsQuantity"
+        android:layout_below="@+id/textViewFatsQuantity"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="0"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextFatsQuantity"
+        android:layout_alignStart="@+id/editTextFatsQuantity"
+        android:layout_below="@+id/editTextFatsQuantity"
+        android:layout_marginTop="16dp"
+        android:text="Category"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="category"
+        android:textSize="16sp"
+        android:layout_alignBaseline="@+id/textViewCategory"
+        android:layout_alignBottom="@+id/textViewCategory"
+        android:layout_toRightOf="@+id/buttonMinus"
+        android:layout_toEndOf="@+id/buttonMinus" />
+
+    <Button
+        android:id="@+id/buttonMinus"
+        style="@style/Base.TextAppearance.AppCompat.Widget.PopupMenu.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/cerclebuttonplusandminus"
+        android:stateListAnimator="@drawable/cerclebackgroudpurple"
+        android:text=" - "
+        android:layout_below="@+id/editTextCategory"
+        android:layout_alignLeft="@+id/textViewCategory"
+        android:layout_alignStart="@+id/textViewCategory" />
+
+    <!--<Button-->
+        <!--android:id="@+id/buttonQuantity"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignEnd="@+id/editTextFatsQuantity"-->
+        <!--android:layout_alignRight="@+id/editTextFatsQuantity"-->
+        <!--android:layout_alignTop="@+id/buttonMinus"-->
+        <!--android:background="@drawable/cerclequatitybutton"-->
+        <!--android:text="100" />-->
+    <TextView
+        android:id="@+id/textViewQuantity"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/editTextFatsQuantity"
+        android:layout_alignRight="@+id/editTextFatsQuantity"
+        android:layout_alignTop="@+id/buttonMinus"
+        android:background="@color/colorPink2"
+        android:padding="10dp"
+        android:shadowRadius="@integer/google_play_services_version"
+        android:text="100"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="20sp"
+        android:theme="@style/Base.V7.Theme.AppCompat" />
+
+
+    <Button
+        android:id="@+id/buttonPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewQuantity"
+        android:layout_alignEnd="@+id/buttonSubmit"
+        android:layout_alignRight="@+id/buttonSubmit"
+        android:background="@drawable/cerclebuttonplusandminus"
+        android:text=" + " />
+        <!--android:layout_toEndOf="@+id/buttonQuantity"-->
+        <!--android:layout_toRightOf="@+id/buttonQuantity"-->
+
+
+    <Button
+        android:id="@+id/buttonRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/autoCompleteTextView"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_toRightOf="@+id/autoCompleteTextView"
+        android:background="@drawable/ic_refresh_black_24dp"
+        android:layout_above="@+id/textViewCarbohydratesQuantity"
+        android:layout_alignRight="@+id/editTextCategory"
+        android:layout_alignEnd="@+id/editTextCategory" />
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Submit"
+        android:layout_below="@+id/buttonPlus"
+        android:layout_alignLeft="@+id/buttonMinus"
+        android:layout_alignStart="@+id/buttonMinus"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:id="@+id/imageViewChooseHealth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonSubmit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/choosehealth" />
+
+    <TextView
+        android:id="@+id/textViewError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonSubmit"
+        android:layout_alignStart="@+id/buttonSubmit"
+        android:layout_below="@+id/buttonMinus"
+        android:text=""
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="10sp"/>
+
+    <Button
+        android:id="@+id/buttonAddNewFood"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewError"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_green_light"
+        android:text="Add a new food"
+        android:textColor="@color/colorWhite" />
+
+
+</RelativeLayout>

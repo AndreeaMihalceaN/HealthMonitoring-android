@@ -94,6 +94,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     private double initialValueSensor;
     private boolean first;
     private double stepsObjective;
+    private double eventValue;
+    private double eventValuePrevious = 0;
 
 
 //    private Sensor mStepCounterSensor;
@@ -121,11 +123,13 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         graph = (GraphView) findViewById(R.id.graph);
 
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
+        eventValuePrevious = intent.getDoubleExtra("eventValuePrevious", eventValuePrevious);
+
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         calendarString = df.format(c.getTime());
 
-        stepsObjective=userAfterLogin.getStepsObjective();
+        stepsObjective = userAfterLogin.getStepsObjective();
 
 
         SearchDayTask searchDayTask = new SearchDayTask(calendarString);
@@ -208,20 +212,32 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
+        eventValue = event.values[0];
         if (activityRunning) {
             if (!first) {
                 SearchDay2Task searchDay2Task = new SearchDay2Task(calendarString);
                 searchDay2Task.setSearchDay2Delegate(walking2Activity);
-                if (!first) {
-                    initialValueSensor = event.values[0];
-                    first = true;
-                }
-
-                verif.setText(String.valueOf(initialValueSensor));
+//                if (!first) {
+//                    initialValueSensor = event.values[0];
+//                    first = true;
+//                }
+//
+//                verif.setText(String.valueOf(initialValueSensor));
             } else {
-                double differenceValue = event.values[0] - initialValueSensor;
+                double differenceValue = 0;
+                if (eventValuePrevious == 0) {
+                    //differenceValue = eventValue - initialValueSensor + eventValuePrevious;
+                    //differenceValue = eventValue - initialValueSensor;
+                    differenceValue = eventValue + initialValueSensor - eventValuePrevious;
+                    verif.setText(String.valueOf(eventValue + " - " + initialValueSensor));
+                } else {
+                    differenceValue = eventValue + initialValueSensor - eventValuePrevious;
+                    verif.setText(String.valueOf(eventValue + " + " + initialValueSensor + " - " + eventValuePrevious));
+                }
                 count.setText(String.valueOf(differenceValue));
                 textViewResultToday.setText(String.valueOf(differenceValue));
+                //verif.setText(String.valueOf(eventValue + " - " + initialValueSensor + "+ " + eventValuePrevious));
                 //dayToday = event.values[0];
                 dayToday = differenceValue;
 
@@ -424,8 +440,11 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            first = false;
+            eventValuePrevious = eventValue;
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("userAfterLogin", userAfterLogin);
+            intent.putExtra("eventValuePrevious", eventValuePrevious);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             return true;
@@ -436,8 +455,11 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        first = false;
+        eventValuePrevious = eventValue;
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("userAfterLogin", userAfterLogin);
+        intent.putExtra("eventValuePrevious", eventValuePrevious);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -491,7 +513,14 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         if (!result.isEmpty()) {
             dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
             initialValueSensor = dailyStatisticsObject.getSteps();
+            eventValuePrevious = eventValue;
             first = true;
+//            if (!first) {
+//                initialValueSensor = eventValue;
+//                first = true;
+//            }
+
+            verif.setText(String.valueOf(initialValueSensor));
         }
 
     }

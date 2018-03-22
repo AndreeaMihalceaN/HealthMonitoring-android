@@ -20,8 +20,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewFoodDiary"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -37,30 +37,33 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
                     android:background="@drawable/cerclebackgroudpurple"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_perm_contact_calendar_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="Food Diary"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
+                    android:layout_height="2dp"
+                    android:layout_margin="2dp"
                     android:background="@color/lightgray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:padding="0dp"
+                    android:textSize="10dp"
                     android:text="Check your food diary"
                     android:textColor="@color/dark_light" />
 
@@ -70,8 +73,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewFoodSugestion"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -86,30 +89,34 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
                     android:background="@drawable/cerclebackgroundpink"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_local_dining_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="Food Sugestion"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:background="@color/lightgray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:padding="0dp"
+                    android:layout_marginTop="2dp"
+                    android:textSize="10dp"
                     android:text="List healthy foods"
                     android:textColor="@color/dark_light" />
 
@@ -202,8 +209,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewConsulting"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -218,30 +225,33 @@
 
                 <ImageView
                     android:id="@+id/imageView5"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
                     android:background="@drawable/cerclebackgroundblue"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_local_hospital_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="Hospital"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:background="@color/lightgray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:padding="0dp"
+                    android:textSize="10dp"
                     android:text="The nearest hospital"
                     android:textColor="@color/dark_light" />
 
@@ -251,8 +261,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewStartWalking"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -268,23 +278,25 @@
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
                     android:background="@drawable/cerclebackgroundyello"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_directions_walk_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="Start Walking"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:background="@color/lightgray" />
 
                 <TextView
@@ -292,7 +304,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.56"
                     android:gravity="center"
-                    android:padding="2dp"
+                    android:padding="0dp"
+                    android:textSize="10dp"
                     android:text="Monitoring your activity"
                     android:textColor="@color/dark_light" />
 
@@ -313,8 +326,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewHospital"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -329,30 +342,33 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
                     android:background="@drawable/cerclebackgroundlime"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_fingerprint_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="3dp"
                     android:text="BMI"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:background="@color/lightgray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="1dp"
+                    android:padding="0dp"
+                    android:textSize="9dp"
                     android:text="Calculate your Body Mass Index"
                     android:textColor="@color/dark_light" />
 
@@ -362,8 +378,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardViewVideo"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:layout_weight="1"
@@ -379,23 +395,25 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/cerclebackgroundred"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_live_tv_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="Workout Videos"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:background="@color/lightgray" />
 
                 <TextView
@@ -403,7 +421,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.56"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:padding="0dp"
+                    android:textSize="10dp"
                     android:text="Workout at Home"
                     android:textColor="@color/dark_light" />
 

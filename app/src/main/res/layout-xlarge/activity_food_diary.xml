@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.andreea.healthmonitoring.FoodDiaryActivity"
     android:background="@color/Light"
-
     >
 
 
@@ -22,31 +21,24 @@
         android:layout_toEndOf="@+id/textView2"
         android:layout_toRightOf="@+id/textView2"
         android:text="Date"
-        android:textSize="18sp"
+        android:textSize="35sp"
         android:textColor="@color/Black"/>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textViewTotalProteins"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="93dp"
-        android:layout_marginStart="93dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="50dp"
         android:text="Date:"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp" />
+        android:textSize="35sp" />
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/listView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativeLayout"></ListView>
+        android:layout_marginTop="300dp"></ListView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -62,9 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total carbohydrates: "
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginTop="60dp"
+            android:textSize="20dp"
             android:textColor="@color/Black"/>
 
         <TextView
@@ -73,9 +64,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total fats: "
+            android:layout_marginTop="190dp"
+            android:textSize="20dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:textColor="@color/Black"/>
 
         <TextView
@@ -84,10 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total proteines: "
-            android:layout_below="@+id/relativeLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="51dp"
+            android:textSize="20dp"
+            android:layout_marginTop="130dp"
             android:textColor="@color/Black"/>
     </RelativeLayout>
 

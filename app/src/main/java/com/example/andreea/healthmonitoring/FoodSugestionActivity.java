@@ -33,11 +33,9 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
     private List<Food> foods = new ArrayList<>();
-    ;
     private FoodSugestionActivity foodSugestionActivity;
     private User userAfterLogin;
     private List<Integer> covers = new ArrayList<>();
-    ;
     private Resources resources;
 
     @Override
@@ -49,8 +47,8 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
         SelectFoodTask selectFoodTask = new SelectFoodTask();
         selectFoodTask.setSelectFoodDelegate(foodSugestionActivity);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         userAfterLogin = (User) intent.getSerializableExtra("userAfterLogin");
