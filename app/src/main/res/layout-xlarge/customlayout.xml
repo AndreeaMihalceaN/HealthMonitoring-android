@@ -22,11 +22,11 @@
 
                         <ImageView
                             android:id="@+id/imageView"
-                            android:layout_width="190dp"
-                            android:layout_height="190dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp"
                             app:srcCompat="@mipmap/ic_launcher" />
 
 
@@ -36,8 +36,8 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Name"
-                            android:layout_marginTop="30dp"
-                            android:textSize="24sp"
+                            android:layout_marginTop="20dp"
+                            android:textSize="28sp"
                             android:textStyle="bold"
                             android:textColor="@color/colorWhite"/>
 
@@ -49,7 +49,7 @@
                             android:layout_height="wrap_content"
                             android:text="Carbohydrates:"
                             android:layout_marginTop="60dp"
-                            android:textSize="22dp"
+                            android:textSize="25dp"
                             android:textColor="@color/colorWhite"/>
 
                         <TextView
@@ -59,7 +59,7 @@
                             android:layout_marginLeft="450dp"
                             android:layout_marginTop="60dp"
                             android:text="TextView"
-                            android:textSize="20dp"
+                            android:textSize="23dp"
                             android:textColor="@color/colorWhite"/>
 
                         <TextView
@@ -67,9 +67,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Fats:"
-                            android:textSize="22dp"
+                            android:textSize="25dp"
                             android:layout_marginLeft="250dp"
-                            android:layout_marginTop="80dp"
+                            android:layout_marginTop="90dp"
                             android:textColor="@color/colorWhite"/>
 
                         <TextView
@@ -77,18 +77,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="450dp"
-                            android:layout_marginTop="80dp"
+                            android:layout_marginTop="90dp"
                             android:text="TextView"
-                            android:textSize="20dp"
+                            android:textSize="23dp"
                             android:textColor="@color/colorWhite"/>
 
                         <TextView
                             android:id="@+id/textViewProteins"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="22dp"
+                            android:textSize="25dp"
                             android:layout_marginLeft="250dp"
-                            android:layout_marginTop="100dp"
+                            android:layout_marginTop="120dp"
                             android:text="Proteins:"
                             android:textColor="@color/colorWhite"/>
 
@@ -97,18 +97,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="450dp"
-                            android:layout_marginTop="100dp"
+                            android:layout_marginTop="120dp"
                             android:text="TextView"
-                            android:textSize="20dp"
+                            android:textSize="23dp"
                             android:textColor="@color/colorWhite"/>
 
                         <TextView
                             android:id="@+id/textViewCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="22dp"
+                            android:textSize="25dp"
                             android:layout_marginLeft="250dp"
-                            android:layout_marginTop="120dp"
+                            android:layout_marginTop="150dp"
                             android:text="Category:"
                             android:textColor="@color/colorWhite"/>
 
@@ -117,47 +117,46 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="450dp"
-                            android:layout_marginTop="120dp"
+                            android:layout_marginTop="150dp"
                             android:text="TextView"
-                            android:textSize="20dp"
+                            android:textSize="23dp"
                             android:textColor="@color/colorWhite"/>
 
                         <TextView
                             android:id="@+id/textViewQuantity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="22dp"
+                            android:textSize="25dp"
                             android:layout_marginLeft="250dp"
-                            android:layout_marginTop="140dp"
+                            android:layout_marginTop="180dp"
                             android:text="Quantity:"
-                            android:textColor="@color/colorWhite"/>
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginBottom="20dp"/>
 
                         <TextView
                             android:id="@+id/textViewQuantityResult"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="450dp"
-                            android:layout_marginTop="140dp"
+                            android:layout_marginTop="180dp"
                             android:text="TextView"
-                            android:textSize="20dp"
+                            android:textSize="23dp"
                             android:textColor="@color/colorWhite"/>
 
                         <ImageView
                             android:id="@+id/imageViewDelete"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_above="@+id/textViewCarbohydratesResult"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="35dp"
+                            android:layout_marginLeft="700dp"
                             android:background="@drawable/ic_delete_black_24dp" />
 
                         <ImageView
                             android:id="@+id/imageViewEditQ"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_above="@+id/textViewCarbohydratesResult"
-                            android:layout_alignLeft="@+id/textViewCarbohydratesResult"
-                            android:layout_alignStart="@+id/textViewCarbohydratesResult"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="35dp"
+                            android:layout_marginLeft="630dp"
                             android:background="@drawable/ic_edit_black_24dp" />"
 
                 </RelativeLayout>

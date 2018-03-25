@@ -180,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1090dp"
                 android:layout_centerHorizontal="true"
-                android:text="text here"/>
+                android:text=""/>
 
 
         </RelativeLayout>

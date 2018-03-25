@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.example.andreea.healthmonitoring.FoodDiaryActivity"
     android:background="@color/Light"
-    >
 
+    >
 
     <TextView
         android:id="@+id/textView"
@@ -61,9 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total carbohydrates: "
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:textColor="@color/Black"/>
 
         <TextView
@@ -72,21 +69,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total fats: "
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
             android:textColor="@color/Black"/>
 
         <TextView
             android:id="@+id/textViewTotalProteins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="23dp"
+            android:text="Total proteines: "
+            android:textColor="@color/Black" />
+
+        <TextView
+            android:id="@+id/textViewTotalCalories"
             android:layout_marginLeft="23dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total proteines: "
-            android:layout_below="@+id/relativeLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="51dp"
+            android:text="Total calories: "
+            android:layout_marginTop="76dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
             android:textColor="@color/Black"/>
     </RelativeLayout>
 

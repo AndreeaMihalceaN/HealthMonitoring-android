@@ -68,6 +68,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
     private TextView m_textViewTotalCarbohydrates;
     private TextView m_textViewTotalFats;
     private TextView m_textViewTotalProteins;
+    private TextView m_textViewTotalCalories;
 
     private double sumCarbohydrates;
     private double sumFats;
@@ -107,6 +108,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
         m_textViewTotalCarbohydrates = (TextView) findViewById(R.id.textViewTotalCarbohydrates);
         m_textViewTotalFats = (TextView) findViewById(R.id.textViewTotalFats);
         m_textViewTotalProteins = (TextView) findViewById(R.id.textViewTotalProteins);
+        m_textViewTotalCalories = (TextView) findViewById(R.id.textViewTotalCalories);
 
         m_listView = (ListView) findViewById(R.id.listView);
         m_textView = (TextView) findViewById(R.id.textView);
@@ -265,6 +267,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
         m_textViewTotalCarbohydrates.setText("Total carbohydrates: " + Math.floor(sumCarbohydrates * 100) / 100);
         m_textViewTotalFats.setText("Total fats: " + Math.floor(sumFats * 100) / 100);
         m_textViewTotalProteins.setText("Total proteins: " + Math.floor(sumProteins * 100) / 100);
+        double resultCalories = sumProteins * 4 + sumCarbohydrates * 4 + sumFats * 9;
+        m_textViewTotalCalories.setText("Total calories: " + resultCalories);
 
     }
 
