@@ -33,6 +33,7 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
     private List<Food> foods = new ArrayList<>();
+    private List<Food>foodForSuggestion = new ArrayList<>();
     private FoodSugestionActivity foodSugestionActivity;
     private User userAfterLogin;
     private List<Integer> covers = new ArrayList<>();
@@ -97,10 +98,18 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
      */
     private void preparePresentationFoods() {
         int idCover;
-        for (Food food : foods) {
+        for (Food food : foodForSuggestion) {
             // idCovers.add(R.drawable.(i.getN));
             idCover = resources.getIdentifier(food.getPictureString(), "drawable", this.getPackageName());
+//            if (food.getPictureString().equals("avocado"))
+//                idCover = 2131230813;
+//            else if (food.getPictureString().equals("chiaseedspudding"))
+//                idCover = 2131230887;
+//            else if (food.getPictureString().equals("kiwibananasmoothie"))
+//                idCover = 2131231102;
+
             covers.add(idCover);
+
 
         }
 
@@ -157,14 +166,18 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             foods = DataManager.getInstance().parseFoods(result);
-            List<Food> foodForSuggestion = new ArrayList<Food>();
+            //List<Food> foodForSuggestion = new ArrayList<Food>();
             DataManager.getInstance().setFoodsList(foods);
             for (Food myFood : foods) {
                 if (!myFood.getPictureString().toString().equals("healthyfood")) {
                     foodForSuggestion.add(myFood);
+                    int idCover = resources.getIdentifier(myFood.getPictureString(), "drawable", this.getPackageName());
+                    covers.add(idCover);
                 }
 
+
             }
+            //preparePresentationFoods();
             adapter = new AlbumsAdapter(this, foodForSuggestion, covers, userAfterLogin);
 
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -173,7 +186,7 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(adapter);
 
-            preparePresentationFoods();
+            //preparePresentationFoods();
 
 
             try {

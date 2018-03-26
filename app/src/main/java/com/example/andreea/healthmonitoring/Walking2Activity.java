@@ -230,10 +230,10 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
                     //differenceValue = eventValue - initialValueSensor + eventValuePrevious;
                     //differenceValue = eventValue - initialValueSensor;
                     differenceValue = eventValue + initialValueSensor - eventValuePrevious;
-                    verif.setText(String.valueOf(eventValue + " - " + initialValueSensor));
+                    //verif.setText(String.valueOf(eventValue + " - " + initialValueSensor));
                 } else {
                     differenceValue = eventValue + initialValueSensor - eventValuePrevious;
-                    verif.setText(String.valueOf(eventValue + " + " + initialValueSensor + " - " + eventValuePrevious));
+                    //verif.setText(String.valueOf(eventValue + " + " + initialValueSensor + " - " + eventValuePrevious));
                 }
                 count.setText(String.valueOf(differenceValue));
                 textViewResultToday.setText(String.valueOf(differenceValue));
@@ -286,8 +286,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.notification)
-                        .setContentTitle("Notifications Example")
-                        .setContentText("Ai indeplinit obiectivul de pasi! Felicitari! Ai obtinut recompensa.");
+                        .setContentTitle("Excellent work!")
+                        .setContentText("You've met the step goal! Congratulations!");
 
         Intent notificationIntent = new Intent(this, Walking2Activity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
@@ -520,7 +520,7 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 //                first = true;
 //            }
 
-            verif.setText(String.valueOf(initialValueSensor));
+            //verif.setText(String.valueOf(initialValueSensor));
         }
 
     }
