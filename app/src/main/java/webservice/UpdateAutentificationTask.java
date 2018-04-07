@@ -44,7 +44,7 @@ public class UpdateAutentificationTask extends AsyncTask<String, String, String>
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Accept", "application/json");
+        //connection.setRequestProperty("Accept", "application/json");
         connection.setRequestMethod("POST");
         connection.setConnectTimeout(1000000);
         connection.setReadTimeout(1000000);
@@ -55,8 +55,7 @@ public class UpdateAutentificationTask extends AsyncTask<String, String, String>
         object.put("newUsername", newUsername);
         object.put("newPassword", newPassword);
 
-
-        connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
+        //connection.addRequestProperty("Authorization", DataManager.getInstance().getBaseAuthStr());
 
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(object.toString());

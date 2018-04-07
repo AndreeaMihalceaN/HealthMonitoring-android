@@ -353,6 +353,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
                 m_textViewTotalCarbohydrates.setText("Total carbohydrates: 0");
                 m_textViewTotalFats.setText("Total fats: 0");
                 m_textViewTotalProteins.setText("Total proteins: 0");
+                m_textViewTotalCalories.setText("Total calories: 0");
 
             }
         }
