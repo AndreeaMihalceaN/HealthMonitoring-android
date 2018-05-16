@@ -1,20 +1,20 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.andreea.healthmonitoring.Encryption;
+import com.example.andreea.healthmonitoring.R;
+
 import java.io.UnsupportedEncodingException;
 
-import manager.DataManager;
-import model.User;
 import webservice.RegisterDelegate;
 import webservice.RegisterTask;
 import webservice.SelectUserDelegate;
@@ -44,6 +44,8 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private SignUpActivity signUpActivity;
+    private static final String TAG = "SignUpActivity";
+
 
 
     @Override
@@ -138,6 +140,8 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
     @Override
     public void onRegisterDone(String result) {
 
+        Log.i(TAG, "RegisterDone");
+        Log.d(TAG, "RegisterDone");
     }
 
     @Override
@@ -148,12 +152,18 @@ public class SignUpActivity extends AppCompatActivity implements RegisterDelegat
 
     @Override
     public void onSelectUserDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "SelectUserDone");
+        Log.d(TAG, "SelectUserDone");
         if (!result.isEmpty()) {
             //User user = DataManager.getInstance().parseUser(result);
             Toast.makeText(signUpActivity, "This user already exists!", Toast.LENGTH_SHORT).show();
 
         } else {
-            RegisterTask loginTask = new RegisterTask(username, password, firstName, lastName, gender, height, weight, 0, email, " ", 6000);
+            Encryption sj = new Encryption();
+            String hash = sj.MD5(password);
+            System.out.println("The MD5 (hexadecimal encoded) hash is:" + hash);
+
+            RegisterTask loginTask = new RegisterTask(username, hash, firstName, lastName, gender, height, weight, 0, email, " ", 6000);
             loginTask.setRegisterDelegate(signUpActivity);
             Toast.makeText(SignUpActivity.this, "Your have registered! ", Toast.LENGTH_SHORT).show();
         }

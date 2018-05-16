@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andreea.healthmonitoring.SignUpActivity"
+    tools:context="com.example.andreea.healthmonitoring.Activities.SignUpActivity"
 
     android:gravity="center">
 
@@ -167,7 +167,7 @@
             <EditText
                 android:id="@+id/errorInfo"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="10dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="10dp"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andreea.healthmonitoring.BmiActivity">
+    tools:context="com.example.andreea.healthmonitoring.Activities.BmiActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -113,6 +113,19 @@
                 android:background="@color/yellow"
                 android:text="Update in my profile"
                 android:layout_marginBottom="30dp"/>
+
+            <!--<com.beardedhen.androidbootstrap.BootstrapButton-->
+                <!--android:id="@+id/bootstrapButtonTest"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Hello user"-->
+                <!--app:bootstrapBrand="success"-->
+                <!--app:bootstrapSize="lg"-->
+                <!--app:buttonMode="regular"-->
+                <!--app:showOutline="false"-->
+                <!--app:roundedCorners="true"-->
+
+                <!--/>-->
 
 
 

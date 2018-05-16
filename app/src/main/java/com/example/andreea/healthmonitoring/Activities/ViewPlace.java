@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.andreea.healthmonitoring.Model.PlaceDetail;
+import com.example.andreea.healthmonitoring.R;
 import com.example.andreea.healthmonitoring.Remote.IGoogleAPIService;
 import com.squareup.picasso.Picasso;
 

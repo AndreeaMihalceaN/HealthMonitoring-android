@@ -1,14 +1,17 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.andreea.healthmonitoring.Encryption;
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 
@@ -16,10 +19,12 @@ import manager.DataManager;
 import model.User;
 import webservice.LoginDelegate;
 import webservice.LoginTask;
+import webservice.SelectUserDelegate;
+import webservice.SelectUserTask;
 import webservice.UpdateAutentificationDelegate;
 import webservice.UpdateAutentificationTask;
 
-public class EditAccountActivity extends AppCompatActivity implements UpdateAutentificationDelegate, LoginDelegate {
+public class EditAccountActivity extends AppCompatActivity implements UpdateAutentificationDelegate, LoginDelegate, SelectUserDelegate {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
@@ -28,6 +33,7 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
     private EditText m_errorInfo;
     private EditAccountActivity editAccountActivity;
     private User userAfterLogin;
+    private static final String TAG = "EditAccountActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +64,13 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
                     m_errorInfo.setVisibility(View.VISIBLE);
                 } else if (password.equals(rePassword)) {
                     m_errorInfo.setText("");
-                    UpdateAutentificationTask updateAutentificationTask = new UpdateAutentificationTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), username, password);
-                    updateAutentificationTask.setUpdateAutentificationDelegate(editAccountActivity);
-                    LoginTask loginTask = new LoginTask(username, password);
-                    loginTask.setLoginDelegate(editAccountActivity);
-                    Toast.makeText(editAccountActivity, "Succesful update!", Toast.LENGTH_SHORT).show();
+//                    UpdateAutentificationTask updateAutentificationTask = new UpdateAutentificationTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), username, password);
+//                    updateAutentificationTask.setUpdateAutentificationDelegate(editAccountActivity);
+                    SelectUserTask selectUserTask = new SelectUserTask(username);
+                    selectUserTask.setSelectUserDelegate(editAccountActivity);
+//                    LoginTask loginTask = new LoginTask(username, password);
+//                    loginTask.setLoginDelegate(editAccountActivity);
+                    //Toast.makeText(editAccountActivity, "Succesful update!", Toast.LENGTH_SHORT).show();
                 } else {
                     m_errorInfo.setText("These password don't match!! Try again!!");
                     m_errorInfo.setVisibility(View.VISIBLE);
@@ -103,6 +111,13 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
 
     @Override
     public void onUpdateDone(String result) {
+        Log.i(TAG, "UpdateDone here");
+        Log.d(TAG, "UpdateDone here");
+        Encryption sj = new Encryption();
+        String hash = sj.MD5(editTextPassword.getText().toString());
+        System.out.println("The MD5 (hexadecimal encoded) hash is:" + hash);
+        LoginTask loginTask = new LoginTask(editTextUsername.getText().toString(), hash);
+        loginTask.setLoginDelegate(editAccountActivity);
 
     }
 
@@ -137,7 +152,33 @@ public class EditAccountActivity extends AppCompatActivity implements UpdateAute
     public void onLoginDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
+            Log.i(TAG, "User after login: "+user.getUsername());
+            Log.d(TAG, "User after login: "+user.getUsername());
             userAfterLogin = user;
         }
+    }
+
+    @Override
+    public void onSelectUserDone(String result) {
+
+        Log.d(TAG, "SELECT USER DONE DELEGATE " + result);
+        if (!result.isEmpty()) {
+            m_errorInfo.setText("This username already exists!! Try again!");
+            Log.i(TAG, "SelectUserDone; this username already exists");
+            Log.d(TAG, "SelectUserDone; this username already exists");
+            Toast.makeText(EditAccountActivity.this, "This username already exists. Please try with another username!", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.i(TAG, "Update user with new credentials: " + editTextUsername.getText().toString() + ", " + userAfterLogin.getPassword().toString());
+
+            Encryption sj = new Encryption();
+            String hash = sj.MD5(editTextPassword.getText().toString());
+            System.out.println("The MD5 (hexadecimal encoded) hash is:" + hash);
+
+
+            UpdateAutentificationTask updateAutentificationTask = new UpdateAutentificationTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), editTextUsername.getText().toString(), hash);
+            updateAutentificationTask.setUpdateAutentificationDelegate(editAccountActivity);
+            Toast.makeText(EditAccountActivity.this, "Updated profile! ", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

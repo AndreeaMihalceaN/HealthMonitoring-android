@@ -1,28 +1,18 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -39,7 +29,6 @@ import webservice.AddDailyStatisticsDelegate;
 import webservice.AddDailyStatisticsTask;
 import webservice.AddDayDelegate;
 import webservice.AddDayTask;
-import webservice.GetAllFoodsFromThisDayTask;
 import webservice.GetQuantityFoodDelegate;
 import webservice.GetQuantityFoodTask;
 import webservice.SearchDailyStatisticsDelegate;
@@ -70,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
     private Day day;
     private DailyStatistics dailyStatisticsObject;
     private double eventValuePrevious=0;
+    private static final String TAG = "HomeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +139,8 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
                 Intent intent = new Intent(HomeActivity.this, FoodDiaryActivity.class);
                 //startActivity(intent);
 
+                Log.i(TAG, "FoodDiary activity was called");
+                Log.d(TAG, "FoodDiary activity was called");
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -162,6 +154,8 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, Walking2Activity.class);
 
+                Log.i(TAG, "StartWalking activity was called");
+                Log.d(TAG, "StartWalking activity was called");
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.putExtra("eventValuePrevious", eventValuePrevious);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -174,6 +168,9 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, BmiActivity.class);
+
+                Log.i(TAG, "Hospital activity was called");
+                Log.d(TAG, "Hospital activity was called");
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -185,6 +182,9 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, FoodSugestionActivity.class);
+
+                Log.i(TAG, "FoodDiary activity was called");
+                Log.d(TAG, "FoodDiary activity was called");
                 intent.putExtra("userAfterLogin", userAfterLogin);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -198,6 +198,8 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
                 Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
 //                intent.putExtra("userAfterLogin", userAfterLogin);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Log.i(TAG, "Maps activity was called");
+                Log.d(TAG, "Maps activity was called");
                 startActivity(intent);
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();
             }
@@ -206,6 +208,8 @@ public class HomeActivity extends AppCompatActivity implements GetQuantityFoodDe
         m_cardViewVideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "VideoListDemo activity was called");
+                Log.d(TAG, "VideoListDemo activity was called");
                 Intent intent = new Intent(HomeActivity.this, VideoListDemoActivity.class);
                 startActivity(intent);
             }

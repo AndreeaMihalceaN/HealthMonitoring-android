@@ -1,7 +1,9 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.andreea.healthmonitoring.R;
 
 public class NotificationView extends AppCompatActivity {
 

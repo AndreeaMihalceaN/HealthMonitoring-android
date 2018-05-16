@@ -8,10 +8,11 @@ public interface CredentialInterface {
 
     //for genymotion
     //String BASE_URL = "http://10.0.3.2:8083/";
-    String BASE_URL = "http://backend-healthmonitor.193b.starter-ca-central-1.openshiftapps.com/";
+    //String BASE_URL = "http://backend-healthmonitor.193b.starter-ca-central-1.openshiftapps.com/";
 
     //for device
     //String BASE_URL = "http://192.168.1.106:8083/";
+    String BASE_URL = "http://192.168.1.3:8083/";
 
     //Internet tel
     //String BASE_URL = "http://192.168.43.31:8083/";

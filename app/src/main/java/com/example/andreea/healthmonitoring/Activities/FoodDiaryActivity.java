@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -7,11 +7,10 @@ import android.content.res.Resources;
 
 import java.util.Calendar;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andreea.healthmonitoring.R;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,20 +38,14 @@ import model.Food;
 import model.User;
 import model.UserDiary;
 import webservice.DeleteDayFoodDelegate;
-import webservice.DeleteDayFoodTask;
 import webservice.DeleteUserDiaryDelegate;
 import webservice.DeleteUserDiaryTask;
 import webservice.GetAllFoodsFromThisDayDelegate;
 import webservice.GetAllFoodsFromThisDayTask;
-import webservice.RegisterFoodDelegate;
-import webservice.SearchFoodByIdDelegate;
-import webservice.SearchFoodByIdTask;
 import webservice.SelectAnUserDiaryDelegate;
 import webservice.SelectAnUserDiaryTask;
 import webservice.SelectFoodDayDelegate;
 import webservice.SelectFoodDayTask;
-import webservice.SelectFoodDelegate;
-import webservice.SelectFoodFromCurrentDayDelegate;
 import webservice.SelectUserDiaryDelegate;
 import webservice.SelectUserDiaryTask;
 
@@ -92,6 +87,7 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
     Food foodToSend = new Food();
     double quatityToSend = 0;
     double quantityValue = 0;
+    private static final String TAG = "FoodDiaryActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,6 +260,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
 //    }
 
     public void setTextViewWithTotalValues() {
+        Log.i(TAG, "Set textView with total values");
+        Log.d(TAG, "Set textView with total values");
         m_textViewTotalCarbohydrates.setText("Total carbohydrates: " + Math.floor(sumCarbohydrates * 100) / 100);
         m_textViewTotalFats.setText("Total fats: " + Math.floor(sumFats * 100) / 100);
         m_textViewTotalProteins.setText("Total proteins: " + Math.floor(sumProteins * 100) / 100);
@@ -277,6 +275,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
 
         if (!result.isEmpty()) {
             userDiaryList = DataManager.getInstance().parseUserDiaryList(result);
+            Log.i(TAG, "UserDiary was found");
+            Log.d(TAG, "UserDiary was found");
             DataManager.getInstance().setUserDiaryList(userDiaryList);
 
             putInArrayLists();
@@ -291,6 +291,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
     public void onSelectFoodDayDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             dayFood = DataManager.getInstance().parseDayFood(result);
+            Log.i(TAG, "DayFood was found");
+            Log.d(TAG, "DayFood was found");
 
             SelectAnUserDiaryTask selectAnUserDiaryTask = new SelectAnUserDiaryTask(dayFood.getId(), userAfterLogin.getUsername());
             selectAnUserDiaryTask.setSelectAnUserDiaryDelegate(foodDiaryActivity);
@@ -303,6 +305,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
         if (!result.isEmpty()) {
             userDiaryForDelete = DataManager.getInstance().parseUserDiary(result);
 
+            Log.i(TAG, "Was selected userDiary for deleted");
+            Log.d(TAG, "Was selected userDiary for deleted");
             DeleteUserDiaryTask deleteUserDiaryTask = new DeleteUserDiaryTask(userDiaryForDelete.getId());
             deleteUserDiaryTask.setDeleteUserDiaryDelegate(foodDiaryActivity);
         }
@@ -314,6 +318,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
 //        DeleteDayFoodTask deleteDayFoodTask = new DeleteDayFoodTask(m_textView.getText().toString(), name);
 //        deleteDayFoodTask.setDeleteDayFoodDelegate(foodDiaryActivity);
 
+        Log.i(TAG, "DeleteUserDiaryDone");
+        Log.d(TAG, "DeleteUserDiaryDone");
         //Refresh listView
         adapter = new CustomAdaptor(getApplicationContext(), carbohydrates, fats, proteins, categories, names, idImages, quantityList);
         if (userDiaryList != null)
@@ -342,7 +348,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
         if (!result.isEmpty()) {
             foodList = DataManager.getInstance().parseFoods(result);
 
-
+            Log.i(TAG, "Get all foods from this day");
+            Log.d(TAG, "Get all foods from this day");
             if (foodList.size() >= 1) {
                 SelectUserDiaryTask selectUserDiaryTask = new SelectUserDiaryTask(m_textView.getText().toString(), userAfterLogin.getUsername());
                 selectUserDiaryTask.setSelectUserDiaryDelegate(foodDiaryActivity);
@@ -364,6 +371,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
     public void onDeleteDayFoodDone(String result) {
 
         Toast.makeText(FoodDiaryActivity.this, result, Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "Delete dayFood from database");
+        Log.d(TAG, "Delete dayFood from database");
 //        //Refresh listView
 //        adapter = new CustomAdaptor(getApplicationContext(), carbohydrates, fats, proteins, categories, names, idImages, quantityList);
 //        if (userDiaryList != null)
@@ -482,6 +491,8 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
                         if (selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))
                             name = selectedfood.getFoodname();
 
+                    Log.i(TAG, "Acces Delete button");
+                    Log.d(TAG, "Acces Delete button");
                     SelectFoodDayTask selectFoodDayTask = new SelectFoodDayTask(m_textView.getText().toString(), name);
                     selectFoodDayTask.setSelectFoodDayDelegate(foodDiaryActivity);
 
@@ -491,6 +502,9 @@ public class FoodDiaryActivity extends AppCompatActivity implements /*RegisterFo
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, " edit", Toast.LENGTH_SHORT).show();
+
+                    Log.i(TAG, "Acces Edit Quantity button");
+                    Log.d(TAG, "Acces Edit Quantity button");
 
                     for (Food selectedfood : foodList)
                         if (selectedfood.getFoodname().equals(holder.mTextView.getText().toString()))

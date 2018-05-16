@@ -1,31 +1,23 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.andreea.healthmonitoring.Encryption;
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 
@@ -49,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
     private String username;
     private String password;
     private User userAfterLogin;
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +81,10 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
 //                        loginPrefsEditor.commit();
 //                    }
 
-                    LoginTask loginTask = new LoginTask(username, password);
+                    Encryption sj = new Encryption();
+                    String hash = sj.MD5(password);
+                    System.out.println("The MD5 (hexadecimal encoded) hash is:" + hash);
+                    LoginTask loginTask = new LoginTask(username, hash);
                     loginTask.setLoginDelegate(loginActivity);
 //
 //                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -104,6 +100,8 @@ public class LoginActivity extends AppCompatActivity implements LoginDelegate {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                Log.i(TAG, "SignUp activity was called");
+                Log.d(TAG, "SignUp activity was called");
                 startActivity(intent);
 
                 //Toast.makeText(getApplicationContext(), "Am intrat in actiune", Toast.LENGTH_SHORT).show();

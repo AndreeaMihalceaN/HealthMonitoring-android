@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     private User userAfterLogin;
     private List<Integer> covers = new ArrayList<>();
     private Resources resources;
+    private static final String TAG = "FoodSugestionActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +167,8 @@ public class FoodSugestionActivity extends AppCompatActivity implements SelectFo
     public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             foods = DataManager.getInstance().parseFoods(result);
+            Log.i(TAG, "SelectFoodDoane was called");
+            Log.d(TAG, "SelectFoodDoane was called");
             //List<Food> foodForSuggestion = new ArrayList<Food>();
             DataManager.getInstance().setFoodsList(foods);
             for (Food myFood : foods) {

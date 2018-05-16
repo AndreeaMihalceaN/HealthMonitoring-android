@@ -68,7 +68,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,30 +76,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".Activities.HomeActivity"
             android:label="Home" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".Activities.SignUpActivity" />
         <activity
-            android:name=".FoodDiaryActivity"
+            android:name=".Activities.FoodDiaryActivity"
             android:label="Food Diary" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".Activities.ProfileActivity"
             android:label="Profile" />
         <activity
-            android:name=".AddFoodActivity"
+            android:name=".Activities.AddFoodActivity"
             android:label="Add Food" />
-        <activity android:name=".MonitoringWaterActivity" />
-        <activity android:name=".WalkingActivity" />
-        <activity android:name=".InitialProfileActivity" />
-        <activity android:name=".Walking2Activity" />
-        <activity android:name=".BmiActivity" />
-        <activity android:name=".NotificationView" />
-        <activity android:name=".NutritionActivity" />
-        <activity android:name=".EditAccountActivity" />
-        <activity android:name=".EditActivity" />
-        <activity android:name=".BubbleActivity" />
-        <activity android:name=".ProgressActivity" />
+        <activity android:name=".Activities.WalkingActivity" />
+        <activity android:name=".Activities.InitialProfileActivity" />
+        <activity android:name=".Activities.Walking2Activity" />
+        <activity android:name=".Activities.BmiActivity" />
+        <activity android:name=".Activities.NotificationView" />
+        <activity android:name=".Activities.NutritionActivity" />
+        <activity android:name=".Activities.EditAccountActivity" />
+        <activity android:name=".Activities.EditActivity" />
+        <activity android:name=".Activities.ProgressActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -113,16 +110,16 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ViewPlace" />
+        <activity android:name=".Activities.ViewPlace" />
         <activity
-            android:name=".VideoListDemoActivity"
+            android:name=".Activities.VideoListDemoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".PersonalRecordActivity" />
-        <activity android:name=".SettingObjectiveActivity" />
-        <activity android:name=".MoreAboutActivity" />
-        <activity android:name=".FoodSugestionActivity"></activity>
+        <activity android:name=".Activities.PersonalRecordActivity" />
+        <activity android:name=".Activities.SettingObjectiveActivity" />
+        <activity android:name=".Activities.MoreAboutActivity" />
+        <activity android:name=".Activities.FoodSugestionActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andreea.healthmonitoring.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -31,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import manager.DataManager;
@@ -41,7 +42,6 @@ import model.User;
 import webservice.AddDailyStatisticsDelegate;
 import webservice.AddDailyStatisticsTask;
 import webservice.AddDayDelegate;
-import webservice.AddDayTask;
 import webservice.SearchDailyStatistics2Delegate;
 import webservice.SearchDailyStatistics2Task;
 import webservice.SearchDailyStatisticsByUserIdDelegate;
@@ -96,6 +96,7 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
     private double stepsObjective;
     private double eventValue;
     private double eventValuePrevious = 0;
+    private static final String TAG = "Walking2Activity";
 
 
 //    private Sensor mStepCounterSensor;
@@ -301,6 +302,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onUpdateDailyStatisticsDone(String result) {
+        Log.i(TAG, "UpdateDailyStatisticsDone");
+        Log.d(TAG, "UpdateDailyStatisticsDone");
 
     }
 
@@ -312,6 +315,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSearchDailyStatisticsDone(String result) throws UnsupportedEncodingException, ParseException {
+        Log.i(TAG, "SearchDailyStatisticsDone");
+        Log.d(TAG, "SearchDailyStatisticsDone");
         if (!result.isEmpty()) {
             dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
             textViewResultToday.setText(dailyStatisticsObject.getSteps() + "");
@@ -354,6 +359,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSearchDayDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "SearchDayDone");
+        Log.d(TAG, "SearchDayDone");
         if (!result.isEmpty()) {
             day = DataManager.getInstance().parseDay(result);
 
@@ -428,6 +435,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSearchDailyStatisticsByUserIdDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "SearchDailyStatisticsByUserIdDone");
+        Log.d(TAG, "SearchDailyStatisticsByUserIdDone");
         if (!result.isEmpty()) {
             dailyStatisticsListForThisUser = DataManager.getInstance().parseDailyStatisticsList(result);
 
@@ -469,6 +478,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
         //okNewDay = true;
 //        SearchDayTask searchDayTask = new SearchDayTask(calendarString);
 //        searchDayTask.setSearchDayDelegate(walking2Activity);
+        Log.i(TAG, "Add a new day");
+        Log.d(TAG, "Add a new day");
         SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
         searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(walking2Activity);
 
@@ -481,6 +492,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onAddDailyStatisticsDone(String result) {
+        Log.i(TAG, "Add a new dailyStatistics in database");
+        Log.d(TAG, "Add a new dailyStatistics in database");
         SearchDailyStatisticsTask searchDailyStatisticsTask = new SearchDailyStatisticsTask(userAfterLogin.getId(), day.getId());
         searchDailyStatisticsTask.setSearchDailyStatisticsDelegate(walking2Activity);
 
@@ -493,6 +506,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onUpdateStatisticsDailyStepsDone(String result) {
+        Log.i(TAG, "UpdateStatisticsDailyStepsDone");
+        Log.d(TAG, "UpdateStatisticsDailyStepsDone");
 
     }
 
@@ -503,6 +518,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSearchDayByIdDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "SearchDayByIdDone");
+        Log.d(TAG, "SearchDayByIdDone");
         if (!result.isEmpty()) {
             day = DataManager.getInstance().parseDay(result);
         }
@@ -510,6 +527,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSearchDailyStatistics2Done(String result) throws UnsupportedEncodingException, ParseException {
+        Log.i(TAG, "SearchDailyStatistics2Done");
+        Log.d(TAG, "SearchDailyStatistics2Done");
         if (!result.isEmpty()) {
             dailyStatisticsObject = DataManager.getInstance().parseDailyStatistics(result);
             initialValueSensor = dailyStatisticsObject.getSteps();
@@ -527,6 +546,8 @@ public class Walking2Activity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSearchDay2Done(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "SearchDay2Done");
+        Log.d(TAG, "SearchDay2Done");
         if (!result.isEmpty()) {
             day = DataManager.getInstance().parseDay(result);
 

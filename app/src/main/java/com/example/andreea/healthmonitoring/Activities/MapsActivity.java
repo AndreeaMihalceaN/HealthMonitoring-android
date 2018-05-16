@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.andreea.healthmonitoring.Model.MyPlaces;
 import com.example.andreea.healthmonitoring.Model.Results;
+import com.example.andreea.healthmonitoring.R;
 import com.example.andreea.healthmonitoring.Remote.IGoogleAPIService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

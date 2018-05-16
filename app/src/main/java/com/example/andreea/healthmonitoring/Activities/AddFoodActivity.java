@@ -1,12 +1,10 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.text.InputType;
-import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -54,9 +54,6 @@ import webservice.SelectFoodDayTask;
 import webservice.SelectFoodDelegate;
 import webservice.SelectFoodTask;
 import webservice.UpdateDayDelegate;
-import webservice.UpdateDayTask;
-import webservice.UpdateDelegate;
-import webservice.UpdateTask;
 import webservice.UpdateUserDiaryQuantityDelegate;
 import webservice.UpdateUserDiaryQuantityTask;
 
@@ -94,6 +91,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     private String caller;
     private Food foodReceived;
     private boolean ok = false;
+    private static final String TAG = "AddFoodActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +145,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             calendarString = bundle.getString("calendarString");
         }
 
+        Log.i(TAG, "Call selectFoodTask");
         SelectFoodTask selectFoodTask = new SelectFoodTask();
         selectFoodTask.setSelectFoodDelegate(addFoodActivity);
 
@@ -161,6 +160,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
                 m_imageViewChooseHealth.setVisibility(View.INVISIBLE);
 
+                Log.i(TAG, "Search food by name");
                 GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
                 getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 
@@ -209,6 +209,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             public void onClick(View v) {
                 counter = Double.parseDouble(m_textViewQuantity.getText().toString());
                 if ("Register new food AND Submit".equals(m_buttonSubmit.getText())) {
+                    Log.i(TAG, "Clicked on Register new food AND Submit button");
                     if (validateTextEditsForAdd()) {
                         ok = true;
                         m_textViewError.setText("");
@@ -283,7 +284,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_buttonAddNewFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ok = true;
+                ok = true;
                 m_textViewError.setText("");
 //                counter = 100;
 //                m_textViewQuantity.setText(counter + "");
@@ -336,6 +337,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     }
 
     private Boolean validateTextFromQuantityTextView() {
+        Log.i(TAG, "Check if text from text view quantity is valid");
         String textFromQuantity = m_textViewQuantity.getText().toString();
         if (textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?")) {
             return true;
@@ -344,6 +346,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     }
 
     private Boolean validateTextEditsForAdd() {
+        Log.i(TAG, "Check if all text Edits are valid");
         String textFromQuantity = m_textViewQuantity.getText().toString();
         String textCarbohydrates = m_editTextCarbohydratesQuantity.getText().toString();
         String textProtein = m_editTextProteinQuantity.getText().toString();
@@ -473,6 +476,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         if (!result.isEmpty()) {
             currentDay = DataManager.getInstance().parseDay(result);
 
+            Log.i(TAG, "Current day was found");
+            Log.d(TAG, "Current day was found"+ currentDay.toString());
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             dateToday = formatter.format(currentDay.getDate().getTime());
 
@@ -483,6 +488,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             //Toast.makeText(getApplicationContext(), "Get currentDay", Toast.LENGTH_SHORT).show();
         } else {
             // Toast .makeText(getApplicationContext(), "NU exista aceasta data", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "Current day wasn't found");
+            Log.d(TAG, "Current day was found");
             AddDayTask addDayTask = new AddDayTask(calendarString);
             addDayTask.setAddDayDelegate(addFoodActivity);
 
@@ -534,6 +541,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onSelectFoodDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
+            Log.i(TAG, "Select all foods from database");
+            Log.d(TAG, "Select all foods from database");
             foods = DataManager.getInstance().parseFoods(result);
             DataManager.getInstance().setFoodsList(foods);
             putNameFoodInVector();
@@ -543,6 +552,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
     @Override
     public void onUpdateDayDone(String result) {
+        Log.i(TAG, "Update day");
+        Log.d(TAG, "Update day");
 
     }
 
@@ -554,6 +565,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
     @Override
     public void onRegisterDayFoodDone(String result) {
+        Log.i(TAG, "Register a new dayFood in database");
+        Log.d(TAG, "Register a new dayFood in database");
         SearchDayTask searchDayTask = new SearchDayTask(calendarString);
         searchDayTask.setSearchDayDelegate(addFoodActivity);
 
@@ -562,11 +575,14 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onRegisterDayFoodError(String response) {
 
+
         Toast.makeText(AddFoodActivity.this, response, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onAddDayDone(String result) {
+        Log.i(TAG, "Add a new day in database");
+        Log.d(TAG, "Add a new day in database");
 
     }
 
@@ -579,6 +595,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onAddUserDiaryDone(String result) {
         refreshFunction();
+        Log.i(TAG, "Add a new userDiary in database");
+        Log.d(TAG, "Add a new userDiary in database");
     }
 
     @Override
@@ -589,6 +607,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onGetUserDiaryDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
+            Log.i(TAG, "UserDiary was found");
+            Log.d(TAG, "UserDiary was found");
             userDiary = DataManager.getInstance().parseUserDiary(result);
             userDiary.setQuantity(userDiary.getQuantity() + counter);
             UpdateUserDiaryQuantityTask updateUserDiaryQuantityTask = new UpdateUserDiaryQuantityTask(userDiary.getQuantity(), userDiary.getId());
@@ -596,6 +616,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             Toast.makeText(addFoodActivity, "Registered food today, just update the quantity", Toast.LENGTH_SHORT).show();
         } else {
             //Toast.makeText(addFoodActivity, "atentieee, nameFood introdus gresit", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "UserDiary wasn't found");
+            Log.d(TAG, "UserDiary wasn't found");
             SelectFoodDayTask selectFoodDayTask = new SelectFoodDayTask(calendarString, receivedFood.getFoodname());
             selectFoodDayTask.setSelectFoodDayDelegate(addFoodActivity);
         }
@@ -604,6 +626,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onUpdateDone(String result) {
 
+        Log.i(TAG, "Update task");
+        Log.d(TAG, "Update task");
         refreshFunction();
     }
 
@@ -616,10 +640,14 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     @Override
     public void onSelectFoodDayDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
+            Log.i(TAG, "FoodDay was found");
+            Log.d(TAG, "FoodDay was found");
             //dayFoodSearch=DataManager.getInstance().parseDayFood(result);
             AddUserDiaryTask addUserDiaryTask = new AddUserDiaryTask(calendarString, receivedFood.getFoodname(), userAfterLogin.getUsername(), counter);
             addUserDiaryTask.setAddUserDiaryDelegate(addFoodActivity);
         } else {
+            Log.i(TAG, "FoodDay wasn't found");
+            Log.d(TAG, "FoodDay wasn't found");
             RegisterDayFoodTask registerDayFoodTask = new RegisterDayFoodTask(dateToday, receivedFood.getFoodname());
             registerDayFoodTask.setRegisterDayFoodDelegate(addFoodActivity);
 
@@ -657,6 +685,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
 
     @Override
     public void onRegisterFoodDone(String result) {
+        Log.i(TAG, "RegisterFood done");
+        Log.d(TAG, "RegisterFood done");
         GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
         getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 
@@ -671,6 +701,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     public void onLoginDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
+            Log.i(TAG, "User after login: "+user.getUsername());
+            Log.d(TAG, "User after login: "+user.getUsername());
             userAfterLogin = user;
         }
     }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.andreea.healthmonitoring.FoodSugestionActivity"
+    tools:context="com.example.andreea.healthmonitoring.Activities.FoodSugestionActivity"
     tools:showIn="@layout/activity_food_sugestion">
 
     <android.support.v7.widget.RecyclerView

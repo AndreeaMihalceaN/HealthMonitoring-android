@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.andreea.healthmonitoring.Walking2Activity">
+    tools:context="com.example.andreea.healthmonitoring.Activities.Walking2Activity">
 
     <ScrollView
         android:layout_width="match_parent"

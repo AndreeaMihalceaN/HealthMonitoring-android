@@ -1,9 +1,9 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -11,22 +11,21 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
+import com.example.andreea.healthmonitoring.R;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import manager.DataManager;
 import model.Day;
 import model.DayWeight;
 import model.MonthWeight;
 import model.User;
-import model.WeightStatistics;
 import webservice.AddDayDelegate;
 import webservice.AddDayTask;
 import webservice.AddWeightStatisticsDelegate;
@@ -72,12 +71,14 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
     List<Double> nov;
     List<Double> dec;
     List<MonthWeight> weightValuesForProgress = new ArrayList<MonthWeight>();
+    private static final String TAG = "BmiActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
+        TypefaceProvider.registerDefaultIconSets();
         bmiActivity = this;
         ian = new ArrayList<>();
         feb = new ArrayList<>();
@@ -231,6 +232,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
     @Override
     public void onUpdateDone(String result) {
+        Log.i(TAG, "UpdateDone here");
+        Log.d(TAG, "UpdateDone here");
         AddWeightStatisticsTask addWeightStatisticsTask = new AddWeightStatisticsTask(userAfterLogin.getId(), currentDay.getId(), currentWeight);
         addWeightStatisticsTask.setAddWeightStatisticsDelegate(bmiActivity);
 
@@ -245,6 +248,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
     public void onLoginDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
+            Log.i(TAG, "User after login: "+user);
+            Log.d(TAG, "User after login: "+user);
             userAfterLogin = user;
             state();
         }
@@ -252,6 +257,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
     @Override
     public void onAddWeightStatisticsDone(String result) {
+        Log.i(TAG, "AddWeightStatisticsDone");
+        Log.d(TAG, "AddWeightStatisticsDone");
         LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
         loginTask.setLoginDelegate(bmiActivity);
 
@@ -266,6 +273,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
     public void onSearchDayDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             currentDay = DataManager.getInstance().parseDay(result);
+            Log.i(TAG, "Current day was found");
+            Log.d(TAG, "Current day was found");
 
             if (!wantToSeeProgress) {
                 UpdateWHTask updateWHTask = new UpdateWHTask(userAfterLogin.getUsername(), userAfterLogin.getPassword(), currentHeight, currentWeight);
@@ -278,6 +287,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 //            addDailyStatisticsTask.setAddDailyStatisticsDelegate(homeActivity);
 
         } else {
+            Log.i(TAG, "Current day wasn't found");
+            Log.d(TAG, "Current day wasn't found");
             if (!wantToSeeProgress) {
                 AddDayTask addDayTask = new AddDayTask(calendarString);
                 addDayTask.setAddDayDelegate(bmiActivity);
@@ -288,6 +299,8 @@ public class BmiActivity extends AppCompatActivity implements UpdateWHDelegate, 
 
     @Override
     public void onAddDayDone(String result) {
+        Log.i(TAG, "Add new day");
+        Log.d(TAG, "Add new day");
         SearchDayTask searchDayTask = new SearchDayTask(calendarString);
         searchDayTask.setSearchDayDelegate(bmiActivity);
 

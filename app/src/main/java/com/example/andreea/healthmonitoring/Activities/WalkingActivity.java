@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.andreea.healthmonitoring.R;
 
 public class WalkingActivity extends AppCompatActivity implements SensorEventListener {
 

@@ -20,7 +20,7 @@
     android:layout_height="match_parent">
 
     <fragment
-        class="com.example.andreea.healthmonitoring.VideoListDemoActivity$VideoListFragment"
+        class="com.example.andreea.healthmonitoring.Activities.VideoListDemoActivity$VideoListFragment"
         android:id="@+id/list_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -41,7 +41,7 @@
             android:onClick="onClickClose"/>
 
         <fragment
-            class="com.example.andreea.healthmonitoring.VideoListDemoActivity$VideoFragment"
+            class="com.example.andreea.healthmonitoring.Activities.VideoListDemoActivity$VideoFragment"
             android:id="@+id/video_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

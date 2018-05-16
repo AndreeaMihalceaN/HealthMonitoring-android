@@ -1,4 +1,4 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -6,14 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 
@@ -22,8 +22,6 @@ import model.Food;
 import model.User;
 import webservice.LoginDelegate;
 import webservice.LoginTask;
-import webservice.SearchDayTask;
-import webservice.UpdateAutentificationTask;
 import webservice.UpdateUserDiaryEditDelegate;
 import webservice.UpdateUserDiaryEditTask;
 
@@ -45,6 +43,7 @@ public class EditActivity extends AppCompatActivity implements UpdateUserDiaryEd
     private CardView m_buttonEditQuantity;
     private String stringDate;
     double currentQuantity = 0;
+    private static final String TAG = "EditActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +116,8 @@ public class EditActivity extends AppCompatActivity implements UpdateUserDiaryEd
     }
 
     private Boolean validateTextFromQuantityTextView() {
+        Log.i(TAG, "Check if text from quantity textView is valid");
+        Log.d(TAG, "Check if text from quantity textView is valid");
         String textFromQuantity = m_textViewQuatityResult.getText().toString();
         if (textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?")) {
             return true;
@@ -126,6 +127,8 @@ public class EditActivity extends AppCompatActivity implements UpdateUserDiaryEd
 
     @Override
     public void onUpdateUserDiaryEditDone(String result) {
+        Log.i(TAG, "UpdateUserDiaryEditDone here");
+        Log.d(TAG, "UpdateUserDiaryEditDone here");
         LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
         loginTask.setLoginDelegate(editActivity);
     }
@@ -166,6 +169,8 @@ public class EditActivity extends AppCompatActivity implements UpdateUserDiaryEd
 
     @Override
     public void onLoginDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "Execute Login task");
+        Log.d(TAG, "Execute Login task");
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
             userAfterLogin = user;

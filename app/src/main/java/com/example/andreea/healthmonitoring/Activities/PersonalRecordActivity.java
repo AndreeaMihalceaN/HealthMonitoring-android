@@ -1,11 +1,13 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.example.andreea.healthmonitoring.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -39,6 +41,7 @@ public class PersonalRecordActivity extends AppCompatActivity implements SearchD
     private double previousRecord = 0;
     private TextView textViewPreviousRecord;
     private TextView textViewCurrentRecord;
+    private static final String TAG = "PersonalRecordActivity";
 
 
     @Override
@@ -81,6 +84,8 @@ public class PersonalRecordActivity extends AppCompatActivity implements SearchD
     public void onSearchDailyStatisticsByUserIdDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             dailyStatisticsListForThisUser = DataManager.getInstance().parseDailyStatisticsList(result);
+            Log.i(TAG, "SearchDailyStatisticsByUserIdDone here");
+            Log.d(TAG, "SearchDailyStatisticsByUserIdDone here");
             getObjectForRecord();
             getObjectForPreviousRecord();
 
@@ -118,6 +123,8 @@ public class PersonalRecordActivity extends AppCompatActivity implements SearchD
     public void onSearchDayByIdDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             day = DataManager.getInstance().parseDay(result);
+            Log.i(TAG, "Day by id was found");
+            Log.d(TAG, "Day by id was found");
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Calendar cal = day.getDate();

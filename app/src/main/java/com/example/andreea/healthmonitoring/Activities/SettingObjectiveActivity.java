@@ -1,15 +1,18 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.andreea.healthmonitoring.R;
 
 import java.io.UnsupportedEncodingException;
 
@@ -27,6 +30,7 @@ public class SettingObjectiveActivity extends AppCompatActivity implements Login
     private EditText textEditStepsObjective;
     private Button buttonStepObjective;
     private TextView errorTextView;
+    private static final String TAG = "SettingObjectiveActivit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,8 @@ public class SettingObjectiveActivity extends AppCompatActivity implements Login
 
     @Override
     public void onLoginDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "LoginDone");
+        Log.d(TAG, "LoginDone");
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
             userAfterLogin = user;
@@ -106,6 +112,8 @@ public class SettingObjectiveActivity extends AppCompatActivity implements Login
     }
 
     private Boolean validateTextNumberOfSteps() {
+        Log.i(TAG, "Check if number of steps are valid");
+        Log.d(TAG, "Check if number of steps are valid");
         String textNumberOfStepsy = textEditStepsObjective.getText().toString();
         if (textNumberOfStepsy.matches("[0-9]{1,13}(\\.[0-9]*)?")) {
             return true;
@@ -115,6 +123,8 @@ public class SettingObjectiveActivity extends AppCompatActivity implements Login
 
     @Override
     public void onUpdateStepsObjectiveDone(String result) {
+        Log.i(TAG, "Update steps objective");
+        Log.d(TAG, "Update steps objective");
         Toast.makeText(settingObjectiveActivity, result, Toast.LENGTH_SHORT).show();
         LoginTask loginTask = new LoginTask(userAfterLogin.getUsername(), userAfterLogin.getPassword());
         loginTask.setLoginDelegate(settingObjectiveActivity);

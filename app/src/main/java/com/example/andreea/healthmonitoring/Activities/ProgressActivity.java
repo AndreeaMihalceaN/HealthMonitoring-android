@@ -1,25 +1,24 @@
-package com.example.andreea.healthmonitoring;
+package com.example.andreea.healthmonitoring.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.example.andreea.healthmonitoring.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.renderer.YAxisRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import manager.DataManager;
@@ -36,6 +35,7 @@ public class ProgressActivity extends AppCompatActivity implements LoginDelegate
     ArrayList<BarEntry> barEntries1;
     User userAfterLogin;
     ProgressActivity progressActivity;
+    private static final String TAG = "ProgressActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +136,8 @@ public class ProgressActivity extends AppCompatActivity implements LoginDelegate
 
     @Override
     public void onLoginDone(String result) throws UnsupportedEncodingException {
+        Log.i(TAG, "LoginDone");
+        Log.d(TAG, "LoginDone");
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
             userAfterLogin = user;
