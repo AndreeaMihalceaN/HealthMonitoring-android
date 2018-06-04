@@ -12,7 +12,7 @@ public interface CredentialInterface {
 
     //for device
     //String BASE_URL = "http://192.168.1.106:8083/";
-    String BASE_URL = "http://192.168.1.3:8083/";
+    String BASE_URL = "http://192.168.1.8:8083/";
 
     //Internet tel
     //String BASE_URL = "http://192.168.43.31:8083/";

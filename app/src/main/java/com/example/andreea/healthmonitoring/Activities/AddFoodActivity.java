@@ -207,19 +207,23 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         m_buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                counter = Double.parseDouble(m_textViewQuantity.getText().toString());
+                //counter = Double.parseDouble(m_textViewQuantity.getText().toString());
                 if ("Register new food AND Submit".equals(m_buttonSubmit.getText())) {
                     Log.i(TAG, "Clicked on Register new food AND Submit button");
                     if (validateTextEditsForAdd()) {
-                        ok = true;
-                        m_textViewError.setText("");
-                        counter = Double.parseDouble(m_textViewQuantity.getText().toString());
-                        GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
-                        getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
+                        if (validateTextFromQuantityTextView()) {
+                            ok = true;
+                            m_textViewError.setText("");
+                            counter = Double.parseDouble(m_textViewQuantity.getText().toString());
+                            GetFoodByNameTask getFoodByNameTask = new GetFoodByNameTask(m_autoCompleteTextView.getText().toString());
+                            getFoodByNameTask.setGetFoodByNameDelegate(addFoodActivity);
 //                        RegisterFoodTask registerFood = new RegisterFoodTask(m_autoCompleteTextView.getText().toString(), Double.parseDouble(m_editTextCarbohydratesQuantity.getText().toString()), Double.parseDouble(m_editTextProteinQuantity.getText().toString()), Double.parseDouble(m_editTextFatsQuantity.getText().toString()), m_editTextCategory.getText().toString());
 //                        registerFood.setRegisterFoodDelegate(addFoodActivity);
-                        // Toast.makeText(addFoodActivity, "Da, e bine", Toast.LENGTH_SHORT).show();
-                        m_buttonRefresh.setVisibility(View.VISIBLE);
+                            // Toast.makeText(addFoodActivity, "Da, e bine", Toast.LENGTH_SHORT).show();
+                            m_buttonRefresh.setVisibility(View.VISIBLE);
+                        } else {
+                            m_textViewError.setText("Quantity value contains letters! Try again with a numeric value");
+                        }
 
                     } else
                         m_textViewError.setText("Quantity, Qarbohydrates, Fats, Proteins fields contains letters or field for new food is empty! Try again!");
@@ -339,7 +343,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     private Boolean validateTextFromQuantityTextView() {
         Log.i(TAG, "Check if text from text view quantity is valid");
         String textFromQuantity = m_textViewQuantity.getText().toString();
-        if (textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?")) {
+        if (textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?") && textFromQuantity.contains("[a-zA-Z]+") == false) {
             return true;
         }
         return false;
@@ -353,7 +357,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
         String textFats = m_editTextFatsQuantity.getText().toString();
         String stringFood = m_autoCompleteTextView.getText().toString();
 
-        if (!stringFood.isEmpty() && textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?") &&
+        if (!stringFood.isEmpty() && textFromQuantity.matches("[0-9]{1,13}(\\.[0-9]*)?") && textFromQuantity.contains("[a-zA-Z]+") == false &&
                 textCarbohydrates.matches("[0-9]{1,13}(\\.[0-9]*)?") &&
                 textProtein.matches("[0-9]{1,13}(\\.[0-9]*)?") &&
                 textFats.matches("[0-9]{1,13}(\\.[0-9]*)?")) {
@@ -477,7 +481,7 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
             currentDay = DataManager.getInstance().parseDay(result);
 
             Log.i(TAG, "Current day was found");
-            Log.d(TAG, "Current day was found"+ currentDay.toString());
+            Log.d(TAG, "Current day was found" + currentDay.toString());
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             dateToday = formatter.format(currentDay.getDate().getTime());
 
@@ -701,8 +705,8 @@ public class AddFoodActivity extends AppCompatActivity implements SelectFoodDele
     public void onLoginDone(String result) throws UnsupportedEncodingException {
         if (!result.isEmpty()) {
             User user = DataManager.getInstance().parseUser(result);
-            Log.i(TAG, "User after login: "+user.getUsername());
-            Log.d(TAG, "User after login: "+user.getUsername());
+            Log.i(TAG, "User after login: " + user.getUsername());
+            Log.d(TAG, "User after login: " + user.getUsername());
             userAfterLogin = user;
         }
     }
